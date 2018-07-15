@@ -9,4 +9,8 @@ This is a Flutter app, which means you need to download and install Flutter befo
 For help getting started with Flutter, view their online
 [documentation](https://flutter.io/).
 
-Now that you have Flutter installed, clone this repo and import this project. Happy mining!
+Now that you have Flutter installed, clone this repo and import this project. 
+
+Run `flutter pub pub run flutter\_launcher\_icons:main`
+
+Now build the app using the Flutter IDE. Enjoy!
