@@ -13,14 +13,15 @@ class Miner {
   /// Get the layout of the mine. We can't do anything without knowing what
   /// the mine looks like
   Future<NetworkResponseCode> getMineLayout() async {
-    var contents = await network.makeRequest("mining.php?mine=6&for=ajoshiMiningApp");
+    var contents =
+        await network.makeRequest("mining.php?mine=6&for=ajoshiMiningApp");
     if (contents.responseCode == NetworkResponseCode.SUCCESS) {
       try {
         parseMineLayout(contents.response);
       } catch (error) {
         print(error);
-      return NetworkResponseCode.FAILURE;
-    }
+        return NetworkResponseCode.FAILURE;
+      }
     }
     return contents.responseCode;
   }
@@ -32,10 +33,10 @@ class Miner {
       var response = await getMineLayout();
       if (response != NetworkResponseCode.SUCCESS) {
         // can't access the mine at all
-        return MiningResponse(response, false);
+        return MiningResponse(response, MiningResponseCode.NO_ACCESS, false);
       }
     }
-  //  print(currentMine);
+    //  print(currentMine);
     MineableSquare targetSquare = currentMine.getNextMineableSquare();
     if (targetSquare == null) {
       // if we have no valid links anymore, get a new mine
@@ -47,7 +48,8 @@ class Miner {
           return mineNextSquare();
         } else {
           // failed to get new mine. Out of advs? no res left?
-          return new MiningResponse(NetworkResponseCode.FAILURE, false);
+          return new MiningResponse(
+              NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
         }
       } else {
         print("mining randomly so we can gtfo");
@@ -57,29 +59,33 @@ class Miner {
     }
     print("we gonn mine $targetSquare");
     var mineResponse = await network.makeRequest(targetSquare.url);
-    if(mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
+    if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.")) {
-        return MiningResponse(NetworkResponseCode.FAILURE, false);
+        return MiningResponse(
+            NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
       }
       parseMineLayout(mineResponse.response);
-      return new MiningResponse(NetworkResponseCode.SUCCESS, didStrikeGold);
+      return new MiningResponse.success(
+          NetworkResponseCode.SUCCESS, didStrikeGold);
     } else {
-      return new MiningResponse(mineResponse.responseCode, false);
+      return new MiningResponse(
+          mineResponse.responseCode, MiningResponseCode.FAILURE, false);
     }
   }
 
   Future<bool> getNextMine() async {
-    var miningResponse = await network.makeRequest("mining.php?mine=6&reset=1&for=ajoshiMiningApp");
+    var miningResponse = await network
+        .makeRequest("mining.php?mine=6&reset=1&for=ajoshiMiningApp");
     if (miningResponse.responseCode == NetworkResponseCode.SUCCESS) {
       parseMineLayout(miningResponse.response);
       if (miningResponse.response.contains("You're out of adventures.")) {
         return false;
       }
-    } else return false;
+    } else
+      return false;
     return true;
   }
-
 
   Document parseMineLayout(String contents) {
     var layout = parse(contents);
@@ -88,17 +94,22 @@ class Miner {
     for (var element in linkElements) {
       var link = element.attributes["href"];
       // not all links are mining links, so exclude those
-      if(link == null || element.children == null || element.children.isEmpty) {
+      if (link == null ||
+          element.children == null ||
+          element.children.isEmpty) {
         continue;
       }
       var child = element.children[0];
       var isShiny = child.attributes["alt"].contains("Promising");
 //        var isShiny = child.attributes["src"].contains("https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mine/wallsparkle");
       var altText = child.attributes["alt"];
-      int y = int.parse(altText.substring(altText.length - 2, altText.length - 1));
-      int x = int.parse(altText.substring(altText.length - 4, altText.length - 3));
+      int y =
+          int.parse(altText.substring(altText.length - 2, altText.length - 1));
+      int x =
+          int.parse(altText.substring(altText.length - 4, altText.length - 3));
       var isInFirstTwoRows = y == 5 || y == 6;
-      MineableSquare square = MineableSquare(link, isShiny, isInFirstTwoRows, x, y);
+      MineableSquare square =
+          MineableSquare(link, isShiny, isInFirstTwoRows, x, y);
       listOfMineSquares.add(square);
     }
     Mine newMine = new Mine(listOfMineSquares);
@@ -127,10 +138,9 @@ class Mine {
   MineableSquare getNextMineableSquare() {
     // mine visible shiny squares asap (unless they're in 3rd row)
     MineableSquare square;
-    square = squares.firstWhere(
-            (test) => test.isShiny && test.isFirstTwoRows,
-        orElse:() => square = null);
-    if(square == null) {
+    square = squares.firstWhere((test) => test.isShiny && test.isFirstTwoRows,
+        orElse: () => square = null);
+    if (square == null) {
       print("need a new mine");
       // need a new mine
       return null;
@@ -143,12 +153,12 @@ class Mine {
   /// This method gives us a square we can mine that has a high-ish prob of
   /// exposing a shiny. Else we can just ask for a new mine.
   MineableSquare getThrowawayMineSquare() {
-    return squares.firstWhere((test) => test.x != 01&& test.x != 6);
+    return squares.firstWhere((test) => test.x != 01 && test.x != 6);
   }
 
   String toString() {
     String value = "";
-    for(MineableSquare sq in squares) {
+    for (MineableSquare sq in squares) {
       value = value + sq.toString() + "\n";
     }
     return value;
@@ -177,14 +187,41 @@ class MineableSquare {
     return x == 0 || x == 7;
   }
 
-  String toString() {
+  String toStringForResponse() {
     return "at ($x,$y). shiny? $isShiny isFront? $isFirstTwoRows";
   }
 }
 
 class MiningResponse {
+  /// Tells us if the network call succeeded/failed
   final NetworkResponseCode networkResponseCode;
+
+  /// Tells us if the mining attempt succeeded or failed (assuming network succeeded)
+  final MiningResponseCode miningResponseCode;
+
+  /// true if we struck gold
   final bool foundGold;
 
-  MiningResponse(this.networkResponseCode, this.foundGold);
+  MiningResponse(
+    this.networkResponseCode,
+    this.miningResponseCode,
+    this.foundGold,
+  );
+
+  MiningResponse.success(
+    this.networkResponseCode,
+    this.foundGold,
+  ) : miningResponseCode = MiningResponseCode.SUCCESS;
+
+  bool isSuccess() {
+    return networkResponseCode == NetworkResponseCode.SUCCESS &&
+        miningResponseCode == MiningResponseCode.SUCCESS;
+  }
+}
+
+/// Mining can fail even if network response fails so we need a new enum
+enum MiningResponseCode {
+  SUCCESS,
+  NO_ACCESS,
+  FAILURE,
 }

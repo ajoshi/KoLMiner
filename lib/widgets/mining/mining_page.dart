@@ -65,7 +65,7 @@ class _MiningPage extends State<MiningPage> {
 
   /// Checks the response of every mine operation and updates UI accordingly
   void onMineResponse(MiningResponse response) {
-    if (response.networkResponseCode == NetworkResponseCode.SUCCESS) {
+    if (response.isSuccess()) {
       if (response.foundGold) {
         _goldCounter++;
         _goldCounterForSession++;
@@ -86,17 +86,19 @@ class _MiningPage extends State<MiningPage> {
     didEncounterError = true;
     Navigator.pop(context);
     widget.network.logout();
+    String message = getErrorMessageForMiningResponse(response);
     showDialog(
       context: this.context,
-      builder: (buildContext) => getErrorDialog(buildContext),
+      builder: (buildContext) => getErrorDialog(buildContext,
+          message),
     );
   }
 
   /// Dialog to show when an error occurs
-  Widget getErrorDialog(BuildContext buildContext) {
+  Widget getErrorDialog(BuildContext buildContext, String message) {
     return new AlertDialog(
       content: new Text(
-        'Unable to mine. Log in via your browser, fix the issue, and log in again',
+        message,
         style: Theme.of(context).textTheme.subhead,
       ),
     );
@@ -118,6 +120,51 @@ class _MiningPage extends State<MiningPage> {
 //        child: new Icon(Icons.add),
 //      ): null, // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  /// DOES NOT NEED TO BE IN THIS CLASS
+  /// Gets human readable string for mining errors. Will be seen by end user
+  String getErrorMessageForMiningResponse(MiningResponse response) {
+    String message;
+    switch (response.miningResponseCode) {
+      case MiningResponseCode.FAILURE:
+        message =
+        'Unable to mine. Log in via your browser, fix the issue, and log in again';
+        break;
+      case MiningResponseCode.NO_ACCESS:
+        message =
+        'Unable to access the mine. Are you sure you have the charter/ticket?';
+        break;
+      case MiningResponseCode.SUCCESS:
+      // success shouldn't show up in onError
+        message =
+        'Uhhh.... tell me if you see this message because it\'s a bug';
+        break;
+    }
+    return message;
+  }
+
+  /// DOES NOT NEED TO BE IN THIS CLASS
+  /// Gets human readable string for network errors. Will be seen by end user
+  String getErrorMessageForNetworkResponse(NetworkResponseCode responseCode) {
+    String message;
+    switch (responseCode) {
+      case NetworkResponseCode.ROLLOVER:
+        message = 'Rollover is in progress. Try again when servers are back up';
+        break;
+      case NetworkResponseCode.EXPIRED_HASH:
+        message = 'Did you log in via the browser while mining? Don\'t do that';
+        break;
+      case NetworkResponseCode.FAILURE:
+        message =
+        'Network call failed. Are you offline? Bad wifi? Get better wifi';
+        break;
+      case NetworkResponseCode.SUCCESS:
+      // success shouldn't show up in onError
+        message =
+        'Uhhh.... tell me if you see this message because it\'s a bug';
+    }
+    return message;
   }
 
   /// Content to show to the user
