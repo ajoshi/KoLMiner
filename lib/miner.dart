@@ -47,7 +47,7 @@ class Miner {
           // if we did get a new mine, then mine in that one
           return mineNextSquare();
         } else {
-          // failed to get new mine. Out of advs? no res left?
+          // failed to get new mine. Out of advs? no hot res left?
           return new MiningResponse(
               NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
         }
@@ -62,6 +62,8 @@ class Miner {
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.")) {
+        // special check else we keep trying until our counter is over
+        // not infinite loop, but we can quit sooner so we should
         return MiningResponse(
             NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
       }
