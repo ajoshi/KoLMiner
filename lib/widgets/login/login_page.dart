@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kol_miner/kol_network.dart';
+import 'package:kol_miner/saved_miner_data.dart';
+import 'package:kol_miner/widgets/historical_mine_data_widget.dart';
 import 'package:kol_miner/widgets/login/login_form.dart';
 
 /// This is the first page a user sees. It allows the user to log in and calls
@@ -18,6 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  MiningSessionData miningData;
   void _onLoggedIn() {
     setState(() {
       widget.onLogin();
@@ -26,6 +29,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    getMiningData().then((data) => setState(() {
+          miningData = data;
+        }));
     var loginPage = new Padding(
       padding: const EdgeInsets.all(10.0),
       child: new Center(
@@ -33,20 +39,24 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0),
               child: new Text('Log in to KoL',
                   style: Theme.of(context).textTheme.display1),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(12.0),
               child: new Text(
                 'Log in with your Kingdom of Loathing login to become a miner. Go back in time to become a minor.',
               ),
             ),
-            new LoginForm(
-              onLogin: _onLoggedIn,
-              network: widget.network,
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: new LoginForm(
+                onLogin: _onLoggedIn,
+                network: widget.network,
+              ),
             ),
+            HistoricalMineWidget(miningData),
           ],
         ),
       ),
