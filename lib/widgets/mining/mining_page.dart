@@ -129,11 +129,13 @@ class _MiningPage extends State<MiningPage> {
     switch (response.miningResponseCode) {
       case MiningResponseCode.FAILURE:
         message =
-        'Unable to mine. Log in via your browser, fix the issue, and log in again';
+        'Unable to mine (0 HP? No hot res? Dirty bugbears in your interwebz?) '
+            'Log in via your browser, fix the issue, and log in again';
         break;
       case MiningResponseCode.NO_ACCESS:
         message =
-        'Unable to access the mine. Are you sure you have the charter/ticket?';
+        'Unable to access the mine. Make sure you have used the '
+            'charter/ticket and are wearing the mining outfit';
         break;
       case MiningResponseCode.SUCCESS:
       // success shouldn't show up in onError
