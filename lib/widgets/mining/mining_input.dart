@@ -37,7 +37,7 @@ class MiningInputFields extends StatelessWidget {
         new Padding(padding: EdgeInsets.only(top: 10.0)),
         getPlatformButton(
           context,
-          onPressed: _onMineClicked,
+          onPressed: enable?  _onMineClicked : null,
           child: new Text(
             'Increment some counters instead of playing the game',
           ),

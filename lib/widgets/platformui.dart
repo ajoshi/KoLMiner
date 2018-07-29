@@ -14,5 +14,6 @@ Widget getPlatformButton(BuildContext context, {Widget child, Color color, VoidC
     onPressed: onPressed,
     child: child,
     color: color,
+    disabledColor: color.withAlpha(200),
   );
 }
