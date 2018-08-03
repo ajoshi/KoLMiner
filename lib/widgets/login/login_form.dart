@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kol_miner/kol_network.dart';
+//import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:kol_miner/widgets/login/kol_account.dart';
 
 /// Widget that lets a user log in to KoL
 class LoginForm extends StatefulWidget {
@@ -18,8 +20,14 @@ class _LoginFormState extends State<LoginForm> {
   // of the TextField!
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
-  bool isLoggingIn = false;
+   bool isLoggingIn = false;
   String messageToShow = "";
+//  GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete = new GlobalKey();
+  String username;
+  List<String> usernameSuggestions;
+  List<KolAccount> accounts;
+  final KolAccountManager accountManager = KolAccountManager();
+  KolAccount newAccount;
 
   @override
   void dispose() {
@@ -34,9 +42,10 @@ class _LoginFormState extends State<LoginForm> {
       isLoggingIn = true;
       var userName = userNameController.text;
       var password = passwordController.text;
+      newAccount = KolAccount(userName, password);
       widget.network
           .login(
-            userName,
+        userName,
             password,
           )
           .then((responseCode) => onLoginResponse(responseCode));
@@ -58,6 +67,7 @@ class _LoginFormState extends State<LoginForm> {
   void onLoginResponse(NetworkResponseCode responsecode) {
     switch (responsecode) {
       case NetworkResponseCode.SUCCESS:
+        accountManager.saveAccount(newAccount);
         widget.onLogin();
         break;
       case NetworkResponseCode.ROLLOVER:
@@ -84,20 +94,65 @@ class _LoginFormState extends State<LoginForm> {
     messageToShow = "Rollover in progress. Try again later";
   }
 
+//  void _onTextSelected(String newText) {
+//    username = newText;
+//    print("text selected " + newText);
+//  }
+
+  _onAccountListLoaded(List<KolAccount> newAccounts) {
+    accounts = newAccounts;
+    usernameSuggestions = List();
+    for(var account in newAccounts) {
+      usernameSuggestions.add(account.username);
+    }
+    setState(() {
+      isLoggingIn = false;
+      if(accounts.length > 0) {
+        userNameController.text = accounts[0].username;
+        passwordController.text = accounts[0].password;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if(accounts == null) {
+      accountManager.getAllAccounts().then((accounts) => _onAccountListLoaded(accounts));
+    }
+//    var auto = AutoCompleteTextField<String>(
+//      textChanged: _onTextSelected,
+//      key: keyForAutocomplete,
+//      decoration: new InputDecoration(
+//          hintText: "Username",
+//          border: new OutlineInputBorder(
+//              gapPadding: 0.0,
+//              borderRadius: new BorderRadius.circular(16.0)),
+//          suffixIcon: new Icon(Icons.person)),
+//        itemBuilder: (context, item) {
+//          return new Padding(
+//              padding: EdgeInsets.all(8.0), child: new Text(item));
+//        },
+//        itemSorter: (a, b) {
+//          return a.compareTo(b);
+//        },
+//        itemFilter: (item, query) {
+//          return item.toLowerCase().startsWith(query.toLowerCase());
+//        },
+//      suggestions: usernameSuggestions,
+//    );
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+//        auto,
         new TextField(
-          decoration: new InputDecoration(hintText: "Username"),
+          decoration: new InputDecoration(hintText: "Username",),
           style: TextStyle(fontSize: 20.0, color: Colors.black),
           enabled: !isLoggingIn,
           controller: userNameController,
         ),
         new TextField(
           obscureText: true,
-          decoration: new InputDecoration(hintText: "Password"),
+          decoration: new InputDecoration(hintText: "Password",),
           style: TextStyle(fontSize: 20.0, color: Colors.black),
           enabled: !isLoggingIn,
           controller: passwordController,
