@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kol_miner/kol_network.dart';
+import 'package:kol_miner/lazy_requests.dart';
 import 'package:kol_miner/miner.dart';
 import 'package:kol_miner/saved_miner_data.dart';
+import 'package:kol_miner/widgets/lazy/lazy_widget.dart';
 import 'package:kol_miner/widgets/mining/mining_input.dart';
 import 'package:kol_miner/widgets/mining/mining_output.dart';
 
@@ -108,7 +110,7 @@ class _MiningPage extends State<MiningPage> {
   @override
   Widget build(BuildContext context) {
     if (miner == null) {
-      miner = new Miner(network: widget.network);
+      miner = new Miner(widget.network);
     }
     return new Scaffold(
       appBar: new AppBar(
@@ -189,7 +191,8 @@ class _MiningPage extends State<MiningPage> {
           padding: const EdgeInsets.all(1.0),
         ),
         new MiningOutput(_goldCounter, _advsUsed),
-        new MiningInputFields(myController, enableButton, _onMineClicked),
+        new MiningInputFields(myController, enableButton, _onMineClicked,),
+        LazyUselessPersonWidget(widget.network,),
       ],
     );
   }
