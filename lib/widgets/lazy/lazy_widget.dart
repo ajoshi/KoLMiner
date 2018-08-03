@@ -17,15 +17,13 @@ class LazyUselessPersonWidget extends StatefulWidget {
 }
 
 class LazyPersonState extends State<LazyUselessPersonWidget> {
-  String mp = "";
+  String _mp = "";
 
   @override
   Widget build(BuildContext context) {
     if (LazyUselessPersonWidget.lazyRequest == null) {
       LazyUselessPersonWidget.lazyRequest = LazyRequest(widget.network);
-      LazyUselessPersonWidget.lazyRequest
-          .getPlayerData()
-          .then((_) => setState(() => mp = LazyUselessPersonWidget.lazyRequest.currentMp));
+      _updatePlayerData();
     }
     return new Padding(
       padding: EdgeInsets.only(top: 10.0),
@@ -57,33 +55,31 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   Widget buildInfoBox() {
     return Text(
         "HP: ${LazyUselessPersonWidget.lazyRequest.currentHp} "
-            "MP: ${LazyUselessPersonWidget.lazyRequest.currentMp} "
+            "MP: $_mp "
             "advs: ${LazyUselessPersonWidget.lazyRequest.advs} "
             "ode: ${LazyUselessPersonWidget.lazyRequest.odeTurns} "
             "milk: ${LazyUselessPersonWidget.lazyRequest.currentMilkTurns}");
   }
 
-  _onDrinkClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestPerfectDrink().then((code) => LazyUselessPersonWidget.lazyRequest
+  _updatePlayerData() {
+    LazyUselessPersonWidget.lazyRequest
         .getPlayerData()
-        .then((_) => setState(() => mp = LazyUselessPersonWidget.lazyRequest.currentMp)));
+        .then((_) => setState(() => _mp = LazyUselessPersonWidget.lazyRequest.currentMp));
+  }
+
+  _onDrinkClicked() {
+    LazyUselessPersonWidget.lazyRequest.requestPerfectDrink().then((code) => _updatePlayerData());
   }
 
   _onEatClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestEatSleazyHimein().then((code) => LazyUselessPersonWidget.lazyRequest
-        .getPlayerData()
-        .then((_) => setState(() => mp = LazyUselessPersonWidget.lazyRequest.currentMp)));
+    LazyUselessPersonWidget.lazyRequest.requestEatSleazyHimein().then((code) => _updatePlayerData());
   }
 
   _onResolveClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestResolutionSummon().then((code) => LazyUselessPersonWidget.lazyRequest
-        .getPlayerData()
-        .then((_) => setState(() => mp = LazyUselessPersonWidget.lazyRequest.currentMp)));
+    LazyUselessPersonWidget.lazyRequest.requestResolutionSummon().then((code) => _updatePlayerData());
   }
 
   _onHealClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestNunHealing().then((code) => LazyUselessPersonWidget.lazyRequest
-        .getPlayerData()
-        .then((_) => setState(() => mp = LazyUselessPersonWidget.lazyRequest.currentMp)));
+    LazyUselessPersonWidget.lazyRequest.requestNunHealing().then((code) => _updatePlayerData());
   }
 }

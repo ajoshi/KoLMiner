@@ -106,10 +106,6 @@ class LazyRequest {
   }
 
   Future<NetworkResponseCode> requestResolutionSummon() async {
-    //&ajax=1&_=1532925498042
-    //oneskillz
-
-//    await network.makeRequest("skillz.php?pwd=$pwdHash&oneskillz=7224");
     var response = await network.makeRequestWithQueryParams(
         "runskillz.php", "targetplayer=0&whichskill=7224&quantity=1");
     return response.responseCode;
