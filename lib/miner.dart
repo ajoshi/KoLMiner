@@ -8,13 +8,13 @@ class Miner {
   final KolNetwork network;
   Mine currentMine;
 
-  Miner({this.network});
+  Miner(this.network);
 
   /// Get the layout of the mine. We can't do anything without knowing what
   /// the mine looks like
   Future<NetworkResponseCode> getMineLayout() async {
     var contents =
-        await network.makeRequest("mining.php?mine=6&for=ajoshiMiningApp");
+        await network.makeRequestWithQueryParams("mining.php", "mine=6");
     if (contents.responseCode == NetworkResponseCode.SUCCESS) {
       try {
         parseMineLayout(contents.response);
@@ -24,6 +24,14 @@ class Miner {
       }
     }
     return contents.responseCode;
+  }
+
+  /// Autosell some of that mined gold. Sells one piece by default
+  Future<bool> autoSellGold({int count = 1}) async {
+    print("Selling $count gold");
+    var response = await network.makeRequestWithQueryParams("sellstuff.php",
+        "action=sell&ajax=1&type=quant&howmany=1&whichitem%5B%5D=8424", method: HttpMethod.POST);
+    return (response.responseCode == NetworkResponseCode.SUCCESS);
   }
 
   /// Mines the next reasonable square. If one isn't found, gets the next mine and tries again
@@ -57,8 +65,10 @@ class Miner {
         targetSquare = currentMine.getThrowawayMineSquare();
       }
     }
-    print("we gonn mine $targetSquare");
-    var mineResponse = await network.makeRequest(targetSquare.url);
+//    print("we gonn mine $targetSquare");
+    // if the url changes (maybe?) to not have params in it, the app name won't be parsed
+    // since params are optional, everything should work fine on our end though
+    var mineResponse = await network.makeRequest("${targetSquare.url}&${KolNetwork.FOR_APP_NAME}");
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.")) {
@@ -76,9 +86,11 @@ class Miner {
     }
   }
 
+  /// Gets the next mine if it can.
+  /// Returns true on success.
   Future<bool> getNextMine() async {
     var miningResponse = await network
-        .makeRequest("mining.php?mine=6&reset=1&for=ajoshiMiningApp");
+        .makeRequestWithQueryParams("mining.php", "mine=6&reset=1");
     if (miningResponse.responseCode == NetworkResponseCode.SUCCESS) {
       parseMineLayout(miningResponse.response);
       if (miningResponse.response.contains("You're out of adventures.")) {
@@ -89,6 +101,7 @@ class Miner {
     return true;
   }
 
+  /// Parses the mine layout so we know where we should mine next
   Document parseMineLayout(String contents) {
     var layout = parse(contents);
     var listOfMineSquares = new List<MineableSquare>();
@@ -189,7 +202,7 @@ class MineableSquare {
     return x == 0 || x == 7;
   }
 
-  String toStringForResponse() {
+  String toString() {
     return "at ($x,$y). shiny? $isShiny isFront? $isFirstTwoRows";
   }
 }

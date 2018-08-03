@@ -2,17 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-const String BASE_URL = "https://www.kingdomofloathing.com/";
-
-const String LOGIN_POSTFIX = "login.php";
-const String MAINT_POSTFIX = "maint.php";
-
 class KolNetwork {
+  static const String BASE_URL = "https://www.kingdomofloathing.com/";
+
+  static const String LOGIN_POSTFIX = "login.php";
+  static const String MAINT_POSTFIX = "maint.php";
+
+  static const String APP_NAME = "ajoshiMiningApp";
+  static const String FOR_APP_NAME = "for=$APP_NAME";
+
   String _username;
   String _password;
   String _awsAlb;
   String _phpsessid;
   bool _isLoggedIn = false;
+  String _charPwd = "";
+  String _playerId;
+  String _pwdHash;
 
   bool isLoggedIn() {
     return _isLoggedIn;
@@ -44,7 +50,7 @@ class KolNetwork {
           "&secure=1"
           "&loginname=$_username/q"
           "&password=$_password"
-          "&submitbutton=Log+In";
+          "&submitbutton=Log+In&$FOR_APP_NAME";
 
       Uri tempUri = Uri.parse(loginUrl);
 
@@ -58,6 +64,9 @@ class KolNetwork {
         return NetworkResponseCode.FAILURE;
       }
 
+      // get the charpwd as well so we can make arbitrary requests
+      await getPlayerData();
+
       _isLoggedIn = true;
       // tell the consumer we logged in
       return NetworkResponseCode.SUCCESS;
@@ -67,25 +76,70 @@ class KolNetwork {
     }
   }
 
+  /// Logging in doesn't get us all the player data, but hitting the charpane does
+  /// So we check the charpane for the pwdhash (and get the player id just in case)
+  Future<bool> getPlayerData() async {
+    var response = await makeRequest("charpane.php?$FOR_APP_NAME");
+    if(response.responseCode == NetworkResponseCode.SUCCESS) {
+      var charInfoHtml = response.response;
+      _playerId = _getBetween2Strings(charInfoHtml, "playerid = ", ";");
+      _pwdHash = _getBetween2Strings(charInfoHtml, "pwdhash = \"", "\"");
+
+      _charPwd = _getBetween2Strings(charInfoHtml, "setCookie('charpwd', winW, ", ",");
+      return true;
+    }
+    return false;
+  }
+
+  /// Given a bigString, finds the substring between the two passed in Strings
+  String _getBetween2Strings(String bigString, String startString, String endString) {
+    var startIndex = bigString.indexOf(startString);
+    if (startIndex != -1) {
+      startIndex = startIndex + startString.length;
+      var endIndex = bigString.indexOf(endString, startIndex);
+      return bigString.substring(startIndex, endIndex);
+    }
+    return "";
+  }
+
+  /// not really logging out- just null out fields so they can't be used
   void logout() {
     _isLoggedIn = false;
     _username = null;
     _password = null;
     _phpsessid = null;
     _awsAlb = null;
+    _charPwd = null;
+    _pwdHash = null;
   }
 
-  Future<NetworkResponse> makeRequest(String path) async {
+  /// Make a network request for the given url and the urlParams. Params do not
+  /// start with & or ?. Eg. "which=1&b=2"
+  /// The 'for' param is added automatically.
+  /// Performs GET requests by default, but can also perform PUTs
+  Future<NetworkResponse> makeRequestWithQueryParams(String baseUrl, String params, {HttpMethod method}) async {
+    return makeRequest("$baseUrl?$FOR_APP_NAME&pwd=$_pwdHash&$params", method: method);
+  }
+
+  /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
+  Future<NetworkResponse> makeRequest(String url, {HttpMethod method = HttpMethod.GET}) async {
     try {
       var httpClient = new HttpClient();
-      var headerCookie = "PHPSESSID=$_phpsessid; AWSALB=$_awsAlb";
-      var testRequest = await httpClient.getUrl(Uri.parse(BASE_URL + path));
-      testRequest.headers
+      var headerCookie = "PHPSESSID=$_phpsessid; AWSALB=$_awsAlb; charPwd=$_charPwd";
+      HttpClientRequest httpRequest;
+      if(method == HttpMethod.POST) {
+        // post if requested
+        httpRequest = await httpClient.postUrl(Uri.parse(BASE_URL + url));
+      } else {
+        // else default is get
+        httpRequest = await httpClient.getUrl(Uri.parse(BASE_URL + url));
+      }
+      httpRequest.headers
         ..add("PHPSESSID", _phpsessid)
         ..add("AWSALB", _awsAlb)
         ..add("cookie", headerCookie);
 
-      var resp = await testRequest.close();
+      var resp = await httpRequest.close();
 
       if (resp.redirects != null && resp.redirects.isNotEmpty) {
         var redirectUrl = resp.redirects[0].location;
@@ -101,14 +155,21 @@ class KolNetwork {
       updateCookies(resp.cookies);
 
       //  TODO handle network failures while making request
-      return new NetworkResponse(NetworkResponseCode.SUCCESS,
-          await resp.transform(utf8.decoder).single);
+      try {
+        return new NetworkResponse(NetworkResponseCode.SUCCESS,
+            await resp
+                .transform(utf8.decoder)
+                .single);
+      } catch(_) {
+        // couldn't parse the response. Send back empty string?
+        return new NetworkResponse(NetworkResponseCode.SUCCESS, "");
+      }
     } on IOException catch (_) {
       return NetworkResponse(NetworkResponseCode.FAILURE, "");
     }
   }
 
-  /// Call this with the server cookie reponse so we can update our cookies
+  /// Call this with the server cookie response so we can update our cookies
   void updateCookies(List<Cookie> cookies) {
     for (var cook in cookies) {
       if (cook.name == "PHPSESSID") {
@@ -135,19 +196,8 @@ enum NetworkResponseCode {
   EXPIRED_HASH,
 }
 
-// TODO  autosell https://www.kingdomofloathing.com/sellstuff_ugly.php POST maybe?
-// might not be worth doing- we don't want to detract from web too much
-
-// autosell: pwd=<pwdhash>&action=sell&mode=3&quantity=<quantity>&item8424=8424
-// response: <body>
-//<center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;"
-// align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style="padding: 5px;
-// border: 1px solid blue;"><center><table><tr><td>
-// <blockquote>You sell your 11 nuggets of 1,970 carat gold to a mechanic named Mike for 216,700 Meat.</blockquote>
-// </td></tr></table></center></td></tr><tr><td height=4></td></tr></table>
-// <form style='display: inline' name=f action=sellstuff_ugly.php method=post>
-// <input type=hidden name=pwd value="shhh">
-// <input type=hidden name=action value=sell><table  width=95%  cellspacing=0 cellpadding=0>
-// <tr><td style="color: white;" align=center bgcolor=blue><b>Sell Stuff:</b></td></tr><tr>
-// <td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center>
-//With selected:<br>
+enum HttpMethod {
+  // I only care about these two
+  GET,
+  POST,
+}
