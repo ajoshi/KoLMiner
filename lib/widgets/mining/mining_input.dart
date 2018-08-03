@@ -42,10 +42,9 @@ class MiningInputFields extends StatelessWidget {
             'Increment some counters instead of playing the game',
           ),
           color: Theme.of(context).primaryColor,
-        )
+        ),
       ],
     );
-    advsToMineController.text = "10";
     return mainColumn;
   }
 }
