@@ -1,4 +1,4 @@
-package ajoshi.biz.kolminer
+package biz.ajoshi.kolminer
 
 import android.os.Bundle
 
