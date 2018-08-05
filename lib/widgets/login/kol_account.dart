@@ -55,9 +55,10 @@ class KolAccountManager {
      await _getSharedPref();
      List<KolAccount> accounts = await getAllAccounts();
      //   print("saving " + account.username + " " + account.password);
-     if (!accounts.contains(account)) {
-       accounts.insert(0, account);
+     if (accounts.contains(account)) {
+       accounts.remove(account);
      }
+     accounts.insert(0, account);
      saveAccounts(accounts);
   }
 
