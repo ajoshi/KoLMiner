@@ -30,7 +30,8 @@ class Miner {
   Future<bool> autoSellGold({int count = 1}) async {
     print("Selling $count gold");
     var response = await network.makeRequestWithQueryParams("sellstuff.php",
-        "action=sell&ajax=1&type=quant&howmany=1&whichitem%5B%5D=8424", method: HttpMethod.POST);
+        "action=sell&ajax=1&type=quant&howmany=1&whichitem%5B%5D=8424",
+        method: HttpMethod.POST);
     return (response.responseCode == NetworkResponseCode.SUCCESS);
   }
 
@@ -65,10 +66,16 @@ class Miner {
         targetSquare = currentMine.getThrowawayMineSquare();
       }
     }
-//    print("we gonn mine $targetSquare");
+    return mineSquare(targetSquare);
+  }
+
+  /// Mines the given square and returns a failure if it can't
+  Future<MiningResponse> mineSquare(MineableSquare targetSquare) async {
+    //    print("we gonn mine $targetSquare");
     // if the url changes (maybe?) to not have params in it, the app name won't be parsed
     // since params are optional, everything should work fine on our end though
-    var mineResponse = await network.makeRequest("${targetSquare.url}&${network.appName}");
+    var mineResponse =
+        await network.makeRequest("${targetSquare.url}&${network.appName}");
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.")) {
@@ -89,8 +96,8 @@ class Miner {
   /// Gets the next mine if it can.
   /// Returns true on success.
   Future<bool> getNextMine() async {
-    var miningResponse = await network
-        .makeRequestWithQueryParams("mining.php", "mine=6&reset=1");
+    var miningResponse = await network.makeRequestWithQueryParams(
+        "mining.php", "mine=6&reset=1");
     if (miningResponse.responseCode == NetworkResponseCode.SUCCESS) {
       parseMineLayout(miningResponse.response);
       if (miningResponse.response.contains("You're out of adventures.")) {
@@ -161,6 +168,20 @@ class Mine {
       return null;
     }
     return square;
+  }
+
+  /// Returns a list of all shiny squares
+  /// can be used to send multiple mine requests if multiple shinies are exposed
+  Iterable<MineableSquare> getAllMineableSquares() {
+    // mine visible shiny squares asap (unless they're in 3rd row)
+    Iterable<MineableSquare> squares;
+    squares = squares.where((test) => test.isShiny && test.isFirstTwoRows);
+    if (squares == null) {
+      print("need a new mine");
+      // need a new mine
+      return null;
+    }
+    return squares;
   }
 
   // If we see no shinies, we need a new mine. But a new mine can't be

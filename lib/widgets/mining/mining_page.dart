@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kol_miner/kol_network.dart';
-import 'package:kol_miner/lazy_requests.dart';
 import 'package:kol_miner/miner.dart';
 import 'package:kol_miner/saved_miner_data.dart';
 import 'package:kol_miner/widgets/lazy/lazy_widget.dart';
@@ -51,6 +50,10 @@ class _MiningPage extends State<MiningPage> {
   void mineNtimes(int n) async {
     var startTime = new DateTime.now().millisecondsSinceEpoch;
     while (n > 0 && !didEncounterError) {
+      if (!mounted) {
+        // stop mining if the user has left the mining page
+        return;
+      }
       n--;
       var response = await miner.mineNextSquare();
       onMineResponse(response);
@@ -73,11 +76,12 @@ class _MiningPage extends State<MiningPage> {
         _goldCounter++;
         _goldCounterForSession++;
       }
-
-      setState(() {
-        _advsUsed++;
-        _advSpentCounterForSession++;
-      });
+      if(mounted) {
+        setState(() {
+          _advsUsed++;
+          _advSpentCounterForSession++;
+        });
+      }
     } else {
       onError(response);
     }
@@ -129,6 +133,10 @@ class _MiningPage extends State<MiningPage> {
   /// Gets human readable string for mining errors. Will be seen by end user
   String getErrorMessageForMiningResponse(MiningResponse response) {
     String message;
+    // if this is a network issue then return a message about the network
+    if (response.networkResponseCode != NetworkResponseCode.SUCCESS) {
+      return getErrorMessageForNetworkResponse(response.networkResponseCode);
+    }
     switch (response.miningResponseCode) {
       case MiningResponseCode.FAILURE:
         message =
