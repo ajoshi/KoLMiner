@@ -9,7 +9,7 @@ class KolNetwork {
   static const String MAINT_POSTFIX = "maint.php";
 
   final String appName;
-   String _forAppName;
+  String _forAppName;
 
   String _username;
   String _password;
@@ -20,9 +20,7 @@ class KolNetwork {
   String _playerId;
   String _pwdHash;
 
-  KolNetwork(this.appName) {
-    _forAppName = "for=$appName";
-  }
+  KolNetwork(this.appName) : _forAppName = "for=$appName";
 
   bool isLoggedIn() {
     return _isLoggedIn;
@@ -84,19 +82,21 @@ class KolNetwork {
   /// So we check the charpane for the pwdhash (and get the player id just in case)
   Future<bool> getPlayerData() async {
     var response = await makeRequest("charpane.php?$_forAppName");
-    if(response.responseCode == NetworkResponseCode.SUCCESS) {
+    if (response.responseCode == NetworkResponseCode.SUCCESS) {
       var charInfoHtml = response.response;
       _playerId = _getBetween2Strings(charInfoHtml, "playerid = ", ";");
       _pwdHash = _getBetween2Strings(charInfoHtml, "pwdhash = \"", "\"");
 
-      _charPwd = _getBetween2Strings(charInfoHtml, "setCookie('charpwd', winW, ", ",");
+      _charPwd =
+          _getBetween2Strings(charInfoHtml, "setCookie('charpwd', winW, ", ",");
       return true;
     }
     return false;
   }
 
   /// Given a bigString, finds the substring between the two passed in Strings
-  String _getBetween2Strings(String bigString, String startString, String endString) {
+  String _getBetween2Strings(
+      String bigString, String startString, String endString) {
     var startIndex = bigString.indexOf(startString);
     if (startIndex != -1) {
       startIndex = startIndex + startString.length;
@@ -121,18 +121,23 @@ class KolNetwork {
   /// start with & or ?. Eg. "which=1&b=2"
   /// The 'for' param is added automatically.
   /// Performs GET requests by default, but can also perform PUTs
-  Future<NetworkResponse> makeRequestWithQueryParams(String baseUrl, String params, {HttpMethod method}) async {
-    return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params", method: method);
+  Future<NetworkResponse> makeRequestWithQueryParams(
+      String baseUrl, String params,
+      {HttpMethod method}) async {
+    return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
+        method: method);
   }
 
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
-  Future<NetworkResponse> makeRequest(String url, {HttpMethod method = HttpMethod.GET}) async {
+  Future<NetworkResponse> makeRequest(String url,
+      {HttpMethod method = HttpMethod.GET}) async {
     print("call to $url");
     try {
       var httpClient = new HttpClient();
-      var headerCookie = "PHPSESSID=$_phpsessid; AWSALB=$_awsAlb; charPwd=$_charPwd";
+      var headerCookie =
+          "PHPSESSID=$_phpsessid; AWSALB=$_awsAlb; charPwd=$_charPwd";
       HttpClientRequest httpRequest;
-      if(method == HttpMethod.POST) {
+      if (method == HttpMethod.POST) {
         // post if requested
         httpRequest = await httpClient.postUrl(Uri.parse(BASE_URL + url));
       } else {
@@ -162,10 +167,8 @@ class KolNetwork {
       //  TODO handle network failures while making request
       try {
         return new NetworkResponse(NetworkResponseCode.SUCCESS,
-            await resp
-                .transform(utf8.decoder)
-                .single);
-      } catch(_) {
+            await resp.transform(utf8.decoder).single);
+      } catch (_) {
         // couldn't parse the response. Send back empty string?
         return new NetworkResponse(NetworkResponseCode.SUCCESS, "");
       }
