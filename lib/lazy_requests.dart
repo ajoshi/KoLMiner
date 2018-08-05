@@ -111,11 +111,13 @@ class LazyRequest {
     return response.responseCode;
   }
 
+  /// Drink perfect mimosa
   requestPerfectDrink() async {
     await network.makeRequestWithQueryParams(
         "inv_booze.php", "which=1&whichitem=8740");
   }
 
+  /// Eat sleazy hi mein
   requestEatSleazyHimein() async {
     print("eating");
     await network.makeRequestWithQueryParams(
