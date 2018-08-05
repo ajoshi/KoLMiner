@@ -68,7 +68,7 @@ class Miner {
 //    print("we gonn mine $targetSquare");
     // if the url changes (maybe?) to not have params in it, the app name won't be parsed
     // since params are optional, everything should work fine on our end though
-    var mineResponse = await network.makeRequest("${targetSquare.url}&${KolNetwork.FOR_APP_NAME}");
+    var mineResponse = await network.makeRequest("${targetSquare.url}&${network.appName}");
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.")) {

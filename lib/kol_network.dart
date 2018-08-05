@@ -8,8 +8,8 @@ class KolNetwork {
   static const String LOGIN_POSTFIX = "login.php";
   static const String MAINT_POSTFIX = "maint.php";
 
-  static const String APP_NAME = "ajoshiMiningApp";
-  static const String FOR_APP_NAME = "for=$APP_NAME";
+  final String appName;
+   String _forAppName;
 
   String _username;
   String _password;
@@ -19,6 +19,10 @@ class KolNetwork {
   String _charPwd = "";
   String _playerId;
   String _pwdHash;
+
+  KolNetwork(this.appName) {
+    _forAppName = "for=$appName";
+  }
 
   bool isLoggedIn() {
     return _isLoggedIn;
@@ -50,7 +54,7 @@ class KolNetwork {
           "&secure=1"
           "&loginname=$_username/q"
           "&password=$_password"
-          "&submitbutton=Log+In&$FOR_APP_NAME";
+          "&submitbutton=Log+In&$_forAppName";
 
       Uri tempUri = Uri.parse(loginUrl);
 
@@ -79,7 +83,7 @@ class KolNetwork {
   /// Logging in doesn't get us all the player data, but hitting the charpane does
   /// So we check the charpane for the pwdhash (and get the player id just in case)
   Future<bool> getPlayerData() async {
-    var response = await makeRequest("charpane.php?$FOR_APP_NAME");
+    var response = await makeRequest("charpane.php?$_forAppName");
     if(response.responseCode == NetworkResponseCode.SUCCESS) {
       var charInfoHtml = response.response;
       _playerId = _getBetween2Strings(charInfoHtml, "playerid = ", ";");
@@ -118,11 +122,12 @@ class KolNetwork {
   /// The 'for' param is added automatically.
   /// Performs GET requests by default, but can also perform PUTs
   Future<NetworkResponse> makeRequestWithQueryParams(String baseUrl, String params, {HttpMethod method}) async {
-    return makeRequest("$baseUrl?$FOR_APP_NAME&pwd=$_pwdHash&$params", method: method);
+    return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params", method: method);
   }
 
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url, {HttpMethod method = HttpMethod.GET}) async {
+    print("call to $url");
     try {
       var httpClient = new HttpClient();
       var headerCookie = "PHPSESSID=$_phpsessid; AWSALB=$_awsAlb; charPwd=$_charPwd";

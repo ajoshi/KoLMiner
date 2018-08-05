@@ -6,6 +6,7 @@ import 'package:kol_miner/widgets/mining/mining_page.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+  static const String APP_NAME = "ajoshiMiningApp";
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -14,13 +15,15 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: new Screen(),
+      home: new Screen(new KolNetwork(APP_NAME)),
     );
   }
 }
 
 class Screen extends StatefulWidget {
-  final KolNetwork _network = new KolNetwork();
+  final KolNetwork network;
+
+  const Screen( this.network, {Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return new ScreenState();
@@ -34,7 +37,7 @@ class ScreenState extends State<Screen> {
       MaterialPageRoute(
           builder: (context) => MiningPage(
                 title: 'Mining',
-                network: widget._network,
+                network: widget.network,
               )),
     );
   }
@@ -42,6 +45,6 @@ class ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
     return new LoginPage(
-        title: 'KoL Miner', network: widget._network, onLogin: onLogin);
+        title: 'KoL Miner', network: widget.network, onLogin: onLogin);
   }
 }
