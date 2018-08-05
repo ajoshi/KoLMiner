@@ -7,6 +7,9 @@ const String PREF_AVG_ADVS_SPENT = "avg_advs_spent";
 const String PREF_TOTAL_TIME_SPENT = "total_time_spent";
 
 void saveNewMiningData(MiningSessionData data) async {
+
+  print("time per mine = ${data.timeTaken/data.advCount}" );
+
   final prefs = await SharedPreferences.getInstance();
   final oldGold = prefs.getInt(PREF_AVG_GOLD_COUNT) ?? 0;
   final oldAdvs = prefs.getInt(PREF_AVG_ADVS_SPENT) ?? 0;
@@ -15,6 +18,14 @@ void saveNewMiningData(MiningSessionData data) async {
   prefs.setInt(PREF_AVG_GOLD_COUNT, oldGold + data.goldcount);
   prefs.setInt(PREF_AVG_ADVS_SPENT, oldAdvs + data.advCount);
   prefs.setInt(PREF_TOTAL_TIME_SPENT, oldTime + data.timeTaken);
+}
+
+/// Wipes all mining data. Be vewy vewy caweful
+_clearMiningData() async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setInt(PREF_AVG_GOLD_COUNT, 0);
+  prefs.setInt(PREF_AVG_ADVS_SPENT, 0);
+  prefs.setInt(PREF_TOTAL_TIME_SPENT, 0);
 }
 
 Future<MiningSessionData> getMiningData() async {
