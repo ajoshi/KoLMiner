@@ -56,7 +56,7 @@ class KolAccountManager {
      List<KolAccount> accounts = await getAllAccounts();
      //   print("saving " + account.username + " " + account.password);
      if (!accounts.contains(account)) {
-       accounts.add(account);
+       accounts.insert(0, account);
      }
      saveAccounts(accounts);
   }
