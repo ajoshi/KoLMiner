@@ -80,7 +80,7 @@ class LazyRequest {
       // get the hp and mp
       currentHp = parsedResponse["hp"];
       currentMp = parsedResponse["mp"];
-      int maxMp = parsedResponse["maxmp"];
+      //int maxMp = parsedResponse["maxmp"];
       advs = parsedResponse["adventures"];
 
       print("MP: $currentMp");

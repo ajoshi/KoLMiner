@@ -33,7 +33,6 @@ class KolNetwork {
     _username = username;
     _password = password;
     try {
-      print("logging in $_username");
       Uri firstLoginUrl = Uri.parse(BASE_URL + LOGIN_POSTFIX);
       var httpClient = new HttpClient();
       var loginPageRequest = await httpClient.getUrl(firstLoginUrl);
@@ -131,7 +130,7 @@ class KolNetwork {
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url,
       {HttpMethod method = HttpMethod.GET}) async {
-    print("call to $url");
+  //  print("call to $url");
     try {
       var httpClient = new HttpClient();
       var headerCookie =
