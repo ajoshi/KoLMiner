@@ -17,7 +17,7 @@ class HistoricalMineWidget extends StatelessWidget {
     return new Column(
       children: <Widget>[
         new Text(
-            "Saved you ${data.advCount} adventures with ${data.getMpaAsString()} MPA"),
+            "Saved you ${data.advCount} adventures (${data.getMpaAsString()} MPA)"),
       ],
     );
   }
