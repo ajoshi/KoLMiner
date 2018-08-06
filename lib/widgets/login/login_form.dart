@@ -6,9 +6,11 @@ import 'package:kol_miner/widgets/login/kol_account.dart';
 
 /// Widget that lets a user log in to KoL
 class LoginForm extends StatefulWidget {
-  LoginForm({Key key, this.network, this.onLogin}) : super(key: key);
+  LoginForm(this.network, this.onLogin, {Key key, this.enabled = true}) : super(key: key);
   final VoidCallback onLogin;
   final KolNetwork network;
+  final bool enabled;
+
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -53,13 +55,13 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Widget getSubmitButtonOrSpinner() {
-    if (isLoggingIn) {
-      return new CircularProgressIndicator();
-    } else {
+    if (_isEnabled()) {
       return new RaisedButton(
-        onPressed: _onLoginPressed,
+        onPressed: widget.enabled? _onLoginPressed : null,
         child: new Text('Log in'),
       );
+    } else {
+      return new CircularProgressIndicator();
     }
   }
 
@@ -147,14 +149,14 @@ class _LoginFormState extends State<LoginForm> {
         new TextField(
           decoration: new InputDecoration(hintText: "Username",),
           style: TextStyle(fontSize: 20.0, color: Colors.black),
-          enabled: !isLoggingIn,
+          enabled: _isEnabled(),
           controller: userNameController,
         ),
         new TextField(
           obscureText: true,
           decoration: new InputDecoration(hintText: "Password",),
           style: TextStyle(fontSize: 20.0, color: Colors.black),
-          enabled: !isLoggingIn,
+          enabled: _isEnabled(),
           controller: passwordController,
         ),
         Padding(
@@ -168,5 +170,9 @@ class _LoginFormState extends State<LoginForm> {
             )),
       ],
     );
+  }
+
+  bool _isEnabled() {
+    return !isLoggingIn && widget.enabled;
   }
 }

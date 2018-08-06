@@ -52,8 +52,8 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: new LoginForm(
-                onLogin: _onLoggedIn,
-                network: widget.network,
+                widget.network,
+                _onLoggedIn,
               ),
             ),
             HistoricalMineWidget(miningData),
