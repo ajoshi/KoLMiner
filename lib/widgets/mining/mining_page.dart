@@ -14,10 +14,10 @@ class MiningPage extends StatefulWidget {
   final KolNetwork network;
 
   @override
-  _MiningPage createState() => new _MiningPage();
+  MiningPageState createState() => new MiningPageState();
 }
 
-class _MiningPage extends State<MiningPage> {
+class MiningPageState extends State<MiningPage> {
   int _goldCounter = 0;
   int _advsUsed = 0;
 
@@ -29,6 +29,8 @@ class _MiningPage extends State<MiningPage> {
   Miner miner;
   bool enableButton = true;
   final myController = TextEditingController();
+
+  LazyUselessPersonWidget _lazyPersonWidget;
 
   void _onMineClicked() {
     getMiningData().then((value) => print(value.toString()));
@@ -62,6 +64,7 @@ class _MiningPage extends State<MiningPage> {
     // save this new data so we know how much we've mined since installation
     saveNewMiningData(new MiningSessionData(_goldCounterForSession,
         _advSpentCounterForSession, endTime - startTime));
+    _lazyPersonWidget.updateData();
     // update ui with good news: we've mined and now we can mine again (maybe)
     setState(() {
       enableButton = true;
@@ -109,6 +112,11 @@ class _MiningPage extends State<MiningPage> {
         style: Theme.of(context).textTheme.subhead,
       ),
     );
+  }
+
+  initState() {
+    super.initState();
+    _lazyPersonWidget = new LazyUselessPersonWidget(widget.network);
   }
 
   @override
@@ -198,9 +206,9 @@ class _MiningPage extends State<MiningPage> {
         Padding(
           padding: const EdgeInsets.all(1.0),
         ),
-        new MiningOutput(_goldCounter, _advsUsed),
+        new MiningOutput(_goldCounter, _advsUsed,),
         new MiningInputFields(myController, enableButton, _onMineClicked,),
-        LazyUselessPersonWidget(widget.network,),
+        _lazyPersonWidget,
       ],
     );
   }

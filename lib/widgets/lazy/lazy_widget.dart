@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kol_miner/constants.dart';
 import 'package:kol_miner/kol_network.dart';
 import 'package:kol_miner/lazy_requests.dart';
 import 'package:kol_miner/widgets/platformui.dart';
@@ -6,80 +7,101 @@ import 'package:kol_miner/widgets/platformui.dart';
 /// This widget is for use by lazy people who are a burden to humanity
 class LazyUselessPersonWidget extends StatefulWidget {
   final KolNetwork network;
-  static LazyRequest lazyRequest;
 
-  LazyUselessPersonWidget(this.network, {Key key}) : super(key: key);
-
+  LazyUselessPersonWidget(
+    this.network, {
+    Key key,
+  }) : super(key: key);
+  LazyPersonState _state;
   @override
   State<StatefulWidget> createState() {
-    return LazyPersonState();
+    // are we allowed to cache States? I'd think so
+    _state = LazyPersonState();
+    return _state;
+  }
+
+  /// update the data from api.php
+  updateData() {
+    _state.updatePlayerData();
   }
 }
 
 class LazyPersonState extends State<LazyUselessPersonWidget> {
   String _mp = "";
+  LazyRequest lazyRequest;
+
+  initState() {
+    super.initState();
+    lazyRequest = LazyRequest(widget.network);
+    updatePlayerData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (LazyUselessPersonWidget.lazyRequest == null) {
-      LazyUselessPersonWidget.lazyRequest = LazyRequest(widget.network);
-      _updatePlayerData();
+    if (DEBUG) {
+      return new Padding(
+        padding: EdgeInsets.only(top: 10.0),
+        child: Column(
+          children: <Widget>[
+            buildInfoBox(),
+            getButtonForAction('Resolve to spend MP', _onResolveClicked),
+            // cast resol
+            getButtonForAction('Healz', _onHealClicked),
+            // Heals from nunnery
+            getButtonForAction('Eat', _onEatClicked),
+            // Eat sleazy hi mein
+            getButtonForAction('Drink', _onDrinkClicked), // Eat sleazy hi mein
+          ],
+        ),
+      );
     }
-    return new Padding(
-      padding: EdgeInsets.only(top: 10.0),
-      child: Column(
-        children: <Widget>[
-          buildInfoBox(),
-          getButtonForAction('Resolve to spend MP', _onResolveClicked), // cast resol
-          getButtonForAction('Healz', _onHealClicked), // Heals from nunnery
-          getButtonForAction('Eat', _onEatClicked), // Eat sleazy hi mein
-          getButtonForAction('Drink', _onDrinkClicked), // Eat sleazy hi mein
-        ],
-      ),
-    );
+    // not allowed to show lazy widget, so show empty widget
+    return new Container();
   }
 
   Widget getButtonForAction(String label, VoidCallback onPressed) {
-    return
-      Padding(padding: EdgeInsets.all(2.0), child: getPlatformButton(
-      context,
-      onPressed: onPressed,
-      child: new Text(
-        label,
-      ),
-      color: Theme.of(context).primaryColor,
-    )
-      );
+    return Padding(
+        padding: EdgeInsets.all(2.0),
+        child: getPlatformButton(
+          context,
+          onPressed: onPressed,
+          child: new Text(
+            label,
+          ),
+          color: Theme.of(context).primaryColor,
+        ));
   }
 
   Widget buildInfoBox() {
-    return Text(
-        "HP: ${LazyUselessPersonWidget.lazyRequest.currentHp} "
-            "MP: $_mp "
-            "advs: ${LazyUselessPersonWidget.lazyRequest.advs} "
-            "ode: ${LazyUselessPersonWidget.lazyRequest.odeTurns} "
-            "milk: ${LazyUselessPersonWidget.lazyRequest.currentMilkTurns}");
+    if (lazyRequest == null) {
+      return Text("RUNNING IN DEBUG MODE");
+    }
+    return Text("RUNNING IN DEBUG MODE\nHP: ${lazyRequest.currentHp} "
+        "MP: $_mp "
+        "advs: ${lazyRequest.advs} "
+        "ode: ${lazyRequest.odeTurns} "
+        "milk: ${lazyRequest.currentMilkTurns}");
   }
 
-  _updatePlayerData() {
-    LazyUselessPersonWidget.lazyRequest
+  updatePlayerData() {
+    lazyRequest
         .getPlayerData()
-        .then((_) => setState(() => _mp = LazyUselessPersonWidget.lazyRequest.currentMp));
+        .then((_) => setState(() => _mp = lazyRequest.currentMp));
   }
 
   _onDrinkClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestPerfectDrink().then((code) => _updatePlayerData());
+    lazyRequest.requestPerfectDrink().then((code) => updatePlayerData());
   }
 
   _onEatClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestEatSleazyHimein().then((code) => _updatePlayerData());
+    lazyRequest.requestEatSleazyHimein().then((code) => updatePlayerData());
   }
 
   _onResolveClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestResolutionSummon().then((code) => _updatePlayerData());
+    lazyRequest.requestResolutionSummon().then((code) => updatePlayerData());
   }
 
   _onHealClicked() {
-    LazyUselessPersonWidget.lazyRequest.requestNunHealing().then((code) => _updatePlayerData());
+    lazyRequest.requestNunHealing().then((code) => updatePlayerData());
   }
 }
