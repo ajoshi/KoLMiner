@@ -1,6 +1,6 @@
 # kol_miner
 
-Flutter app to mine gold in [Kingdom Of Loathing](https://www.kingdomofloathing.com). It does not eat, drink, or autosell gold. The app stops mining when the assigned number of adventures have been spent mining, unless an error occurs. If an error occurs, you should log in to KoL via the browser and fix whatever may be wrong. 
+Flutter app to mine gold in [Kingdom Of Loathing](https://www.kingdomofloathing.com). It does not eat, drink~~, or autosell gold~~(autosells each gold it finds). The app stops mining when the assigned number of adventures have been spent mining, unless an error occurs. If an error occurs, you should log in to KoL via the browser and fix whatever may be wrong. 
 
 ## Getting Compiled
 
