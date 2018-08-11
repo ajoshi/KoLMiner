@@ -82,11 +82,10 @@ class Miner {
         // special check else we keep trying until our counter is over
         // not infinite loop, but we can quit sooner so we should
         return MiningResponse(
-            NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
+            NetworkResponseCode.SUCCESS, MiningResponseCode.FAILURE, false);
       }
       parseMineLayout(mineResponse.response);
-      return new MiningResponse.success(
-          NetworkResponseCode.SUCCESS, didStrikeGold);
+      return new MiningResponse.success(didStrikeGold);
     } else {
       return new MiningResponse(
           mineResponse.responseCode, MiningResponseCode.FAILURE, false);
@@ -122,6 +121,7 @@ class Miner {
         continue;
       }
       var child = element.children[0];
+      // use the alttext for images to figure out the location+shininess
       var isShiny = child.attributes["alt"].contains("Promising");
 //        var isShiny = child.attributes["src"].contains("https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mine/wallsparkle");
       var altText = child.attributes["alt"];
@@ -244,10 +244,11 @@ class MiningResponse {
     this.foundGold,
   );
 
+  /// Constructor to use when mining has succeeded
   MiningResponse.success(
-    this.networkResponseCode,
     this.foundGold,
-  ) : miningResponseCode = MiningResponseCode.SUCCESS;
+  ) : miningResponseCode = MiningResponseCode.SUCCESS,
+      networkResponseCode = NetworkResponseCode.SUCCESS;
 
   bool isSuccess() {
     return networkResponseCode == NetworkResponseCode.SUCCESS &&
@@ -258,6 +259,8 @@ class MiningResponse {
 /// Mining can fail even if network response fails so we need a new enum
 enum MiningResponseCode {
   SUCCESS,
+  /// User does not have access to mine (no ticket/outfit/hot res)
   NO_ACCESS,
+  /// Mining failed (0 hp, 0 advs, something else)
   FAILURE,
 }

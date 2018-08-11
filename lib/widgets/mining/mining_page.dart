@@ -117,13 +117,11 @@ class MiningPageState extends State<MiningPage> {
   initState() {
     super.initState();
     _lazyPersonWidget = new LazyUselessPersonWidget(widget.network);
+    miner = new Miner(widget.network);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (miner == null) {
-      miner = new Miner(widget.network);
-    }
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
