@@ -8,11 +8,18 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  # for network calls
   http: ^0.11.3+16
+  #to store accounts :(
   shared_preferences: ^0.4.2
+  # to modify the app launcher icon
   flutter_launcher_icons: "^0.5.2"
+  # for login page username dropdown
   autocomplete_textfield: ^1.2.0
+  # to launch kol website
   url_launcher: ^3.0.3
+  # to format numbers with commas (or periods)
+  intl: ^0.15.7
 
 dev_dependencies:
   flutter_test:

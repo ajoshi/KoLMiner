@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 const String PREF_AVG_GOLD_COUNT = "avg_gold_count";
 const String PREF_AVG_ADVS_SPENT = "avg_advs_spent";
 const String PREF_TOTAL_TIME_SPENT = "total_time_spent";
 
 void saveNewMiningData(MiningSessionData data) async {
-
-  print("time per mine = ${data.timeTaken/data.advCount}" );
+  print("time per mine = ${data.timeTaken/data.advCount}");
 
   final prefs = await SharedPreferences.getInstance();
   final oldGold = prefs.getInt(PREF_AVG_GOLD_COUNT) ?? 0;
@@ -39,6 +39,10 @@ Future<MiningSessionData> getMiningData() async {
 class MiningSessionData {
   static const int GOLD_AUTOSELL_VALUE = 19700;
 
+  final americanNumberFormatWithDecimals =
+      new NumberFormat("#,##0.00", "en_US");
+  final americanNumberFormat = new NumberFormat("#,##0", "en_US");
+
   // gold mined
   final int goldcount;
   // advs taken
@@ -52,12 +56,19 @@ class MiningSessionData {
     return "$goldcount gold in $advCount advs. Took ${timeTaken~/1000} secs. MPA = ${getMpaAsString()}";
   }
 
+  String getAdvCountAsString() {
+    if (advCount == 0) {
+      return "";
+    }
+    return americanNumberFormat.format(advCount);
+  }
+
   /// Calculates the MPA of this session
   String getMpaAsString() {
     if (advCount == 0) {
       return "";
     }
     var value = goldcount * GOLD_AUTOSELL_VALUE / advCount;
-    return value.toStringAsFixed(2);
+    return americanNumberFormatWithDecimals.format(value);
   }
 }

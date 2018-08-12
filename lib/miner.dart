@@ -247,8 +247,8 @@ class MiningResponse {
   /// Constructor to use when mining has succeeded
   MiningResponse.success(
     this.foundGold,
-  ) : miningResponseCode = MiningResponseCode.SUCCESS,
-      networkResponseCode = NetworkResponseCode.SUCCESS;
+  )   : miningResponseCode = MiningResponseCode.SUCCESS,
+        networkResponseCode = NetworkResponseCode.SUCCESS;
 
   bool isSuccess() {
     return networkResponseCode == NetworkResponseCode.SUCCESS &&
@@ -259,8 +259,10 @@ class MiningResponse {
 /// Mining can fail even if network response fails so we need a new enum
 enum MiningResponseCode {
   SUCCESS,
+
   /// User does not have access to mine (no ticket/outfit/hot res)
   NO_ACCESS,
+
   /// Mining failed (0 hp, 0 advs, something else)
   FAILURE,
 }

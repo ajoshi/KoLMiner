@@ -73,7 +73,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   Widget buildInfoBox() {
-    if (lazyRequest == null) {
+    if (lazyRequest == null || _mp.isEmpty) {
       return Text("RUNNING IN DEBUG MODE");
     }
     return Text("RUNNING IN DEBUG MODE\nHP: ${lazyRequest.currentHp} "
