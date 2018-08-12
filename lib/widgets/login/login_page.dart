@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                 _onLoggedIn,
               ),
             ),
-            HistoricalMineWidget(miningData),
+            HistoricalMineWidget(miningData,),
           ],
         ),
       ),

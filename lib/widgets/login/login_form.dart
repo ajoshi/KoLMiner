@@ -176,6 +176,7 @@ class _LoginFormState extends State<LoginForm> {
               child: new Text(
                 'Create new account or reset password',
                 style: TextStyle(
+                  fontSize: 16.0,
                   color: Colors.indigoAccent,
                 ),
               ),
@@ -200,7 +201,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _launchKolInBrowser() async {
-    var url = "http://www.kingdomofloathing.com";
+    const url = "http://www.kingdomofloathing.com";
     if (await canLaunch(url)) {
       await launch(
         url,
