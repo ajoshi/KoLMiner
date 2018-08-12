@@ -12,6 +12,7 @@ dependencies:
   shared_preferences: ^0.4.2
   flutter_launcher_icons: "^0.5.2"
   autocomplete_textfield: ^1.2.0
+  url_launcher: ^3.0.3
 
 dev_dependencies:
   flutter_test:

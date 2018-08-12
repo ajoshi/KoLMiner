@@ -3,10 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:kol_miner/kol_network.dart';
 //import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:kol_miner/widgets/login/kol_account.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Widget that lets a user log in to KoL
 class LoginForm extends StatefulWidget {
-  LoginForm(this.network, this.onLogin, {Key key, this.enabled = true}) : super(key: key);
+  LoginForm(this.network, this.onLogin, {Key key, this.enabled = true})
+      : super(key: key);
   final VoidCallback onLogin;
   final KolNetwork network;
   final bool enabled;
@@ -22,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
   // of the TextField!
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
-   bool isLoggingIn = false;
+  bool isLoggingIn = false;
   String messageToShow = "";
 //  GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete = new GlobalKey();
   String username;
@@ -47,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
       newAccount = KolAccount(userName, password);
       widget.network
           .login(
-        userName,
+            userName,
             password,
           )
           .then((responseCode) => onLoginResponse(responseCode));
@@ -57,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget getSubmitButtonOrSpinner() {
     if (_isEnabled()) {
       return new RaisedButton(
-        onPressed: widget.enabled? _onLoginPressed : null,
+        onPressed: widget.enabled ? _onLoginPressed : null,
         child: new Text('Log in'),
       );
     } else {
@@ -104,12 +106,12 @@ class _LoginFormState extends State<LoginForm> {
   _onAccountListLoaded(List<KolAccount> newAccounts) {
     accounts = newAccounts;
     usernameSuggestions = List();
-    for(var account in newAccounts) {
+    for (var account in newAccounts) {
       usernameSuggestions.add(account.username);
     }
     setState(() {
       isLoggingIn = false;
-      if(accounts.length > 0) {
+      if (accounts.length > 0) {
         userNameController.text = accounts[0].username;
         passwordController.text = accounts[0].password;
       }
@@ -118,8 +120,10 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    if(accounts == null) {
-      accountManager.getAllAccounts().then((accounts) => _onAccountListLoaded(accounts));
+    if (accounts == null) {
+      accountManager
+          .getAllAccounts()
+          .then((accounts) => _onAccountListLoaded(accounts));
     }
 //    var auto = AutoCompleteTextField<String>(
 //      textChanged: _onTextSelected,
@@ -147,32 +151,62 @@ class _LoginFormState extends State<LoginForm> {
       children: <Widget>[
 //        auto,
         new TextField(
-          decoration: new InputDecoration(hintText: "Username",),
+          decoration: new InputDecoration(
+            hintText: "Username",
+          ),
           style: TextStyle(fontSize: 20.0, color: Colors.black),
           enabled: _isEnabled(),
           controller: userNameController,
         ),
         new TextField(
           obscureText: true,
-          decoration: new InputDecoration(hintText: "Password",),
+          decoration: new InputDecoration(
+            hintText: "Password",
+          ),
           style: TextStyle(fontSize: 20.0, color: Colors.black),
           enabled: _isEnabled(),
           controller: passwordController,
         ),
         Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 5.0),
             child: getSubmitButtonOrSpinner()),
         Padding(
-            padding: const EdgeInsets.fromLTRB(5.0, 20.0, 5.0, 5.0),
-            child: Text(
-              messageToShow,
-              style: TextStyle(color: Colors.red),
+            padding: const EdgeInsets.only(top: 6.0),
+            child: GestureDetector(
+              child: new Text(
+                'Create new account or reset password',
+                style: TextStyle(
+                  color: Colors.indigoAccent,
+                ),
+              ),
+              onTap: () => _launchKolInBrowser(),
             )),
+        messageToShow.isEmpty
+            ? new Container()
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 5.0),
+                child: Text(
+                  messageToShow,
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                )),
       ],
     );
   }
 
   bool _isEnabled() {
     return !isLoggingIn && widget.enabled;
+  }
+
+  void _launchKolInBrowser() async {
+    var url = "http://www.kingdomofloathing.com";
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
