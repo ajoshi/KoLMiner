@@ -22,7 +22,7 @@ class LazyUselessPersonWidget extends StatefulWidget {
 
   /// update the data from api.php
   updateData() {
-    _state.updatePlayerData();
+    _state.requestPlayerDataUpdate();
   }
 }
 
@@ -33,7 +33,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   initState() {
     super.initState();
     lazyRequest = LazyRequest(widget.network);
-    updatePlayerData();
+    requestPlayerDataUpdate();
   }
 
   @override
@@ -83,25 +83,35 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
         "milk: ${lazyRequest.currentMilkTurns}");
   }
 
-  updatePlayerData() {
-    lazyRequest
-        .getPlayerData()
-        .then((_) => setState(() => _mp = lazyRequest.currentMp));
+  /// Updates the UI with the new mp
+  _updatePlayerData() {
+    if (mounted) {
+      setState(() => _mp = lazyRequest.currentMp));
+    }
+  }
+
+  /// Makes a server request to update player data and updates UI when data comes back
+  requestPlayerDataUpdate() {
+    if (mounted) {
+      lazyRequest
+          .getPlayerData()
+          .then((_) => _updatePlayerData());
+    }
   }
 
   _onDrinkClicked() {
-    lazyRequest.requestPerfectDrink().then((code) => updatePlayerData());
+    lazyRequest.requestPerfectDrink().then((code) => requestPlayerDataUpdate());
   }
 
   _onEatClicked() {
-    lazyRequest.requestEatSleazyHimein().then((code) => updatePlayerData());
+    lazyRequest.requestEatSleazyHimein().then((code) => requestPlayerDataUpdate());
   }
 
   _onResolveClicked() {
-    lazyRequest.requestResolutionSummon().then((code) => updatePlayerData());
+    lazyRequest.requestResolutionSummon().then((code) => requestPlayerDataUpdate());
   }
 
   _onHealClicked() {
-    lazyRequest.requestNunHealing().then((code) => updatePlayerData());
+    lazyRequest.requestNunHealing().then((code) => requestPlayerDataUpdate());
   }
 }
