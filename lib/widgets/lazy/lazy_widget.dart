@@ -86,7 +86,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   /// Updates the UI with the new mp
   _updatePlayerData() {
     if (mounted) {
-      setState(() => _mp = lazyRequest.currentMp));
+      setState(() => _mp = lazyRequest.currentMp);
     }
   }
 
