@@ -12,18 +12,19 @@ class Miner {
 
   /// Get the layout of the mine. We can't do anything without knowing what
   /// the mine looks like
-  Future<NetworkResponseCode> getMineLayout() async {
+  Future<MineDataResponse> getMineLayout() async {
     var contents =
         await network.makeRequestWithQueryParams("mining.php", "mine=6");
     if (contents.responseCode == NetworkResponseCode.SUCCESS) {
       try {
         parseMineLayout(contents.response);
+        return MineDataResponse(contents.responseCode, MiningResponseCode.SUCCESS);
       } catch (error) {
         print(error);
-        return NetworkResponseCode.FAILURE;
+        return MineDataResponse(contents.responseCode, MiningResponseCode.NO_ACCESS);
       }
     }
-    return contents.responseCode;
+    return MineDataResponse(contents.responseCode, MiningResponseCode.FAILURE);
   }
 
   /// Autosell some of that mined gold. Sells one piece by default
@@ -40,9 +41,9 @@ class Miner {
     if (currentMine == null) {
       // get the layout if we don't have it
       var response = await getMineLayout();
-      if (response != NetworkResponseCode.SUCCESS) {
+      if (response.miningResponseCode != MiningResponseCode.SUCCESS) {
         // can't access the mine at all
-        return MiningResponse(response, MiningResponseCode.NO_ACCESS, false);
+        return MiningResponse(response.networkResponseCode, response.miningResponseCode, false);
       }
     }
     //  print(currentMine);
@@ -265,4 +266,15 @@ enum MiningResponseCode {
 
   /// Mining failed (0 hp, 0 advs, something else)
   FAILURE,
+}
+
+/// Data class that tells us if the call to get mine data succeeded or not
+class MineDataResponse {
+  /// Tells us if the network call succeeded/failed
+  final NetworkResponseCode networkResponseCode;
+
+  /// Tells us if the mining attempt succeeded or failed (assuming network succeeded)
+  final MiningResponseCode miningResponseCode;
+
+  MineDataResponse(this.networkResponseCode, this.miningResponseCode);
 }
