@@ -10,12 +10,14 @@ class MiningInputFields extends StatelessWidget {
   final TextEditingController advsToMineController;
   final bool enable;
 
+  /// Called when the user submits by tapping the mine button
   void _onMineClicked() {
     if (enable) {
       onMineClicked();
     }
   }
 
+  /// Called when the user submits via keyboard input method
   void _onKeyboardSubmit(String a) {
     if (enable) {
       onMineClicked();
@@ -39,7 +41,7 @@ class MiningInputFields extends StatelessWidget {
           context,
           onPressed: enable?  _onMineClicked : null,
           child: new Text(
-            'Increment some counters instead of playing the game',
+            'Mine away',
           ),
           color: Theme.of(context).primaryColor,
         ),
