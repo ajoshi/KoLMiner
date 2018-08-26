@@ -219,7 +219,8 @@ class KolNetwork {
             await resp.transform(utf8.decoder).single);
       } catch (_) {
         // couldn't parse the response. Send back empty string?
-        return new NetworkResponse(NetworkResponseCode.SUCCESS, "");
+        print("exception happened while parsing. Looping. ");
+        return makeRequest(url, method: method);
       }
     } on IOException catch (_) {
       return NetworkResponse(NetworkResponseCode.FAILURE, "");
