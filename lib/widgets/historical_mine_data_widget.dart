@@ -5,7 +5,7 @@ import 'package:kol_miner/saved_miner_data.dart';
 /// Shows nothing if there is no data
 class HistoricalMineWidget extends StatelessWidget {
   final MiningSessionData data;
-  double textSize;
+  final double textSize;
   HistoricalMineWidget(this.data, {this.textSize = 12.0});
 
   @override
