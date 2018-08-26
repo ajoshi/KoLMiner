@@ -65,7 +65,9 @@ class MiningPageState extends State<MiningPage> {
     // save this new data so we know how much we've mined since installation
     saveNewMiningData(new MiningSessionData(_goldCounterForSession,
         _advSpentCounterForSession, endTime - startTime));
-    _lazyPersonWidget.updateData();
+    _lazyPersonWidget.key.currentState.requestPlayerDataUpdate();
+
+
     // update ui with good news: we've mined and now we can mine again (maybe)
     setState(() {
       enableButton = true;

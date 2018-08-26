@@ -8,21 +8,16 @@ import 'package:kol_miner/widgets/platformui.dart';
 class LazyUselessPersonWidget extends StatefulWidget {
   final KolNetwork network;
 
+  final GlobalKey<LazyPersonState> key =  new GlobalKey();
+
   LazyUselessPersonWidget(
     this.network, {
     Key key,
   }) : super(key: key);
-  LazyPersonState _state;
+
   @override
   State<StatefulWidget> createState() {
-    // are we allowed to cache States? I'd think so
-    _state = LazyPersonState();
-    return _state;
-  }
-
-  /// update the data from api.php
-  updateData() {
-    _state.requestPlayerDataUpdate();
+    return new LazyPersonState();
   }
 }
 
