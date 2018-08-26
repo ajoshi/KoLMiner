@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kol_miner/kol_network.dart';
-//import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:kol_miner/widgets/login/kol_account.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,35 +22,42 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   // Create a text controller. We will use it to retrieve the current value
   // of the TextField!
-  final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLoggingIn = false;
-  String messageToShow = "";
-//  GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete = new GlobalKey();
-  String username;
-  List<String> usernameSuggestions;
-  List<KolAccount> accounts;
+  // Normal edittext unless the entered string is a subset of known username
+  // if subset, it shows a dropdown. Selecting dropdown populates password field
+  AutoCompleteTextField usernameAutoCompleteView;
+  GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete = new GlobalKey();
+  // current value of the Autocomplete text field
+  String _usernameTextViewValue;
+
   final KolAccountManager accountManager = KolAccountManager();
+  // List of all the accounts that have logged in before
+  List<KolAccount> accounts;
+  // List of all the usernames. Used by AutoComplete
+  List<String> usernameSuggestions;
   KolAccount newAccount;
+
+  // Message to show when login attempt has failed
+  String messageToShow = "";
 
   @override
   void dispose() {
     // Clean up the controller when the Widget is disposed
-    userNameController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
   void _onLoginPressed() {
     setState(() {
+      FocusScope.of(context).requestFocus(new FocusNode());
       isLoggingIn = true;
-      var userName = userNameController.text;
       var password = passwordController.text;
-      newAccount = KolAccount(userName, password);
+      newAccount = KolAccount(_usernameTextViewValue, password);
       widget.network
           .login(
-            userName,
-            password,
+            newAccount.username,
+            newAccount.password,
           )
           .then((responseCode) => onLoginResponse(responseCode));
     });
@@ -69,6 +76,7 @@ class _LoginFormState extends State<LoginForm> {
 
   /// Called when the login code has hit the network and received a response
   void onLoginResponse(NetworkResponseCode responsecode) {
+    messageToShow = "";
     switch (responsecode) {
       case NetworkResponseCode.SUCCESS:
         accountManager.saveAccount(newAccount);
@@ -98,24 +106,53 @@ class _LoginFormState extends State<LoginForm> {
     messageToShow = "Rollover in progress. Try again later";
   }
 
-//  void _onTextSelected(String newText) {
-//    username = newText;
-//    print("text selected " + newText);
-//  }
-
-  _onAccountListLoaded(List<KolAccount> newAccounts) {
+  void _onAccountListLoaded(List<KolAccount> newAccounts) {
+    print("account list loaded");
     accounts = newAccounts;
-    usernameSuggestions = List();
+    var suggestions = List<String>();
     for (var account in newAccounts) {
-      usernameSuggestions.add(account.username);
+      print("added " + account.username);
+      suggestions.add(account.username);
     }
     setState(() {
+      usernameSuggestions = suggestions;
+      usernameAutoCompleteView.suggestions = usernameSuggestions;
       isLoggingIn = false;
       if (accounts.length > 0) {
-        userNameController.text = accounts[0].username;
-        passwordController.text = accounts[0].password;
+    //    userNameController.text = accounts[0].username;
+      //  passwordController.text = accounts[0].password;
+//        auto.key.currentState.tex
       }
     });
+  }
+
+  void _onUsernameFieldUpdated(String newText) {
+    _usernameTextViewValue = newText;
+    var passwordForText = _getPasswordForUsername(newText);
+    if (passwordForText != null) {
+      // this username is stored, so update the password field
+      // do not autosubmit since A could be logged in while I try to log in to AA
+      passwordController.text = passwordForText;
+    }
+
+  }
+
+  /// Nullable
+  /// Gets a password if the given username is stored. Else returns null
+  String _getPasswordForUsername(String username) {
+    if (accounts != null) {
+      for (var account in accounts) {
+        if (account.username == username) {
+          return account.password;
+        }
+      }
+    }
+    return null;
+  }
+
+  void _onSubmitImeAction(String newText) {
+    // ignore?
+    print("Text submitted: " + newText);
   }
 
   @override
@@ -125,39 +162,41 @@ class _LoginFormState extends State<LoginForm> {
           .getAllAccounts()
           .then((accounts) => _onAccountListLoaded(accounts));
     }
-//    var auto = AutoCompleteTextField<String>(
-//      textChanged: _onTextSelected,
-//      key: keyForAutocomplete,
-//      decoration: new InputDecoration(
-//          hintText: "Username",
-//          border: new OutlineInputBorder(
-//              gapPadding: 0.0,
-//              borderRadius: new BorderRadius.circular(16.0)),
-//          suffixIcon: new Icon(Icons.person)),
-//        itemBuilder: (context, item) {
-//          return new Padding(
-//              padding: EdgeInsets.all(8.0), child: new Text(item));
-//        },
-//        itemSorter: (a, b) {
-//          return a.compareTo(b);
-//        },
-//        itemFilter: (item, query) {
-//          return item.toLowerCase().startsWith(query.toLowerCase());
-//        },
-//      suggestions: usernameSuggestions,
-//    );
+    usernameAutoCompleteView = AutoCompleteTextField<String>(
+      textChanged: _onUsernameFieldUpdated,
+      textSubmitted: _onSubmitImeAction,
+      key: keyForAutocomplete,
+
+      decoration: new InputDecoration(
+          hintText: "Username",
+          border: new OutlineInputBorder(
+              gapPadding: 0.0,
+              borderRadius: new BorderRadius.circular(16.0)),
+          suffixIcon: new Icon(Icons.person)),
+        itemBuilder: (context, item) {
+          return new Padding(
+              padding: EdgeInsets.all(8.0), child: new Text(item));
+        },
+        itemSorter: (a, b) {
+          return a.compareTo(b);
+        },
+        itemFilter: (item, query) {
+          return item.toLowerCase().startsWith(query.toLowerCase());
+        },
+      suggestions: usernameSuggestions,
+    );
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-//        auto,
-        new TextField(
-          decoration: new InputDecoration(
-            hintText: "Username",
-          ),
-          style: TextStyle(fontSize: 20.0, color: Colors.black),
-          enabled: _isEnabled(),
-          controller: userNameController,
-        ),
+        usernameSuggestions == null ? Container() : usernameAutoCompleteView,
+//        new TextField(
+//          decoration: new InputDecoration(
+//            hintText: "Username",
+//          ),
+//          style: TextStyle(fontSize: 20.0, color: Colors.black),
+//          enabled: _isEnabled(),
+//          controller: userNameController,
+//        ),
         new TextField(
           obscureText: true,
           decoration: new InputDecoration(
