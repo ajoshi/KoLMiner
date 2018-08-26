@@ -39,6 +39,7 @@ class MiningPageState extends State<MiningPage> {
       // we couldn't figure out how many advs to mine for, so just stop
       return;
     }
+    FocusScope.of(context).requestFocus(new FocusNode());
     _goldCounterForSession = 0;
     _advSpentCounterForSession = 0;
     setState(() {
@@ -205,7 +206,7 @@ class MiningPageState extends State<MiningPage> {
           padding: const EdgeInsets.all(1.0),
         ),
         new MiningOutput(_goldCounter, _advsUsed,),
-        new MiningInputFields(myController, enableButton, _onMineClicked,),
+        new MiningInputFields(myController, enableButton, _onMineClicked, ),
         _lazyPersonWidget,
       ],
     );
