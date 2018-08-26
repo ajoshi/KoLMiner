@@ -5,6 +5,7 @@ import 'package:html/parser.dart';
 import 'package:kol_miner/kol_network.dart';
 
 class Miner {
+  static const bool DEBUG = true;
   final KolNetwork network;
   Mine currentMine;
 
@@ -51,9 +52,13 @@ class Miner {
     if (targetSquare == null) {
       // if we have no valid links anymore, get a new mine
       if (currentMine.canGetNewMine) {
-        print("we need a new mine and we can get one");
+        if (DEBUG) {
+          print("we need a new mine and we can get one");
+        }
         if (await getNextMine()) {
-          print("got a new mine!");
+          if (DEBUG) {
+            print("got a new mine!");
+          }
           // if we did get a new mine, then mine in that one
           return mineNextSquare();
         } else {
@@ -62,7 +67,9 @@ class Miner {
               NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
         }
       } else {
-        print("mining randomly so we can gtfo");
+        if (DEBUG) {
+          print("mining randomly so we can gtfo");
+        }
         // mine somewhere at random so the 'find new cavern' button shows up
         targetSquare = currentMine.getThrowawayMineSquare();
       }
@@ -78,6 +85,9 @@ class Miner {
     var mineResponse =
         await network.makeRequest("${targetSquare.url}&${network.appName}");
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
+      if (DEBUG) {
+        print("mined $targetSquare");
+      }
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.")) {
         // special check else we keep trying until our counter is over
@@ -138,6 +148,9 @@ class Miner {
     Mine newMine = new Mine(listOfMineSquares);
     layout.getElementsByClassName("button");
     newMine.canGetNewMine = contents.contains("Find New Cavern");
+    if (DEBUG && newMine.squares.length == 0) {
+      print("network response: [$contents]");
+    }
     currentMine = newMine;
     return layout;
   }
@@ -165,6 +178,7 @@ class Mine {
         orElse: () => square = null);
     if (square == null) {
       print("need a new mine");
+//      print(this.toString());
       // need a new mine
       return null;
     }
