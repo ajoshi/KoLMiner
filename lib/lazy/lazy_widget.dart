@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/constants.dart';
-import 'package:kol_miner/kol_network.dart';
-import 'package:kol_miner/lazy_requests.dart';
-import 'package:kol_miner/widgets/platformui.dart';
+import 'package:kol_miner/network/kol_network.dart';
+import 'package:kol_miner/lazy/lazy_requests.dart';
 
 /// This widget is for use by lazy people who are a burden to humanity
 class LazyUselessPersonWidget extends StatefulWidget {
   final KolNetwork network;
 
+  // Lets the parent widget tell this one to update on command
   final GlobalKey<LazyPersonState> key =  new GlobalKey();
 
   LazyUselessPersonWidget(
@@ -54,6 +55,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
     return new Container();
   }
 
+  /// Create a standard button showing the label that calls onPressed
   Widget getButtonForAction(String label, VoidCallback onPressed) {
     return Padding(
         padding: EdgeInsets.all(2.0),
@@ -67,6 +69,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
         ));
   }
 
+  /// Builds the  box that shows user data
   Widget buildInfoBox() {
     if (lazyRequest == null || _mp == null || _mp.isEmpty) {
       return Text("RUNNING IN DEBUG MODE");

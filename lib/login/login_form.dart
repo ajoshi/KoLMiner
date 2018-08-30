@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kol_miner/kol_network.dart';
+import 'package:kol_miner/network/kol_network.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'package:kol_miner/widgets/login/kol_account.dart';
+import 'package:kol_miner/accounts/kol_account.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Widget that lets a user log in to KoL

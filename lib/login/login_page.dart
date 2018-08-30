@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/kol_network.dart';
-import 'package:kol_miner/saved_miner_data.dart';
-import 'package:kol_miner/widgets/historical_mine_data_widget.dart';
-import 'package:kol_miner/widgets/login/login_form.dart';
+import 'package:kol_miner/network/kol_network.dart';
+import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
+import 'package:kol_miner/historical_mining_data/historical_mine_data_widget.dart';
+import 'package:kol_miner/login/login_form.dart';
 
 /// This is the first page a user sees. It allows the user to log in and calls
 /// the onLogin callback on success

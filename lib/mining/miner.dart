@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:kol_miner/kol_network.dart';
+import 'package:kol_miner/network/kol_network.dart';
 
 class Miner {
   static const bool DEBUG = true;

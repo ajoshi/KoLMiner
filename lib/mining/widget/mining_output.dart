@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/saved_miner_data.dart';
+import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 
 /// Shows the result of mining. This is where we show the user how many
 /// advs were spent and how much money was made

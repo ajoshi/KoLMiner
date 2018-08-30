@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:kol_miner/kol_network.dart';
+import 'package:kol_miner/network/kol_network.dart';
 
 class LazyRequest {
   static const MILK_EFFECT_HASH = "225aa10e75476b0ad5fa576c89df3901";

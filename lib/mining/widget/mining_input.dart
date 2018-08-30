@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:kol_miner/widgets/platformui.dart';
+import 'package:kol_miner/common_widgets/platformui.dart';
 
 /// Edittext and button that lets the user mine
 class MiningInputFields extends StatelessWidget {

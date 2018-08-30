@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/kol_network.dart';
-import 'package:kol_miner/miner.dart';
-import 'package:kol_miner/saved_miner_data.dart';
-import 'package:kol_miner/widgets/lazy/lazy_widget.dart';
-import 'package:kol_miner/widgets/mining/mining_input.dart';
-import 'package:kol_miner/widgets/mining/mining_output.dart';
+import 'package:kol_miner/network/kol_network.dart';
+import 'package:kol_miner/mining/miner.dart';
+import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
+import 'package:kol_miner/lazy/lazy_widget.dart';
+import 'package:kol_miner/mining/widget/mining_input.dart';
+import 'package:kol_miner/mining/widget/mining_output.dart';
 
 /// This is the screen where the mining happens
 class MiningPage extends StatefulWidget {

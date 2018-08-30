@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/kol_network.dart';
-import 'package:kol_miner/widgets/login/login_page.dart';
-import 'package:kol_miner/widgets/mining/mining_page.dart';
+import 'package:kol_miner/network/kol_network.dart';
+import 'package:kol_miner/login/login_page.dart';
+import 'package:kol_miner/mining/widget/mining_page.dart';
 
 void main() => runApp(new MyApp());
 

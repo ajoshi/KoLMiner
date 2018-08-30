@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/saved_miner_data.dart';
+import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 
 /// Shows the historical mining data for this app
 /// Shows nothing if there is no data
