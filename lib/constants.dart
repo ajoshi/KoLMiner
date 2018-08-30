@@ -1,3 +1,3 @@
 /// Holds constants so imports don't import useless files. Super new concept, ikr
 
-const bool DEBUG = true;
+const bool DEBUG = false;
