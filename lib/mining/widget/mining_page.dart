@@ -5,6 +5,7 @@ import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 import 'package:kol_miner/lazy/lazy_widget.dart';
 import 'package:kol_miner/mining/widget/mining_input.dart';
 import 'package:kol_miner/mining/widget/mining_output.dart';
+import 'package:kol_miner/player_info/user_info_widget.dart';
 
 /// This is the screen where the mining happens
 class MiningPage extends StatefulWidget {
@@ -31,6 +32,8 @@ class MiningPageState extends State<MiningPage> {
   final myController = TextEditingController();
 
   LazyUselessPersonWidget _lazyPersonWidget;
+
+  UserInfoWidget _userInfoWidget;
 
   void _onMineClicked() {
     getMiningData().then((value) => print(value.toString()));
@@ -66,7 +69,7 @@ class MiningPageState extends State<MiningPage> {
     saveNewMiningData(new MiningSessionData(_goldCounterForSession,
         _advSpentCounterForSession, endTime - startTime));
     _lazyPersonWidget.key.currentState.requestPlayerDataUpdate();
-
+    _userInfoWidget.key.currentState.requestPlayerDataUpdate();
 
     // update ui with good news: we've mined and now we can mine again (maybe)
     setState(() {
@@ -82,7 +85,7 @@ class MiningPageState extends State<MiningPage> {
         _goldCounter++;
         _goldCounterForSession++;
       }
-      if(mounted) {
+      if (mounted) {
         setState(() {
           _advsUsed++;
           _advSpentCounterForSession++;
@@ -102,8 +105,7 @@ class MiningPageState extends State<MiningPage> {
     String message = getErrorMessageForMiningResponse(response);
     showDialog(
       context: this.context,
-      builder: (buildContext) => getErrorDialog(buildContext,
-          message),
+      builder: (buildContext) => getErrorDialog(buildContext, message),
     );
   }
 
@@ -120,6 +122,7 @@ class MiningPageState extends State<MiningPage> {
   initState() {
     super.initState();
     _lazyPersonWidget = new LazyUselessPersonWidget(widget.network);
+    _userInfoWidget = new UserInfoWidget(widget.network);
     miner = new Miner(widget.network);
   }
 
@@ -149,18 +152,17 @@ class MiningPageState extends State<MiningPage> {
     switch (response.miningResponseCode) {
       case MiningResponseCode.FAILURE:
         message =
-        'Unable to mine (0 HP? No hot res? Dirty bugbears in your interwebz?) '
+            'Unable to mine (0 HP? No hot res? Dirty bugbears in your interwebz?) '
             'Log in via your browser, fix the issue, and log in again';
         break;
       case MiningResponseCode.NO_ACCESS:
-        message =
-        'Unable to access the mine. Make sure you have used the '
+        message = 'Unable to access the mine. Make sure you have used the '
             'charter/ticket and are wearing the mining outfit';
         break;
       case MiningResponseCode.SUCCESS:
-      // success shouldn't show up in onError
+        // success shouldn't show up in onError
         message =
-        'Uhhh.... tell me if you see this message because it\'s a bug';
+            'Uhhh.... tell me if you see this message because it\'s a bug';
         break;
     }
     return message;
@@ -179,12 +181,12 @@ class MiningPageState extends State<MiningPage> {
         break;
       case NetworkResponseCode.FAILURE:
         message =
-        'Network call failed. Are you offline? Bad wifi? Get better wifi';
+            'Network call failed. Are you offline? Bad wifi? Get better wifi';
         break;
       case NetworkResponseCode.SUCCESS:
-      // success shouldn't show up in onError
+        // success shouldn't show up in onError
         message =
-        'Uhhh.... tell me if you see this message because it\'s a bug';
+            'Uhhh.... tell me if you see this message because it\'s a bug';
     }
     return message;
   }
@@ -207,8 +209,17 @@ class MiningPageState extends State<MiningPage> {
         Padding(
           padding: const EdgeInsets.all(1.0),
         ),
-        new MiningOutput(_goldCounter, _advsUsed,),
-        new MiningInputFields(myController, enableButton, _onMineClicked, ),
+        new MiningOutput(
+          _goldCounter,
+          _advsUsed,
+        ),
+        new MiningInputFields(
+          myController,
+          enableButton,
+          _onMineClicked,
+        ),
+        // don't create a new widget each time because it needs to make a network call
+        _userInfoWidget,
         _lazyPersonWidget,
       ],
     );

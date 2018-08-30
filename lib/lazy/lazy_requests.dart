@@ -8,9 +8,6 @@ class LazyRequest {
 
   final KolNetwork network;
   String chatPwd;
-  String currentMp;
-  String currentHp;
-  String advs;
   int currentMilkTurns;
   int odeTurns;
 
@@ -36,15 +33,6 @@ class LazyRequest {
   Future<bool> getPlayerData() async {
     var playerData = await network.getPlayerData();
     if (playerData != null) {
-      // get the hp and mp
-      currentHp = playerData["hp"];
-      currentMp = playerData["mp"];
-      //int maxMp = parsedResponse["maxmp"];
-      advs = playerData["adventures"];
-
-      print("MP: $currentMp");
-      print("advs: $advs");
-
       // go through effects to find how many turns of milk we have
       if (playerData.containsKey("effects")) {
         // someone could have 0 effects so we put in a guard

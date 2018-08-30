@@ -9,7 +9,7 @@ class LazyUselessPersonWidget extends StatefulWidget {
   final KolNetwork network;
 
   // Lets the parent widget tell this one to update on command
-  final GlobalKey<LazyPersonState> key =  new GlobalKey();
+  final GlobalKey<LazyPersonState> key = new GlobalKey();
 
   LazyUselessPersonWidget(
     this.network, {
@@ -23,7 +23,7 @@ class LazyUselessPersonWidget extends StatefulWidget {
 }
 
 class LazyPersonState extends State<LazyUselessPersonWidget> {
-  String _mp = "";
+  int _milkTurns = -1;
   LazyRequest lazyRequest;
 
   initState() {
@@ -71,29 +71,25 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
 
   /// Builds the  box that shows user data
   Widget buildInfoBox() {
-    if (lazyRequest == null || _mp == null || _mp.isEmpty) {
+    if (lazyRequest == null || _milkTurns == -1) {
       return Text("RUNNING IN DEBUG MODE");
     }
-    return Text("RUNNING IN DEBUG MODE\nHP: ${lazyRequest.currentHp} "
-        "MP: $_mp "
-        "advs: ${lazyRequest.advs} "
-        "ode: ${lazyRequest.odeTurns} "
-        "milk: ${lazyRequest.currentMilkTurns}");
+    return Text("RUNNING IN DEBUG MODE"
+        "\node: ${lazyRequest.odeTurns} "
+        "\nmilk: ${lazyRequest.currentMilkTurns}");
   }
 
   /// Updates the UI with the new mp
   _updatePlayerData() {
     if (mounted) {
-      setState(() => _mp = lazyRequest.currentMp);
+      setState(() => _milkTurns = lazyRequest.currentMilkTurns);
     }
   }
 
   /// Makes a server request to update player data and updates UI when data comes back
   requestPlayerDataUpdate() {
     if (mounted) {
-      lazyRequest
-          .getPlayerData()
-          .then((_) => _updatePlayerData());
+      lazyRequest.getPlayerData().then((_) => _updatePlayerData());
     }
   }
 
@@ -102,11 +98,15 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   _onEatClicked() {
-    lazyRequest.requestEatSleazyHimein().then((code) => requestPlayerDataUpdate());
+    lazyRequest
+        .requestEatSleazyHimein()
+        .then((code) => requestPlayerDataUpdate());
   }
 
   _onResolveClicked() {
-    lazyRequest.requestResolutionSummon().then((code) => requestPlayerDataUpdate());
+    lazyRequest
+        .requestResolutionSummon()
+        .then((code) => requestPlayerDataUpdate());
   }
 
   _onHealClicked() {
