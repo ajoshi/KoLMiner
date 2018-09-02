@@ -29,7 +29,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "images/mining.png"
+  image_path: "images/miner.jpg"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
