@@ -75,6 +75,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
       return Text("RUNNING IN DEBUG MODE");
     }
     return Text("RUNNING IN DEBUG MODE"
+        "\n MP: ${lazyRequest.currentMp}"
         "\node: ${lazyRequest.odeTurns} "
         "\nmilk: ${lazyRequest.currentMilkTurns}");
   }
