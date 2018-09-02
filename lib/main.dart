@@ -36,7 +36,7 @@ class ScreenState extends State<Screen> {
       context,
       MaterialPageRoute(
           builder: (context) => MiningPage(
-                title: 'Mining',
+                title: 'Mine for gold',
                 network: widget.network,
               )),
     );

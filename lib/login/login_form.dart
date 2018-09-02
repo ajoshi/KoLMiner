@@ -107,11 +107,9 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onAccountListLoaded(List<KolAccount> newAccounts) {
-    print("account list loaded");
     accounts = newAccounts;
     var suggestions = List<String>();
     for (var account in newAccounts) {
-      print("added " + account.username);
       suggestions.add(account.username);
     }
     setState(() {
@@ -119,9 +117,10 @@ class _LoginFormState extends State<LoginForm> {
       usernameAutoCompleteView.suggestions = usernameSuggestions;
       isLoggingIn = false;
       if (accounts.length > 0) {
+        // maybe we can autologin if there is just one account? But then how will
+        // people add second accounts?
     //    userNameController.text = accounts[0].username;
       //  passwordController.text = accounts[0].password;
-//        auto.key.currentState.tex
       }
     });
   }
@@ -162,16 +161,13 @@ class _LoginFormState extends State<LoginForm> {
           .getAllAccounts()
           .then((accounts) => _onAccountListLoaded(accounts));
     }
+
     usernameAutoCompleteView = AutoCompleteTextField<String>(
       textChanged: _onUsernameFieldUpdated,
       textSubmitted: _onSubmitImeAction,
       key: keyForAutocomplete,
-
       decoration: new InputDecoration(
           hintText: "Username",
-          border: new OutlineInputBorder(
-              gapPadding: 0.0,
-              borderRadius: new BorderRadius.circular(16.0)),
           suffixIcon: new Icon(Icons.person)),
         itemBuilder: (context, item) {
           return new Padding(
@@ -185,24 +181,18 @@ class _LoginFormState extends State<LoginForm> {
         },
       suggestions: usernameSuggestions,
     );
+
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         usernameSuggestions == null ? Container() : usernameAutoCompleteView,
-//        new TextField(
-//          decoration: new InputDecoration(
-//            hintText: "Username",
-//          ),
-//          style: TextStyle(fontSize: 20.0, color: Colors.black),
-//          enabled: _isEnabled(),
-//          controller: userNameController,
-//        ),
         new TextField(
           obscureText: true,
           decoration: new InputDecoration(
             hintText: "Password",
+              suffixIcon: new Icon(Icons.lock),
           ),
-          style: TextStyle(fontSize: 20.0, color: Colors.black),
+//          style: TextStyle(fontSize: 20.0, color: Colors.black),
           enabled: _isEnabled(),
           controller: passwordController,
         ),
