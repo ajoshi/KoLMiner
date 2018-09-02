@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
-import 'package:kol_miner/constants.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/player_info/user_info_requests.dart';
 
@@ -43,20 +42,6 @@ class UserInfoState extends State<UserInfoWidget> {
         ],
       ),
     );
-  }
-
-  /// Create a standard button showing the label that calls onPressed
-  Widget _getButtonForAction(String label, VoidCallback onPressed) {
-    return Padding(
-        padding: EdgeInsets.all(2.0),
-        child: getPlatformButton(
-          context,
-          onPressed: onPressed,
-          child: new Text(
-            label,
-          ),
-          color: Theme.of(context).primaryColor,
-        ));
   }
 
   /// Builds the  box that shows user data
