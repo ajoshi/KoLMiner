@@ -23,7 +23,7 @@ class UserInfoWidget extends StatefulWidget {
 }
 
 class UserInfoState extends State<UserInfoWidget> {
-  int _mp = -1;
+  int _advs = -1;
   UserInfoRequest _userInfoRequest;
 
   initState() {
@@ -60,19 +60,61 @@ class UserInfoState extends State<UserInfoWidget> {
 
   /// Builds the  box that shows user data
   Widget _buildInfoBox() {
-    if (_userInfoRequest == null || _mp == -1) {
+    if (_userInfoRequest == null || _advs == -1) {
       return Text("");
     }
-    return Text("HP: ${_userInfoRequest.currentHp} "
-        "MP: $_mp "
-        "advs: ${_userInfoRequest.advs} ");
+    return new Column(
+      children: <Widget>[
+        _buildHpMpBar("HP", Colors.red, _userInfoRequest.currentHp,
+            _userInfoRequest.maxHp),
+// I don't think the MP bar is needed, at least in v1. The only purpose is
+// summoning and I don't allow it
+//        _buildHpMpBar("MP", Colors.blue, _userInfoRequest.currentMp,
+//            _userInfoRequest.maxMp),
+        new Text(
+          "Advs: $_advs ",
+          style: Theme.of(context).textTheme.display1,
+        )
+      ],
+    );
+  }
+
+  /// Builds a progress bar that shows current+max HP and MP
+  Widget _buildHpMpBar(String title, Color color, int value, int max) {
+    return new Container(
+      child: new Row(
+        children: <Widget>[
+          new Text("$title: $value/$max "),
+          new Container(
+            padding: EdgeInsets.only(left: 4.0),
+            child: new LinearProgressIndicator(
+              value: value / max,
+              valueColor: AlwaysStoppedAnimation<Color>(color),
+              backgroundColor: Color.fromRGBO(200, 200, 200, .3),
+            ),
+            width: 130.0,
+          ),
+        ],
+        mainAxisSize: MainAxisSize.min,
+      ),
+      padding: EdgeInsets.only(top: 2.0, bottom: 2.0, left: 25.0, right: 25.0),
+    );
+//    return new Text("$title: $value/$max");
   }
 
   /// Updates the UI with the new mp
   _updatePlayerData() {
     if (mounted) {
-      setState(() => _mp = _userInfoRequest.currentMp);
+      setState(() => _advs = _userInfoRequest.advs);
     }
+  }
+
+  /// Decrements the adventure count by the passed in number. Defaults to 1.
+  /// We need this to update the advcount without making excess network calls
+  decrementAdventures({int decrementBy = 1}) {
+    setState(() {
+      _advs = _advs - decrementBy;
+    });
   }
 
   /// Makes a server request to update player data and updates UI when data comes back

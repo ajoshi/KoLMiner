@@ -22,6 +22,8 @@ class MiningPageState extends State<MiningPage> {
   int _goldCounter = 0;
   int _advsUsed = 0;
 
+  // a 'session' is from mining started to mining done. A user can have multiple
+  // mine sessions without exiting the app by tapping the mine button a lot
   int _goldCounterForSession = 0;
   int _advSpentCounterForSession = 0;
 
@@ -43,6 +45,7 @@ class MiningPageState extends State<MiningPage> {
       return;
     }
     FocusScope.of(context).requestFocus(new FocusNode());
+    // reset session counters since tapping button resets the session
     _goldCounterForSession = 0;
     _advSpentCounterForSession = 0;
     setState(() {
@@ -87,6 +90,7 @@ class MiningPageState extends State<MiningPage> {
       }
       if (mounted) {
         setState(() {
+          _userInfoWidget.key.currentState.decrementAdventures();
           _advsUsed++;
           _advSpentCounterForSession++;
         });
@@ -209,6 +213,8 @@ class MiningPageState extends State<MiningPage> {
         Padding(
           padding: const EdgeInsets.all(1.0),
         ),
+        // don't create a new widget each time because it needs to make a network call
+        _userInfoWidget,
         new MiningOutput(
           _goldCounter,
           _advsUsed,
@@ -218,8 +224,6 @@ class MiningPageState extends State<MiningPage> {
           enableButton,
           _onMineClicked,
         ),
-        // don't create a new widget each time because it needs to make a network call
-        _userInfoWidget,
         _lazyPersonWidget,
       ],
     );

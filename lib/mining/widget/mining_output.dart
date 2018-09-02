@@ -18,10 +18,6 @@ class MiningOutput extends StatelessWidget {
           style: Theme.of(context).textTheme.display1,
         ),
         new Text(
-          'Advs used: $advsUsed',
-          style: Theme.of(context).textTheme.display1,
-        ),
-        new Text(
           'Meat: ${goldCount * MiningSessionData.GOLD_AUTOSELL_VALUE}',
           style: Theme.of(context).textTheme.headline,
         ),
