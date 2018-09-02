@@ -63,6 +63,13 @@ class MiningSessionData {
     return americanNumberFormat.format(advCount);
   }
 
+  String getMeatAsString() {
+    if (goldcount == 0) {
+      return "";
+    }
+    return americanNumberFormat.format(goldcount * GOLD_AUTOSELL_VALUE);
+  }
+
   /// Calculates the MPA of this session
   String getMpaAsString() {
     if (advCount == 0) {

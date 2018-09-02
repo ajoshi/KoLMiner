@@ -18,7 +18,7 @@ class MiningOutput extends StatelessWidget {
           style: Theme.of(context).textTheme.display1,
         ),
         new Text(
-          'Meat: ${goldCount * MiningSessionData.GOLD_AUTOSELL_VALUE}',
+          'Meat: ${getMeatAsString()}',
           style: Theme.of(context).textTheme.headline,
         ),
         new Text(
@@ -33,5 +33,11 @@ class MiningOutput extends StatelessWidget {
   String getMpaAsString() {
     var sessionData = new MiningSessionData(goldCount, advsUsed, 0);
     return sessionData.getMpaAsString();
+  }
+
+  /// Calculates the MPA of this session
+  String getMeatAsString() {
+    var sessionData = new MiningSessionData(goldCount, advsUsed, 0);
+    return sessionData.getMeatAsString();
   }
 }

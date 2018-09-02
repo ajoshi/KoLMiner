@@ -90,7 +90,7 @@ class MiningPageState extends State<MiningPage> {
       }
       if (mounted) {
         setState(() {
-          _userInfoWidget.key.currentState.decrementAdventures();
+          _userInfoWidget.key.currentState.adventureUsed();
           _advsUsed++;
           _advSpentCounterForSession++;
         });

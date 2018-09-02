@@ -24,6 +24,7 @@ class UserInfoWidget extends StatefulWidget {
 
 class UserInfoState extends State<UserInfoWidget> {
   int _advs = -1;
+  int _advsUsed = 0;
   UserInfoRequest _userInfoRequest;
 
   initState() {
@@ -74,7 +75,10 @@ class UserInfoState extends State<UserInfoWidget> {
         new Text(
           "Advs: $_advs ",
           style: Theme.of(context).textTheme.display1,
-        )
+        ),
+        new Text("$_advsUsed used",
+          style: Theme.of(context).textTheme.caption,
+        ),
       ],
     );
   }
@@ -99,7 +103,6 @@ class UserInfoState extends State<UserInfoWidget> {
       ),
       padding: EdgeInsets.only(top: 2.0, bottom: 2.0, left: 25.0, right: 25.0),
     );
-//    return new Text("$title: $value/$max");
   }
 
   /// Updates the UI with the new mp
@@ -111,9 +114,10 @@ class UserInfoState extends State<UserInfoWidget> {
 
   /// Decrements the adventure count by the passed in number. Defaults to 1.
   /// We need this to update the advcount without making excess network calls
-  decrementAdventures({int decrementBy = 1}) {
+  adventureUsed({int count = 1}) {
     setState(() {
-      _advs = _advs - decrementBy;
+      _advs = _advs - count;
+      _advsUsed = _advsUsed + count;
     });
   }
 
