@@ -66,11 +66,12 @@ class KolNetwork {
       }
 
       // get the charpwd as well so we can make arbitrary requests
-      await _getCharPwdAndHash();
+      _isLoggedIn = await _getCharPwdAndHash();
+      _isLoggedIn ? " " : "";
 
-      _isLoggedIn = true;
-      // tell the consumer we logged in
-      return NetworkResponseCode.SUCCESS;
+      return _isLoggedIn
+          ? NetworkResponseCode.SUCCESS
+          : NetworkResponseCode.FAILURE;
     } on IOException catch (_) {
       // not sure what we can do here.
       return NetworkResponseCode.FAILURE;
