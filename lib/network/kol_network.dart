@@ -67,7 +67,6 @@ class KolNetwork {
 
       // get the charpwd as well so we can make arbitrary requests
       _isLoggedIn = await _getCharPwdAndHash();
-      _isLoggedIn ? " " : "";
 
       return _isLoggedIn
           ? NetworkResponseCode.SUCCESS
