@@ -19,10 +19,12 @@ class Miner {
     if (contents.responseCode == NetworkResponseCode.SUCCESS) {
       try {
         parseMineLayout(contents.response);
-        return MineDataResponse(contents.responseCode, MiningResponseCode.SUCCESS);
+        return MineDataResponse(
+            contents.responseCode, MiningResponseCode.SUCCESS);
       } catch (error) {
         print(error);
-        return MineDataResponse(contents.responseCode, MiningResponseCode.NO_ACCESS);
+        return MineDataResponse(
+            contents.responseCode, MiningResponseCode.NO_ACCESS);
       }
     }
     return MineDataResponse(contents.responseCode, MiningResponseCode.FAILURE);
@@ -44,7 +46,8 @@ class Miner {
       var response = await getMineLayout();
       if (response.miningResponseCode != MiningResponseCode.SUCCESS) {
         // can't access the mine at all
-        return MiningResponse(response.networkResponseCode, response.miningResponseCode, false);
+        return MiningResponse(
+            response.networkResponseCode, response.miningResponseCode, false);
       }
     }
     //  print(currentMine);
@@ -89,7 +92,9 @@ class Miner {
         print("mined $targetSquare");
       }
       bool didStrikeGold = mineResponse.response.contains("carat");
-      if (mineResponse.response.contains("You're out of adventures.")) {
+      if (mineResponse.response.contains("You're out of adventures.") ||
+          mineResponse.response
+              .contains("You're way too drunk to mine right now")) {
         // special check else we keep trying until our counter is over
         // not infinite loop, but we can quit sooner so we should
         return MiningResponse(
