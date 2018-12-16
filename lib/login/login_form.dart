@@ -126,14 +126,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onUsernameFieldUpdated(String newText) {
-    _usernameTextViewValue = newText;
-    var passwordForText = _getPasswordForUsername(newText);
-    if (passwordForText != null) {
-      // this username is stored, so update the password field
-      // do not autosubmit since A could be logged in while I try to log in to AA
-      passwordController.text = passwordForText;
-    }
-
+    _usernameTextViewValue = newText; 
   }
 
   /// Nullable
@@ -162,7 +155,22 @@ class _LoginFormState extends State<LoginForm> {
           .then((accounts) => _onAccountListLoaded(accounts));
     }
 
+    void _onUsernameSelected(String username) {
+      _usernameTextViewValue = username;
+      var passwordForText = _getPasswordForUsername(username);
+          if (passwordForText != null) {
+        passwordController.text = passwordForText;
+        // try to log in
+        _onLoginPressed();
+      }
+    }
+
+    new OutlineInputBorder(
+        gapPadding: 0.0,
+        borderRadius: new BorderRadius.circular(20.0));
+
     usernameAutoCompleteView = AutoCompleteTextField<String>(
+      itemSubmitted: _onUsernameSelected,
       textChanged: _onUsernameFieldUpdated,
       textSubmitted: _onSubmitImeAction,
       key: keyForAutocomplete,

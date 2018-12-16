@@ -13,13 +13,14 @@ dependencies:
   #to store accounts :(
   shared_preferences: ^0.4.2
   # to modify the app launcher icon
-  flutter_launcher_icons: "^0.5.2"
+  flutter_launcher_icons: "^0.6.1"
   # for login page username dropdown
   autocomplete_textfield: ^1.2.1
   # to launch kol website
   url_launcher: ^3.0.3
   # to format numbers with commas (or periods)
   intl: ^0.15.7
+  html: any
 
 dev_dependencies:
   flutter_test:
