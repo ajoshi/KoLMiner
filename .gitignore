@@ -36,3 +36,6 @@ build/
 .idea/**/gradle.xml
 .idea/**/libraries
 
+.flutter-plugins-dependencies
+android/key.properties
+ios/Flutter/flutter_export_environment.sh

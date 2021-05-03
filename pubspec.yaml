@@ -1,30 +1,29 @@
 name: kol_miner
 description: Flutter app to mine gold in kol
+version: 0.9.0
+environment:
+  sdk: '>=2.10.0 <3.0.0'
 
 dependencies:
-  flutter:
-    sdk: flutter
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   # for network calls
   http: ^0.11.3+16
   #to store accounts :(
-  shared_preferences: ^0.4.2
+  shared_preferences: ^0.5.6
   # to modify the app launcher icon
   flutter_launcher_icons: "^0.6.1"
   # for login page username dropdown
   autocomplete_textfield: ^1.2.1
   # to launch kol website
-  url_launcher: ^3.0.3
+  url_launcher: ^5.4.1
   # to format numbers with commas (or periods)
   intl: ^0.15.7
   html: any
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: '>=1.15.0 <2.0.0'
 # https://pub.dartlang.org/packages/flutter_launcher_icons
 # must call `flutter pub pub run flutter_launcher_icons:main` for this to run
 flutter_icons:
