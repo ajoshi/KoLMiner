@@ -4,18 +4,22 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:kol_miner/network/kol_network.dart';
 
+import '../constants.dart';
+
+/// Wraps the [KolNetwork] class to make and parse mining related calls
+/// Also contains the overall algorithm for mining.
+/// The fix for https://github.com/ajoshi/KoLMiner/issues/3 should be here
 class Miner {
-  static const bool DEBUG = true;
-  final KolNetwork network;
+  final KolNetwork _network;
   Mine currentMine;
 
-  Miner(this.network);
+  Miner(this._network);
 
   /// Get the layout of the mine. We can't do anything without knowing what
   /// the mine looks like
   Future<MineDataResponse> getMineLayout() async {
     var contents =
-        await network.makeRequestWithQueryParams("mining.php", "mine=6");
+        await _network.makeRequestWithQueryParams("mining.php", "mine=6");
     if (contents.responseCode == NetworkResponseCode.SUCCESS) {
       try {
         parseMineLayout(contents.response);
@@ -33,7 +37,7 @@ class Miner {
   /// Autosell some of that mined gold. Sells one piece by default
   Future<bool> autoSellGold({int count = 1}) async {
     print("Selling $count gold");
-    var response = await network.makeRequestWithQueryParams("sellstuff.php",
+    var response = await _network.makeRequestWithQueryParams("sellstuff.php",
         "action=sell&ajax=1&type=quant&howmany=1&whichitem%5B%5D=8424",
         method: HttpMethod.POST);
     return (response.responseCode == NetworkResponseCode.SUCCESS);
@@ -86,7 +90,7 @@ class Miner {
     // if the url changes (maybe?) to not have params in it, the app name won't be parsed
     // since params are optional, everything should work fine on our end though
     var mineResponse =
-        await network.makeRequest("${targetSquare.url}&${network.appName}");
+        await _network.makeRequest("${targetSquare.url}&${_network.appName}");
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
       if (DEBUG) {
         print("mined $targetSquare");
@@ -111,7 +115,7 @@ class Miner {
   /// Gets the next mine if it can.
   /// Returns true on success.
   Future<bool> getNextMine() async {
-    var miningResponse = await network.makeRequestWithQueryParams(
+    var miningResponse = await _network.makeRequestWithQueryParams(
         "mining.php", "mine=6&reset=1");
     if (miningResponse.responseCode == NetworkResponseCode.SUCCESS) {
       parseMineLayout(miningResponse.response);
@@ -126,7 +130,7 @@ class Miner {
   /// Parses the mine layout so we know where we should mine next
   Document parseMineLayout(String contents) {
     var layout = parse(contents);
-    var listOfMineSquares = new List<MineableSquare>();
+    var listOfMineSquares = <MineableSquare>[];
     var linkElements = layout.getElementsByTagName("a");
     for (var element in linkElements) {
       var link = element.attributes["href"];
@@ -137,9 +141,9 @@ class Miner {
         continue;
       }
       var child = element.children[0];
-      // use the alttext for images to figure out the location+shininess
       var isShiny = child.attributes["alt"].contains("Promising");
-//        var isShiny = child.attributes["src"].contains("https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mine/wallsparkle");
+      // alt: use the alttext for images to figure out the location+shininess
+      // var isShiny = child.attributes["src"].contains("https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mine/wallsparkle");
       var altText = child.attributes["alt"];
       int y =
           int.parse(altText.substring(altText.length - 2, altText.length - 1));
@@ -163,7 +167,7 @@ class Miner {
 
 /// An instance of a mine. Contains a list of minable squares
 class Mine {
-  List<MineableSquare> squares = new List();
+  List<MineableSquare> squares = [];
   bool canGetNewMine = false;
 
   /// constructor takes in a list of initial mineable squares
