@@ -53,7 +53,7 @@ class MiningSessionData {
   MiningSessionData(this.goldcount, this.advCount, this.timeTaken);
 
   String toString() {
-    return "$goldcount gold in $advCount advs. Took ${timeTaken~/1000} secs. MPA = ${getMpaAsString()}";
+    return "$goldcount gold in $advCount advs. Took ${(timeTaken/advCount)~/1000} s/Adv. MPA = ${getMpaAsString()}";
   }
 
   String getAdvCountAsString() {
