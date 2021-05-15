@@ -5,6 +5,7 @@ import 'package:html/parser.dart';
 import 'package:kol_miner/network/kol_network.dart';
 
 import '../constants.dart';
+import 'mine.dart';
 
 /// Wraps the [KolNetwork] class to make and parse mining related calls
 /// Also contains the overall algorithm for mining.
@@ -55,7 +56,7 @@ class Miner {
       }
     }
     //  print(currentMine);
-    MineableSquare targetSquare = currentMine._getNextMineableSquare();
+    MineableSquare targetSquare = currentMine.getNextMineableSquare();
     if (targetSquare == null) {
       // if we have no valid links anymore, get a new mine
       if (currentMine.canGetNewMine) {
@@ -78,7 +79,7 @@ class Miner {
           print("mining randomly so we can gtfo");
         }
         // mine somewhere at random so the 'find new cavern' button shows up
-        targetSquare = currentMine._getThrowawayMineSquare();
+        targetSquare = currentMine.getThrowawayMineSquare();
       }
     }
     return mineSquare(targetSquare);
@@ -160,104 +161,6 @@ class Miner {
     }
     currentMine = newMine;
     return layout;
-  }
-}
-
-/// An instance of a mine. Contains a list of minable squares
-class Mine {
-  final List<MineableSquare> squares;
-  final bool canGetNewMine;
-  final int minedSquares;
-
-  /// constructor takes in a list of initial mineable/clickable squares
-  Mine(this.squares, this.canGetNewMine, this.minedSquares);
-
-  void addSquare(MineableSquare square) {
-    squares.add(square);
-  }
-
-  /// algorithm:
-  /// check exposed shinies. If found, click
-  /// if no shinies, click anywhere once. If shiny found, click. Else newmine
-  MineableSquare _getNextMineableSquare() {
-    // mine visible shiny squares asap (unless they're in 3rd row)
-    MineableSquare squareToMine;
-    squareToMine = squares.firstWhere((square) => _isSquareWorthMining(square, minedSquares),
-        orElse: () => squareToMine = null);
-    if (squareToMine == null) {
-      print("need a new mine");
-//      print(this.toString());
-      // need a new mine
-      return null;
-    }
-    return squareToMine;
-  }
-
-  /// Returns a list of all shiny squares
-  /// can be used to send multiple mine requests if multiple shinies are exposed
-  /// Might not be worth using ever
-  Iterable<MineableSquare> _getAllMineableSquares(int minedSquares) {
-    // mine visible shiny squares asap (unless they're in 3rd row)
-    Iterable<MineableSquare> squaresToMine;
-    squaresToMine = squares.where((square) => _isSquareWorthMining(square, minedSquares));
-    if (squaresToMine == null) {
-      print("need a new mine");
-      // need a new mine
-      return null;
-    }
-    return squaresToMine;
-  }
-
-  /// true if this square has an 'acceptable' probability of being worthwhile
-  bool _isSquareWorthMining(MineableSquare square, int minedSquares) {
-    // since this is called via the stream api, the order of evaluation might be wrong. It might be better
-    // to check for all high pri squares and then see if low ones are needed
-    return square.isHighPriority() || (USE_NEW_ALGORITHM && minedSquares >= 6 && square.isLowPriority());
-  }
-
-  // If we see no shinies, we need a new mine. But a new mine can't be
-  // requested until we've mined at least once.
-  /// This method gives us a square we can mine that has a high-ish prob of
-  /// exposing a shiny. Else we can just ask for a new mine.
-  MineableSquare _getThrowawayMineSquare() {
-    return squares.firstWhere((test) => test.x != 01 && test.x != 6);
-  }
-
-  String toString() {
-    String value = "";
-    for (MineableSquare sq in squares) {
-      value = value + sq.toString() + "\n";
-    }
-    return value;
-  }
-}
-
-/// A square in the mining grid
-class MineableSquare {
-  final String url;
-  final bool isShiny;
-  final bool _isFirstTwoRows;
-  final int x;
-  final int y;
-
-  MineableSquare(this.url, this.isShiny, this.x, this.y):
-        _isFirstTwoRows = y == 5 || y == 6 ;
-
-  bool isHighPriority() {
-    return _isFirstTwoRows && isShiny;
-  }
-
-  /// If we have mined a lot, it becomes more worthwhile to mine the third row
-  bool isLowPriority() {
-    return isShiny && y == 4;
-  }
-
-  bool isCornerSquare() {
-    return x == 0 || x == 7;
-  }
-
-  String toString() {
-    return "at ($x,$y). shiny? $isShiny isFront? $_isFirstTwoRows";
   }
 }
 
