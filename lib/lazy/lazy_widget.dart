@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/constants.dart';
+import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
 
@@ -47,6 +48,8 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
             getButtonForAction('Eat', _onEatClicked),
             // Eat sleazy hi mein
             getButtonForAction('Drink', _onDrinkClicked), // Eat sleazy hi mein
+            // Clears saved MPA, etc to make impact of algo changes easier to calculate
+            getButtonForAction('Clear historical data', _onClearDataClicked), // Clear saved mining data
           ],
         ),
       );
@@ -96,6 +99,11 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
 
   _onDrinkClicked() {
     lazyRequest.requestPerfectDrink().then((code) => requestPlayerDataUpdate());
+  }
+
+
+  _onClearDataClicked() {
+    clearMiningData();
   }
 
   _onEatClicked() {

@@ -21,7 +21,7 @@ void saveNewMiningData(MiningSessionData data) async {
 }
 
 /// Wipes all mining data. Be vewy vewy caweful
-_clearMiningData() async {
+clearMiningData() async {
   final prefs = await SharedPreferences.getInstance();
   prefs.setInt(PREF_AVG_GOLD_COUNT, 0);
   prefs.setInt(PREF_AVG_ADVS_SPENT, 0);
@@ -53,7 +53,12 @@ class MiningSessionData {
   MiningSessionData(this.goldcount, this.advCount, this.timeTaken);
 
   String toString() {
-    return "$goldcount gold in $advCount advs. Took ${(timeTaken/advCount)~/1000} s/Adv. MPA = ${getMpaAsString()}";
+    return "$goldcount gold in $advCount advs. Took ${_getTimeTakeAsString()}s/Adv. MPA = ${getMpaAsString()}";
+  }
+
+  String _getTimeTakeAsString() {
+    var time = (timeTaken/advCount)/1000;
+    return "${time.toStringAsFixed(2)}";
   }
 
   String getAdvCountAsString() {
