@@ -84,7 +84,6 @@ class MiningPageState extends State<MiningPage> {
   void onMineResponse(MiningResponse response) {
     if (response.isSuccess()) {
       if (response.foundGold) {
-        miner.autoSellGold();
         _goldCounter++;
         _goldCounterForSession++;
       }

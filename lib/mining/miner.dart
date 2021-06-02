@@ -106,6 +106,11 @@ class Miner {
             NetworkResponseCode.SUCCESS, MiningResponseCode.FAILURE, false);
       }
       parseMineLayout(mineResponse.response, currentMine.minedSquares + 1);
+      if (didStrikeGold) {
+        // once a gold is found, we want to move on to the next mine
+        autoSellGold();
+        currentMine.squares.clear();
+      }
       return new MiningResponse.success(didStrikeGold);
     } else {
       return new MiningResponse(

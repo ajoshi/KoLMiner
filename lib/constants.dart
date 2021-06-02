@@ -4,6 +4,6 @@ const bool DEBUG = true;
 
 /// The current mining algorithm (2 rows only) is suboptimal
 /// this flag enables the algo which sometimes looks at row 3
-const bool USE_NEW_ALGORITHM = false;
+const bool USE_NEW_ALGORITHM = true;
 
 // 10462 advs, 21283 seconds, 3154.03 mpa

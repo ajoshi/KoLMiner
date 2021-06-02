@@ -26,7 +26,6 @@ class Mine {
         orElse: () => squareToMine = null);
     if (squareToMine == null) {
       print("need a new mine");
-//      print(this.toString());
       // need a new mine
       return null;
     }
@@ -90,10 +89,10 @@ class MineableSquare {
 
   int priority() {
     // we can't mine too deep
-    if (y < 4) return 0;
+    if (!_isFirstTwoRows) return 0;
     // only shiny squares get a nonzero priority- nonshiny are trash
-    // We also want to mine row 6 before 5, so pri is essentially the y
-    return y * (isShiny ? 1: 0);
+    // We also want to mine row 5 before 6, so pri is essentially the y and then x
+    return (6-y)*10 + (6-x);
   }
 
   bool isHighPriority() {
