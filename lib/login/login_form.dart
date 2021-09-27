@@ -131,6 +131,10 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onUsernameFieldUpdated(String newText) {
     _usernameTextViewValue = newText; 
+    if(newText == null || newText.isEmpty) {
+      // clear password field because username is empty
+      passwordController.text = "";
+    }
   }
 
   /// Nullable
