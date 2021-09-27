@@ -77,6 +77,10 @@ class KolNetwork {
     }
   }
 
+  String getPlayerId() {
+    return _playerId;
+  }
+
   /// Logging in doesn't get us all the player data, but hitting the charpane does
   /// So we check the charpane for the pwdhash and charpwd
   Future<bool> _getCharPwdAndHash() async {
@@ -172,14 +176,14 @@ class KolNetwork {
   /// Performs GET requests by default, but can also perform PUTs
   Future<NetworkResponse> makeRequestWithQueryParams(
       String baseUrl, String params,
-      {HttpMethod method}) async {
+      {HttpMethod method, bool allowEmptyResponse = false}) async {
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
-        method: method);
+        method: method, allowEmptyResponse: allowEmptyResponse);
   }
 
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url,
-      {HttpMethod method = HttpMethod.GET}) async {
+      {HttpMethod method = HttpMethod.GET, bool allowEmptyResponse = false}) async {
     //  print("call to $url");
     try {
       var httpClient = new HttpClient();
@@ -219,6 +223,9 @@ class KolNetwork {
             await resp.transform(utf8.decoder).single);
       } catch (_) {
         // couldn't parse the response. Send back empty string?
+        if (allowEmptyResponse) {
+          return NetworkResponse(NetworkResponseCode.SUCCESS, "");
+        }
         print("exception happened while parsing. Looping. ");
         return makeRequest(url, method: method);
       }

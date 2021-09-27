@@ -4,6 +4,7 @@ import 'package:kol_miner/constants.dart';
 import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
+import 'package:kol_miner/outfit/outfit_manager.dart';
 
 /// This widget is for use by lazy people who are a burden to humanity
 class LazyUselessPersonWidget extends StatefulWidget {
@@ -26,10 +27,12 @@ class LazyUselessPersonWidget extends StatefulWidget {
 class LazyPersonState extends State<LazyUselessPersonWidget> {
   int _milkTurns = -1;
   LazyRequest lazyRequest;
+  OutfitManager _outfitManager;
 
   initState() {
     super.initState();
     lazyRequest = LazyRequest(widget.network);
+    _outfitManager = OutfitManager(widget.network);
     requestPlayerDataUpdate();
   }
 
@@ -49,7 +52,10 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
             // Eat sleazy hi mein
             getButtonForAction('Drink', _onDrinkClicked), // Eat sleazy hi mein
             // Clears saved MPA, etc to make impact of algo changes easier to calculate
-            getButtonForAction('Clear historical data', _onClearDataClicked), // Clear saved mining data
+            getButtonForAction('Equip roll', _onEquipOutfitRoll), // Put on RO outfit
+            getButtonForAction('Equip velv', _onEquipOutfitVelv), // Put on Velvet outfit
+            getButtonForAction('Equip volc', _equipVolc), // Put on mining outfit
+            getButtonForAction('Collect coin', _onCollectCoinClicked), // Put on mining outfit
           ],
         ),
       );
@@ -101,9 +107,20 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
     lazyRequest.requestPerfectDrink().then((code) => requestPlayerDataUpdate());
   }
 
+  _equipVolc() {
+    _outfitManager.equipOutfitUsingName("volc");
+  }
 
-  _onClearDataClicked() {
-    clearMiningData();
+  _onEquipOutfitRoll() {
+    _outfitManager.equipOutfitUsingName("roll");
+  }
+
+  _onEquipOutfitVelv() {
+    _outfitManager.equipOutfitUsingName("velv");
+  }
+
+  _onCollectCoinClicked() {
+    _outfitManager.equipOutfitUsingName("velv").then((_) => lazyRequest.visitDisco());
   }
 
   _onEatClicked() {

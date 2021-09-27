@@ -59,7 +59,7 @@ class UserInfoState extends State<UserInfoWidget> {
 //            _userInfoRequest.maxMp),
         new Text(
           "Advs: $_advs ",
-          style: Theme.of(context).textTheme.display1,
+          style: Theme.of(context).textTheme.bodyText1,
         ),
         new Text("$_advsUsed used",
           style: Theme.of(context).textTheme.caption,

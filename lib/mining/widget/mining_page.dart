@@ -117,7 +117,7 @@ class MiningPageState extends State<MiningPage> {
     return new AlertDialog(
       content: new Text(
         message,
-        style: Theme.of(context).textTheme.subhead,
+        style: Theme.of(context).textTheme.subtitle1,
       ),
     );
   }

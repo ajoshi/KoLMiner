@@ -112,9 +112,10 @@ class _LoginFormState extends State<LoginForm> {
     for (var account in newAccounts) {
       suggestions.add(account.username);
     }
+
     setState(() {
       usernameSuggestions = suggestions;
-      usernameAutoCompleteView.suggestions = usernameSuggestions;
+      _updateUsernameSuggestions();
       isLoggingIn = false;
       if (accounts.length > 0) {
         // maybe we can autologin if there is just one account? But then how will
@@ -123,6 +124,12 @@ class _LoginFormState extends State<LoginForm> {
       //  passwordController.text = accounts[0].password;
       }
     });
+  }
+
+  void _updateUsernameSuggestions() {
+    if (usernameSuggestions?.isNotEmpty == true && usernameAutoCompleteView != null) {
+      usernameAutoCompleteView.updateSuggestions(usernameSuggestions);
+    }
   }
 
   void _onUsernameFieldUpdated(String newText) {
@@ -188,7 +195,9 @@ class _LoginFormState extends State<LoginForm> {
           return item.toLowerCase().startsWith(query.toLowerCase());
         },
       suggestions: usernameSuggestions,
+      minLength: 0,
     );
+
 
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,

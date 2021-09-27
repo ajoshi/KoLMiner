@@ -15,15 +15,15 @@ class MiningOutput extends StatelessWidget {
       children: <Widget>[
         new Text(
           'Gold mined: $goldCount',
-          style: Theme.of(context).textTheme.display1,
+          style: Theme.of(context).textTheme.headline4,
         ),
         new Text(
           'Meat: ${getMeatAsString()}',
-          style: Theme.of(context).textTheme.headline,
+          style: Theme.of(context).textTheme.subtitle1,
         ),
         new Text(
           'MPA: ${getMpaAsString()}',
-          style: Theme.of(context).textTheme.body2,
+          style: Theme.of(context).textTheme.subtitle1,
         ),
       ],
     );

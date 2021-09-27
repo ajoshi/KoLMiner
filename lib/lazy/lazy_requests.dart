@@ -7,7 +7,6 @@ class LazyRequest {
   static const ODE_EFFECT_HASH = "626c8ef76cfc003c6ac2e65e9af5fd7a";
 
   final KolNetwork network;
-  String chatPwd;
   String currentMp;
   int currentMilkTurns;
   int odeTurns;
@@ -70,6 +69,15 @@ class LazyRequest {
     print("eating");
     await network.makeRequestWithQueryParams(
         "inv_eat.php", "which=1&whichitem=1596");
+  }
+
+  /// Visit the disco for free coin
+  visitDisco() async {
+    print("I'm a disco dancer");
+    await network.makeRequestWithQueryParams(
+        "place.php", "whichplace=airport_hot&action=airport4_zone1");
+    await network.makeRequestWithQueryParams(
+        "place.php", "whichchoice=1090&option=7");
   }
 
   /// Use a milk of mag
