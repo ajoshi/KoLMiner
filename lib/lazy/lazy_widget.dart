@@ -130,10 +130,9 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   _onEatClicked() {
-    // TODO since milk of mag is 1/day now, might as well send a use request for that before every eat
-    lazyRequest
-        .requestEatSleazyHimein()
-        .then((code) => requestPlayerDataUpdate());
+    lazyRequest.requestMilkUse().then((_) =>
+        lazyRequest.requestEatSleazyHimein().then((code) =>
+            requestPlayerDataUpdate()));
   }
 
   _onResolveClicked() {
