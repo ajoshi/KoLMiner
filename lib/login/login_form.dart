@@ -108,21 +108,18 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onAccountListLoaded(List<KolAccount> newAccounts) {
     accounts = newAccounts;
-    var suggestions = List<String>();
-    for (var account in newAccounts) {
-      suggestions.add(account.username);
-    }
+    var suggestions = newAccounts.map((acct) => acct.username).toList(growable: false);
 
     setState(() {
       usernameSuggestions = suggestions;
       _updateUsernameSuggestions();
       isLoggingIn = false;
-      if (accounts.length > 0) {
+      // if (accounts.length > 0) {
         // maybe we can autologin if there is just one account? But then how will
         // people add second accounts?
-    //    userNameController.text = accounts[0].username;
+      //  userNameController.text = accounts[0].username;
       //  passwordController.text = accounts[0].password;
-      }
+      // }
     });
   }
 
@@ -180,6 +177,7 @@ class _LoginFormState extends State<LoginForm> {
       itemSubmitted: _onUsernameSelected,
       textChanged: _onUsernameFieldUpdated,
       textSubmitted: _onSubmitImeAction,
+      clearOnSubmit: false,
       key: keyForAutocomplete,
       decoration: new InputDecoration(
           hintText: "Username",
