@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import '../utils.dart';
+
 class KolNetwork {
   static const String BASE_URL = "https://www.kingdomofloathing.com/";
 
@@ -184,7 +186,7 @@ class KolNetwork {
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url,
       {HttpMethod method = HttpMethod.GET, bool allowEmptyResponse = false}) async {
-    //  print("call to $url");
+    //  aj_print("call to $url");
     try {
       var httpClient = new HttpClient();
       var headerCookie =
@@ -226,7 +228,7 @@ class KolNetwork {
         if (allowEmptyResponse) {
           return NetworkResponse(NetworkResponseCode.SUCCESS, "");
         }
-        print("exception happened while parsing. Looping. ");
+        aj_print("exception happened while parsing. Looping. ");
         return makeRequest(url, method: method);
       }
     } on IOException catch (_) {

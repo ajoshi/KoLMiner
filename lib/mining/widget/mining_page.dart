@@ -7,6 +7,8 @@ import 'package:kol_miner/mining/widget/mining_input.dart';
 import 'package:kol_miner/mining/widget/mining_output.dart';
 import 'package:kol_miner/player_info/user_info_widget.dart';
 
+import '../../utils.dart';
+
 /// This is the screen where the mining happens
 class MiningPage extends StatefulWidget {
   MiningPage({Key key, this.title, this.network}) : super(key: key);
@@ -38,7 +40,7 @@ class MiningPageState extends State<MiningPage> {
   UserInfoWidget _userInfoWidget;
 
   void _onMineClicked() {
-    getMiningData().then((value) => print(value.toString()));
+    getMiningData().then((value) => aj_print(value.toString()));
     var advsToMine = int.tryParse(myController.text);
     if (advsToMine == null) {
       // we couldn't figure out how many advs to mine for, so just stop

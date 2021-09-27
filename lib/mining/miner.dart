@@ -4,7 +4,7 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:kol_miner/network/kol_network.dart';
 
-import '../constants.dart';
+import '../utils.dart';
 import 'mine.dart';
 
 /// Wraps the [KolNetwork] class to make and parse mining related calls
@@ -27,7 +27,7 @@ class Miner {
         return MineDataResponse(
             contents.responseCode, MiningResponseCode.SUCCESS);
       } catch (error) {
-        print(error);
+        aj_print(error);
         return MineDataResponse(
             contents.responseCode, MiningResponseCode.NO_ACCESS);
       }
@@ -37,7 +37,7 @@ class Miner {
 
   /// Autosell some of that mined gold. Sells one piece by default
   Future<bool> autoSellGold({int count = 1}) async {
-    print("Selling $count gold");
+    aj_print("Selling $count gold");
     var response = await _network.makeRequestWithQueryParams("sellstuff.php",
         "action=sell&ajax=1&type=quant&howmany=$count&whichitem%5B%5D=8424",
         method: HttpMethod.POST);
@@ -55,18 +55,14 @@ class Miner {
             response.networkResponseCode, response.miningResponseCode, false);
       }
     }
-    //  print(currentMine);
+    //  aj_print(currentMine);
     MineableSquare targetSquare = currentMine.getNextMineableSquare();
     if (targetSquare == null) {
       // if we have no valid links anymore, get a new mine
       if (currentMine.canGetNewMine) {
-        if (DEBUG) {
-          print("we need a new mine and we can get one");
-        }
+          aj_print("we need a new mine and we can get one");
         if (await getNextMine()) {
-          if (DEBUG) {
-            print("got a new mine!");
-          }
+            aj_print("got a new mine!");
           // if we did get a new mine, then mine in that one
           return mineNextSquare();
         } else {
@@ -75,9 +71,7 @@ class Miner {
               NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
         }
       } else {
-        if (DEBUG) {
-          print("mining randomly so we can gtfo");
-        }
+          aj_print("mining randomly so we can gtfo");
         // mine somewhere at random so the 'find new cavern' button shows up
         targetSquare = currentMine.getThrowawayMineSquare();
       }
@@ -87,15 +81,13 @@ class Miner {
 
   /// Mines the given square and returns a failure if it can't
   Future<MiningResponse> mineSquare(MineableSquare targetSquare) async {
-    //    print("we gonn mine $targetSquare");
+    //    aj_print("we gonn mine $targetSquare");
     // if the url changes (maybe?) to not have params in it, the app name won't be parsed
     // since params are optional, everything should work fine on our end though
     var mineResponse =
         await _network.makeRequest("${targetSquare.url}&${_network.appName}");
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
-      if (DEBUG) {
-        print("mined $targetSquare");
-      }
+        aj_print("mined $targetSquare");
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.") ||
           mineResponse.response
@@ -161,8 +153,8 @@ class Miner {
     }
     Mine newMine = new Mine(listOfMineSquares, contents.contains("Find New Cavern"), squaresAlreadyMined);
     layout.getElementsByClassName("button");
-    if (DEBUG && newMine.squares.length == 0) {
-      print("network response: [$contents]");
+    if (newMine.squares.length == 0) {
+      aj_print("network response: [$contents]");
     }
     currentMine = newMine;
     return layout;

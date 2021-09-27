@@ -1,5 +1,6 @@
 
 import '../constants.dart';
+import '../utils.dart';
 
 /// An instance of a mine. Contains a list of minable squares
 class Mine {
@@ -25,7 +26,7 @@ class Mine {
     squareToMine = squares.firstWhere((square) => _isSquareWorthMining(square, minedSquares),
         orElse: () => squareToMine = null);
     if (squareToMine == null) {
-      print("need a new mine");
+      aj_print("need a new mine");
       // need a new mine
       return null;
     }
@@ -41,7 +42,7 @@ class Mine {
     squares.sort((a, b) => a.priority().compareTo(b.priority()));
     squaresToMine = squares.where((square) => _isSquareWorthMining(square, minedSquares));
     if (squaresToMine == null) {
-      print("need a new mine");
+      aj_print("need a new mine");
       // need a new mine
       return null;
     }

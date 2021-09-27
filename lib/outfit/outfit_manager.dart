@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:kol_miner/network/kol_network.dart';
 
-import '../constants.dart';
+import '../utils.dart';
 
 /// Wraps the [KolNetwork] class to make and parse outfit related calls
 class OutfitManager {
@@ -39,7 +39,7 @@ class OutfitManager {
   }
 
   int _getOutfitIdFromChatResponse(String response) {
-    print(response);
+    aj_print(response);
     String leftBound = "whichoutfit=";
     int startIndex = response.indexOf(leftBound);
     if (startIndex == -1) {

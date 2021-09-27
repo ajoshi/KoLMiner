@@ -29,9 +29,9 @@ void main() {
         target[1] = matcher_sparkle.group(2).to_int();
         hadSparkles = true;
         int testNum = random(9001);
-        print("//*");
-        print("test('genTest" + testNum + "', () {");
-        print("var mine = Mine([");
+        aj_print("//*");
+        aj_print("test('genTest" + testNum + "', () {");
+        aj_print("var mine = Mine([");
         }
 
         while (matcher_sparkle.find()) {
@@ -39,15 +39,15 @@ void main() {
         int y = matcher_sparkle.group(2).to_int();
         string coords = "("+x +", "+ y + ")";
         string  uuid = "x"+x+"y"+y;
-        print("MineableSquare(\""+coords +"\", true, " + x + ", " + y +"),");
+        aj_print("MineableSquare(\""+coords +"\", true, " + x + ", " + y +"),");
         }
         if(hadSparkles == true) {
         string coords = "("+target[0] +", "+ target[1] + ")";
-        print("], true, 0);");
-        print("var square = mine.getNextMineableSquare();");
-        print("expect(square.url, equals(\"" + coords + "\"));");
-        print("});");
-        print("*/");
+        aj_print("], true, 0);");
+        aj_print("var square = mine.getNextMineableSquare();");
+        aj_print("expect(square.url, equals(\"" + coords + "\"));");
+        aj_print("});");
+        aj_print("*/");
         }
         }
 

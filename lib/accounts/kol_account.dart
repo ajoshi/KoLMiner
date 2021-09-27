@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils.dart';
+
 class KolAccount {
   final String username;
   final String password;
@@ -35,7 +37,7 @@ class KolAccountManager {
     List<String> usernames = prefs.getStringList(KEY_USERNAMES);
     List<String> passwords = prefs.getStringList(KEY_PASSWORDS);
     if(usernames == null || passwords == null) {
-      print("no accounts on disk");
+      aj_print("no accounts on disk");
       return accounts;
     }
 
@@ -43,10 +45,10 @@ class KolAccountManager {
     // join the 2 username+password arrays to make a KolAccount array
     for(int c = 0; c < userCount; c++) {
       KolAccount account = KolAccount(usernames[c], passwords[c]);
-//      print(account);
+//      aj_print(account);
       accounts.add(account);
     }
-  //  print("getAllAccs: $userCount");
+  //  aj_print("getAllAccs: $userCount");
     return accounts;
   }
 
@@ -54,7 +56,7 @@ class KolAccountManager {
   saveAccount(KolAccount account) async {
      await _getSharedPref();
      List<KolAccount> accounts = await getAllAccounts();
-     //   print("saving " + account.username + " " + account.password);
+     //   aj_print("saving " + account.username + " " + account.password);
      if (accounts.contains(account)) {
        accounts.remove(account);
      }

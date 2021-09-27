@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:kol_miner/network/kol_network.dart';
 
+import '../utils.dart';
+
 class LazyRequest {
   static const MILK_EFFECT_HASH = "225aa10e75476b0ad5fa576c89df3901";
   static const ODE_EFFECT_HASH = "626c8ef76cfc003c6ac2e65e9af5fd7a";
@@ -19,11 +21,11 @@ class LazyRequest {
     if (effects.containsKey(effectId)) {
       var desiredEffect = effects[effectId];
       if (desiredEffect[1].runtimeType == "".runtimeType) {
-        print("milk was a string");
+        aj_print("milk was a string");
         return int.parse(desiredEffect[1]);
       }
       // this is insane- the type changes. WHY????
-      print("milk was an int");
+      aj_print("milk was an int");
       return desiredEffect[1];
     }
     return 0;
@@ -66,14 +68,14 @@ class LazyRequest {
 
   /// Eat sleazy hi mein
   requestEatSleazyHimein() async {
-    print("eating");
+    aj_print("eating");
     await network.makeRequestWithQueryParams(
         "inv_eat.php", "which=1&whichitem=1596");
   }
 
   /// Visit the disco for free coin
   visitDisco() async {
-    print("I'm a disco dancer");
+    aj_print("I'm a disco dancer");
     await network.makeRequestWithQueryParams(
         "place.php", "whichplace=airport_hot&action=airport4_zone1");
     await network.makeRequestWithQueryParams(

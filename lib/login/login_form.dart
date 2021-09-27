@@ -5,6 +5,8 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:kol_miner/accounts/kol_account.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../utils.dart';
+
 /// Widget that lets a user log in to KoL
 class LoginForm extends StatefulWidget {
   LoginForm(this.network, this.onLogin, {Key key, this.enabled = true})
@@ -130,7 +132,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onUsernameFieldUpdated(String newText) {
-    _usernameTextViewValue = newText; 
+    _usernameTextViewValue = newText;
     if(newText == null || newText.isEmpty) {
       // clear password field because username is empty
       passwordController.text = "";
@@ -152,7 +154,7 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onSubmitImeAction(String newText) {
     // ignore?
-    print("Text submitted: " + newText);
+    aj_print("Text submitted: " + newText);
   }
 
   @override

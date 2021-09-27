@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
+import '../utils.dart';
+
 const String PREF_AVG_GOLD_COUNT = "avg_gold_count";
 const String PREF_AVG_ADVS_SPENT = "avg_advs_spent";
 const String PREF_TOTAL_TIME_SPENT = "total_time_spent";
 
 void saveNewMiningData(MiningSessionData data) async {
-  print("time per mine = ${data.timeTaken/data.advCount}");
+  aj_print("time per mine = ${data.timeTaken/data.advCount}");
 
   final prefs = await SharedPreferences.getInstance();
   final oldGold = prefs.getInt(PREF_AVG_GOLD_COUNT) ?? 0;
