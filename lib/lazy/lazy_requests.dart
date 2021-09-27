@@ -77,7 +77,7 @@ class LazyRequest {
     await network.makeRequestWithQueryParams(
         "place.php", "whichplace=airport_hot&action=airport4_zone1");
     await network.makeRequestWithQueryParams(
-        "place.php", "whichchoice=1090&option=7");
+        "choice.php", "whichchoice=1090&option=7");
   }
 
   /// Use a milk of mag

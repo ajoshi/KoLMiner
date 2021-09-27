@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/constants.dart';
@@ -44,18 +46,10 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
         child: Column(
           children: <Widget>[
             buildInfoBox(),
-            getButtonForAction('Resolve to spend MP', _onResolveClicked),
-            // cast resol
-            getButtonForAction('Healz', _onHealClicked),
-            // Heals from nunnery
-            getButtonForAction('Eat', _onEatClicked),
-            // Eat sleazy hi mein
-            getButtonForAction('Drink', _onDrinkClicked), // Eat sleazy hi mein
-            // Clears saved MPA, etc to make impact of algo changes easier to calculate
-            getButtonForAction('Equip roll', _onEquipOutfitRoll), // Put on RO outfit
-            getButtonForAction('Equip velv', _onEquipOutfitVelv), // Put on Velvet outfit
-            getButtonForAction('Equip volc', _equipVolc), // Put on mining outfit
-            getButtonForAction('Collect coin', _onCollectCoinClicked), // Put on mining outfit
+            getRowOfActions(LazyWidgetRow('HP/MP', [LazyWidgetButtonModel('Resolve',_onResolveClicked), LazyWidgetButtonModel('Heals', _onHealClicked)])),
+            getRowOfActions(new LazyWidgetRow('Consume', [LazyWidgetButtonModel('Eat',_onEatClicked), LazyWidgetButtonModel('Drink', _onDrinkClicked)])),
+            getRowOfActions(new LazyWidgetRow('Equip',  [LazyWidgetButtonModel('RO',_onEquipOutfitRoll), LazyWidgetButtonModel('Mining', _equipVolc), LazyWidgetButtonModel('Velvet', _onEquipOutfitVelv)])),
+            _getButtonForAction(LazyWidgetButtonModel('Collect coin', _onCollectCoinClicked)), // Put on Velvet, then hit coin endpoints
           ],
         ),
       );
@@ -64,17 +58,29 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
     return new Container();
   }
 
-  /// Create a standard button showing the label that calls onPressed
-  Widget getButtonForAction(String label, VoidCallback onPressed) {
+  Widget getRowOfActions(LazyWidgetRow rowData) {
+    var row = rowData.buttons.map((buttonModel) => _getButtonForAction(buttonModel)).toList(growable: true);
+    var label = ConstrainedBox(
+        child: Text(rowData.title, style: Theme.of(context).textTheme.caption),
+        constraints: const BoxConstraints(minWidth: 60),
+    );
+    row.insert(0, label);
+    return Padding(padding: EdgeInsets.all(1.0),
+    child: Row(
+      children: row,
+    ),);
+  }
+
+  Widget _getButtonForAction(LazyWidgetButtonModel model) {
     return Padding(
-        padding: EdgeInsets.all(2.0),
+        padding: EdgeInsets.all(5.0),
         child: getPlatformButton(
           context,
-          onPressed: onPressed,
+          onPressed: model.clickAction,
           child: new Text(
-            label,
+            model.label,
           ),
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).primaryColorDark,
         ));
   }
 
@@ -124,6 +130,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   _onEatClicked() {
+    // TODO since milk of mag is 1/day now, might as well send a use request for that before every eat
     lazyRequest
         .requestEatSleazyHimein()
         .then((code) => requestPlayerDataUpdate());
@@ -138,4 +145,19 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   _onHealClicked() {
     lazyRequest.requestNunHealing().then((code) => requestPlayerDataUpdate());
   }
+}
+
+// data class that defines a row of widgets
+class LazyWidgetRow {
+  String title;
+  List<LazyWidgetButtonModel> buttons;
+
+  LazyWidgetRow(this.title, this.buttons);
+}
+
+class LazyWidgetButtonModel {
+  final String label;
+  final VoidCallback clickAction;
+
+  LazyWidgetButtonModel(this.label, this.clickAction);
 }
