@@ -71,7 +71,6 @@ class Miner {
                 NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
           }
         } else {
-          // TODO this case also gets hit if we are suddenly unable to visit the mine
           aj_print("mining randomly so we can gtfo");
           // mine somewhere at random so the 'find new cavern' button shows up
           targetSquare = currentMine!.getThrowawayMineSquare();
