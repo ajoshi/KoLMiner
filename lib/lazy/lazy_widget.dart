@@ -3,9 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/constants.dart';
-import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
-import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
+import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/outfit/outfit_manager.dart';
 
 /// This widget is for use by lazy people who are a burden to humanity
@@ -47,10 +46,22 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
         child: Column(
           children: <Widget>[
             buildInfoBox(),
-            getRowOfActions(LazyWidgetRow('HP/MP', [LazyWidgetButtonModel('Resolve',_onResolveClicked), LazyWidgetButtonModel('Healz', _onHealClicked)])),
-            getRowOfActions(new LazyWidgetRow('Consume', [LazyWidgetButtonModel('Eat',_onEatClicked), LazyWidgetButtonModel('Drink', _onDrinkClicked)])),
-            getRowOfActions(new LazyWidgetRow('Equip',  [LazyWidgetButtonModel('RO',_onEquipOutfitRoll), LazyWidgetButtonModel('Mining', _equipVolc), LazyWidgetButtonModel('Velvet', _onEquipOutfitVelv)])),
-            _getButtonForAction(LazyWidgetButtonModel('Collect coin', _onCollectCoinClicked)), // Put on Velvet, then hit coin endpoints
+            getRowOfActions(LazyWidgetRow('HP/MP', [
+              LazyWidgetButtonModel('Resolve', _onResolveClicked),
+              LazyWidgetButtonModel('Healz', _onHealClicked)
+            ])),
+            getRowOfActions(new LazyWidgetRow('Consume', [
+              LazyWidgetButtonModel('Eat', _onEatClicked),
+              LazyWidgetButtonModel('Drink', _onDrinkClicked)
+            ])),
+            getRowOfActions(new LazyWidgetRow('Equip', [
+              LazyWidgetButtonModel('RO', _onEquipOutfitRoll),
+              LazyWidgetButtonModel('Mining', _equipVolc),
+              LazyWidgetButtonModel('Velvet', _onEquipOutfitVelv)
+            ])),
+            _getButtonForAction(
+                LazyWidgetButtonModel('Collect coin', _onCollectCoinClicked)),
+            // Put on Velvet, then hit coin endpoints
           ],
         ),
       );
@@ -60,16 +71,20 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   Widget getRowOfActions(LazyWidgetRow rowData) {
-    var row = rowData.buttons.map((buttonModel) => _getButtonForAction(buttonModel)).toList(growable: true);
+    var row = rowData.buttons
+        .map((buttonModel) => _getButtonForAction(buttonModel))
+        .toList(growable: true);
     var label = ConstrainedBox(
-        child: Text(rowData.title, style: Theme.of(context).textTheme.caption),
-        constraints: const BoxConstraints(minWidth: 60),
+      child: Text(rowData.title, style: Theme.of(context).textTheme.caption),
+      constraints: const BoxConstraints(minWidth: 60),
     );
     row.insert(0, label);
-    return Padding(padding: EdgeInsets.all(1.0),
-    child: Row(
-      children: row,
-    ),);
+    return Padding(
+      padding: EdgeInsets.all(1.0),
+      child: Row(
+        children: row,
+      ),
+    );
   }
 
   Widget _getButtonForAction(LazyWidgetButtonModel model) {
@@ -127,13 +142,15 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   _onCollectCoinClicked() {
-    _outfitManager.equipOutfitUsingName("velv").then((_) => lazyRequest.visitDisco());
+    _outfitManager
+        .equipOutfitUsingName("velv")
+        .then((_) => lazyRequest.visitDisco());
   }
 
   _onEatClicked() {
-    lazyRequest.requestMilkUse().then((_) =>
-        lazyRequest.requestEatSleazyHimein().then((code) =>
-            requestPlayerDataUpdate()));
+    lazyRequest.requestMilkUse().then((_) => lazyRequest
+        .requestEatSleazyHimein()
+        .then((code) => requestPlayerDataUpdate()));
   }
 
   _onResolveClicked() {

@@ -1,10 +1,10 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kol_miner/network/kol_network.dart';
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:kol_miner/accounts/kol_account.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:kol_miner/extensions.dart';
+import 'package:kol_miner/network/kol_network.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../utils.dart';
 
@@ -26,20 +26,26 @@ class _LoginFormState extends State<LoginForm> {
   // Create a text controller. We will use it to retrieve the current value
   // of the TextField!
   final passwordController = TextEditingController();
+
   // Normal edittext unless the entered string is a subset of known username
   // if subset, it shows a dropdown. Selecting dropdown populates password field
   late AutoCompleteTextField usernameAutoCompleteView;
-  GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete = new GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete =
+      new GlobalKey();
+
   // current value of the Autocomplete text field
   late final String _usernameTextViewValue;
 
   final KolAccountManager accountManager = KolAccountManager();
+
   // List of all the accounts that have logged in before
   List<KolAccount>? accounts = null;
+
   // List of all the usernames. Used by AutoComplete
   List<String>? usernameSuggestions = null;
 
   bool isLoggingIn = false;
+
   // Message to show when login attempt has failed
   String messageToShow = "";
 
@@ -77,7 +83,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   /// Called when the login code has hit the network and received a response
-  void onLoginResponse(NetworkResponseCode responsecode, KolAccount newAccount) {
+  void onLoginResponse(
+      NetworkResponseCode responsecode, KolAccount newAccount) {
     messageToShow = "";
     switch (responsecode) {
       case NetworkResponseCode.SUCCESS:
@@ -110,15 +117,16 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onAccountListLoaded(List<KolAccount> newAccounts) {
     accounts = newAccounts;
-    var suggestions = newAccounts.map((acct) => acct.username).toList(growable: false);
+    var suggestions =
+        newAccounts.map((acct) => acct.username).toList(growable: false);
 
     setState(() {
       usernameSuggestions = suggestions;
       _updateUsernameSuggestions();
       isLoggingIn = false;
       // if (accounts.length > 0) {
-        // maybe we can autologin if there is just one account? But then how will
-        // people add second accounts?
+      // maybe we can autologin if there is just one account? But then how will
+      // people add second accounts?
       //  userNameController.text = accounts[0].username;
       //  passwordController.text = accounts[0].password;
       // }
@@ -133,7 +141,7 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onUsernameFieldUpdated(String newText) {
     _usernameTextViewValue = newText;
-    if(newText.isEmpty) {
+    if (newText.isEmpty) {
       // clear password field because username is empty
       passwordController.text = "";
     }
@@ -142,8 +150,9 @@ class _LoginFormState extends State<LoginForm> {
   /// Nullable
   /// Gets a password if the given username is stored. Else returns null
   String? _getPasswordForUsername(String username) {
-      return accounts
-          ?.firstWhereOrNull((acct) => username == acct.username)?.password;
+    return accounts
+        ?.firstWhereOrNull((acct) => username == acct.username)
+        ?.password;
   }
 
   void _onSubmitImeAction(String newText) {
@@ -162,7 +171,7 @@ class _LoginFormState extends State<LoginForm> {
     void _onUsernameSelected(String username) {
       _usernameTextViewValue = username;
       var passwordForText = _getPasswordForUsername(username);
-          if (passwordForText != null) {
+      if (passwordForText != null) {
         passwordController.text = passwordForText;
         // try to log in
         _onLoginPressed();
@@ -170,8 +179,7 @@ class _LoginFormState extends State<LoginForm> {
     }
 
     new OutlineInputBorder(
-        gapPadding: 0.0,
-        borderRadius: new BorderRadius.circular(20.0));
+        gapPadding: 0.0, borderRadius: new BorderRadius.circular(20.0));
 
     usernameAutoCompleteView = AutoCompleteTextField<String>(
       itemSubmitted: _onUsernameSelected,
@@ -180,22 +188,19 @@ class _LoginFormState extends State<LoginForm> {
       clearOnSubmit: false,
       key: keyForAutocomplete,
       decoration: new InputDecoration(
-          hintText: "Username",
-          suffixIcon: new Icon(Icons.person)),
-        itemBuilder: (context, item) {
-          return new Padding(
-              padding: EdgeInsets.all(8.0), child: new Text(item));
-        },
-        itemSorter: (a, b) {
-          return a.compareTo(b);
-        },
-        itemFilter: (item, query) {
-          return item.toLowerCase().startsWith(query.toLowerCase());
-        },
+          hintText: "Username", suffixIcon: new Icon(Icons.person)),
+      itemBuilder: (context, item) {
+        return new Padding(padding: EdgeInsets.all(8.0), child: new Text(item));
+      },
+      itemSorter: (a, b) {
+        return a.compareTo(b);
+      },
+      itemFilter: (item, query) {
+        return item.toLowerCase().startsWith(query.toLowerCase());
+      },
       suggestions: usernameSuggestions,
       minLength: 0,
     );
-
 
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -205,7 +210,7 @@ class _LoginFormState extends State<LoginForm> {
           obscureText: true,
           decoration: new InputDecoration(
             hintText: "Password",
-              suffixIcon: new Icon(Icons.lock),
+            suffixIcon: new Icon(Icons.lock),
           ),
 //          style: TextStyle(fontSize: 20.0, color: Colors.black),
           enabled: _isEnabled(),

@@ -21,6 +21,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   MiningSessionData? miningData = null;
+
   void _onLoggedIn() {
     setState(() {
       widget.onLogin();
@@ -56,7 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                 _onLoggedIn,
               ),
             ),
-            HistoricalMineWidget(miningData,),
+            HistoricalMineWidget(
+              miningData,
+            ),
           ],
         ),
       ),
