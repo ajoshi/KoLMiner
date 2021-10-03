@@ -4,13 +4,13 @@ import 'package:kol_miner/network/kol_network.dart';
 
 class UserInfoRequest {
   final KolNetwork _network;
-  String userName;
-  String chatPwd;
-  int currentMp;
-  int currentHp;
-  int maxMp;
-  int maxHp;
-  int advs;
+  late final String userName;
+  late final String chatPwd;
+  late final int currentMp;
+  late final int currentHp;
+  late final int maxMp;
+  late final int maxHp;
+  late final int advs;
 
   UserInfoRequest(this._network);
 

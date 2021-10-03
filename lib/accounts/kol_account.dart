@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,9 @@ class KolAccount {
   }
 
   bool operator == (other) {
-    return (username == other.username) && (password == other.password);
+    if(other is KolAccount) {
+      return (username == other.username) && (password == other.password);
+    } else return false;
   }
 
   int get hashCode {
@@ -27,21 +30,21 @@ class KolAccountManager {
   static const KEY_USERNAMES = "Kol_stored_usernames";
   static const KEY_PASSWORDS = "Kol_stored_passwords";
 
-  SharedPreferences prefs;
+  SharedPreferences? prefs = null;
 
   /// gets all the kol accounts saved on disk
   Future<List<KolAccount>> getAllAccounts() async {
-    List<KolAccount> accounts = List();
+    var accounts = <KolAccount>[];
     await _getSharedPref();
     // god, this is laughably bad
-    List<String> usernames = prefs.getStringList(KEY_USERNAMES);
-    List<String> passwords = prefs.getStringList(KEY_PASSWORDS);
+    List<String>? usernames = prefs?.getStringList(KEY_USERNAMES);
+    List<String>? passwords = prefs?.getStringList(KEY_PASSWORDS);
     if(usernames == null || passwords == null) {
       aj_print("no accounts on disk");
       return accounts;
     }
 
-    int userCount = usernames.length;
+    int userCount = min(usernames.length, passwords.length);
     // join the 2 username+password arrays to make a KolAccount array
     for(int c = 0; c < userCount; c++) {
       KolAccount account = KolAccount(usernames[c], passwords[c]);
@@ -66,18 +69,18 @@ class KolAccountManager {
 
   /// saves all the passed in accounts to disk
   saveAccounts(List<KolAccount> accounts) async {
-    List<String> usernames = List();
-    List<String> passwords = List();
+    var usernames = <String>[];
+    var passwords = <String>[];
     for(var account in accounts) {
       usernames.add(account.username);
       passwords.add(account.password);
     }
     await _getSharedPref();
-    prefs.setStringList(KEY_USERNAMES, usernames);
-    prefs.setStringList(KEY_PASSWORDS, passwords);
+    prefs?.setStringList(KEY_USERNAMES, usernames);
+    prefs?.setStringList(KEY_PASSWORDS, passwords);
   }
 
-  Future<SharedPreferences> _getSharedPref() async {
+  Future<SharedPreferences?> _getSharedPref() async {
     if (prefs == null) {
       prefs = await SharedPreferences.getInstance();
     }

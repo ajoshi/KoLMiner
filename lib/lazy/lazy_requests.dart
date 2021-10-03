@@ -9,9 +9,9 @@ class LazyRequest {
   static const ODE_EFFECT_HASH = "626c8ef76cfc003c6ac2e65e9af5fd7a";
 
   final KolNetwork network;
-  String currentMp;
-  int currentMilkTurns;
-  int odeTurns;
+  late String currentMp;
+  late int currentMilkTurns;
+  late int odeTurns;
 
   LazyRequest(this.network);
 

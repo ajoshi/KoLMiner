@@ -10,7 +10,7 @@ class OutfitManager {
 
   OutfitManager(this._network);
 
-  Future<bool> equipPreparedOutfit(int outfitId) async {
+  Future<bool> equipPreparedOutfit(int? outfitId) async {
     if (outfitId == null) {
       return false;
     }
@@ -38,7 +38,7 @@ class OutfitManager {
     return equipPreparedOutfit(_getOutfitIdFromChatResponse(response.response));
   }
 
-  int _getOutfitIdFromChatResponse(String response) {
+  int? _getOutfitIdFromChatResponse(String response) {
     aj_print(response);
     String leftBound = "whichoutfit=";
     int startIndex = response.indexOf(leftBound);

@@ -4,12 +4,13 @@ import 'package:kol_miner/network/kol_network.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:kol_miner/accounts/kol_account.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:kol_miner/extensions.dart';
 
 import '../utils.dart';
 
 /// Widget that lets a user log in to KoL
 class LoginForm extends StatefulWidget {
-  LoginForm(this.network, this.onLogin, {Key key, this.enabled = true})
+  LoginForm(this.network, this.onLogin, {Key? key, this.enabled = true})
       : super(key: key);
   final VoidCallback onLogin;
   final KolNetwork network;
@@ -25,21 +26,20 @@ class _LoginFormState extends State<LoginForm> {
   // Create a text controller. We will use it to retrieve the current value
   // of the TextField!
   final passwordController = TextEditingController();
-  bool isLoggingIn = false;
   // Normal edittext unless the entered string is a subset of known username
   // if subset, it shows a dropdown. Selecting dropdown populates password field
-  AutoCompleteTextField usernameAutoCompleteView;
+  late AutoCompleteTextField usernameAutoCompleteView;
   GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete = new GlobalKey();
   // current value of the Autocomplete text field
-  String _usernameTextViewValue;
+  late final String _usernameTextViewValue;
 
   final KolAccountManager accountManager = KolAccountManager();
   // List of all the accounts that have logged in before
-  List<KolAccount> accounts;
+  List<KolAccount>? accounts = null;
   // List of all the usernames. Used by AutoComplete
-  List<String> usernameSuggestions;
-  KolAccount newAccount;
+  List<String>? usernameSuggestions = null;
 
+  bool isLoggingIn = false;
   // Message to show when login attempt has failed
   String messageToShow = "";
 
@@ -55,13 +55,13 @@ class _LoginFormState extends State<LoginForm> {
       FocusScope.of(context).requestFocus(new FocusNode());
       isLoggingIn = true;
       var password = passwordController.text;
-      newAccount = KolAccount(_usernameTextViewValue, password);
+      var newAccount = KolAccount(_usernameTextViewValue, password);
       widget.network
           .login(
             newAccount.username,
             newAccount.password,
           )
-          .then((responseCode) => onLoginResponse(responseCode));
+          .then((responseCode) => onLoginResponse(responseCode, newAccount));
     });
   }
 
@@ -77,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   /// Called when the login code has hit the network and received a response
-  void onLoginResponse(NetworkResponseCode responsecode) {
+  void onLoginResponse(NetworkResponseCode responsecode, KolAccount newAccount) {
     messageToShow = "";
     switch (responsecode) {
       case NetworkResponseCode.SUCCESS:
@@ -126,14 +126,14 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _updateUsernameSuggestions() {
-    if (usernameSuggestions?.isNotEmpty == true && usernameAutoCompleteView != null) {
+    if (usernameSuggestions?.isNotEmpty == true) {
       usernameAutoCompleteView.updateSuggestions(usernameSuggestions);
     }
   }
 
   void _onUsernameFieldUpdated(String newText) {
     _usernameTextViewValue = newText;
-    if(newText == null || newText.isEmpty) {
+    if(newText.isEmpty) {
       // clear password field because username is empty
       passwordController.text = "";
     }
@@ -141,15 +141,9 @@ class _LoginFormState extends State<LoginForm> {
 
   /// Nullable
   /// Gets a password if the given username is stored. Else returns null
-  String _getPasswordForUsername(String username) {
-    if (accounts != null) {
-      for (var account in accounts) {
-        if (account.username == username) {
-          return account.password;
-        }
-      }
-    }
-    return null;
+  String? _getPasswordForUsername(String username) {
+      return accounts
+          ?.firstWhereOrNull((acct) => username == acct.username)?.password;
   }
 
   void _onSubmitImeAction(String newText) {

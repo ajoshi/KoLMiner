@@ -17,7 +17,7 @@ class LazyUselessPersonWidget extends StatefulWidget {
 
   LazyUselessPersonWidget(
     this.network, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -27,9 +27,10 @@ class LazyUselessPersonWidget extends StatefulWidget {
 }
 
 class LazyPersonState extends State<LazyUselessPersonWidget> {
+  late final LazyRequest lazyRequest;
+  late final OutfitManager _outfitManager;
+
   int _milkTurns = -1;
-  LazyRequest lazyRequest;
-  OutfitManager _outfitManager;
 
   initState() {
     super.initState();
@@ -46,7 +47,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
         child: Column(
           children: <Widget>[
             buildInfoBox(),
-            getRowOfActions(LazyWidgetRow('HP/MP', [LazyWidgetButtonModel('Resolve',_onResolveClicked), LazyWidgetButtonModel('Heals', _onHealClicked)])),
+            getRowOfActions(LazyWidgetRow('HP/MP', [LazyWidgetButtonModel('Resolve',_onResolveClicked), LazyWidgetButtonModel('Healz', _onHealClicked)])),
             getRowOfActions(new LazyWidgetRow('Consume', [LazyWidgetButtonModel('Eat',_onEatClicked), LazyWidgetButtonModel('Drink', _onDrinkClicked)])),
             getRowOfActions(new LazyWidgetRow('Equip',  [LazyWidgetButtonModel('RO',_onEquipOutfitRoll), LazyWidgetButtonModel('Mining', _equipVolc), LazyWidgetButtonModel('Velvet', _onEquipOutfitVelv)])),
             _getButtonForAction(LazyWidgetButtonModel('Collect coin', _onCollectCoinClicked)), // Put on Velvet, then hit coin endpoints

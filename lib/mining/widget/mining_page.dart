@@ -11,7 +11,7 @@ import '../../utils.dart';
 
 /// This is the screen where the mining happens
 class MiningPage extends StatefulWidget {
-  MiningPage({Key key, this.title, this.network}) : super(key: key);
+  MiningPage(this.network, {Key? key, this.title = ""}) : super(key: key);
 
   final String title;
   final KolNetwork network;
@@ -21,6 +21,13 @@ class MiningPage extends StatefulWidget {
 }
 
 class MiningPageState extends State<MiningPage> {
+  final myController = TextEditingController();
+
+  late final Miner miner;
+
+  late final LazyUselessPersonWidget _lazyPersonWidget;
+  late final UserInfoWidget _userInfoWidget;
+
   int _goldCounter = 0;
   int _advsUsed = 0;
 
@@ -30,14 +37,7 @@ class MiningPageState extends State<MiningPage> {
   int _advSpentCounterForSession = 0;
 
   bool didEncounterError = false;
-
-  Miner miner;
   bool enableButton = true;
-  final myController = TextEditingController();
-
-  LazyUselessPersonWidget _lazyPersonWidget;
-
-  UserInfoWidget _userInfoWidget;
 
   void _onMineClicked() {
     getMiningData().then((value) => aj_print(value.toString()));
@@ -73,8 +73,8 @@ class MiningPageState extends State<MiningPage> {
     // save this new data so we know how much we've mined since installation
     saveNewMiningData(new MiningSessionData(_goldCounterForSession,
         _advSpentCounterForSession, endTime - startTime));
-    _lazyPersonWidget.key.currentState.requestPlayerDataUpdate();
-    _userInfoWidget.key.currentState.requestPlayerDataUpdate();
+    _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
+    _userInfoWidget.key.currentState?.requestPlayerDataUpdate();
 
     // update ui with good news: we've mined and now we can mine again (maybe)
     setState(() {
@@ -91,7 +91,7 @@ class MiningPageState extends State<MiningPage> {
       }
       if (mounted) {
         setState(() {
-          _userInfoWidget.key.currentState.adventureUsed();
+          _userInfoWidget.key.currentState?.adventureUsed();
           _advsUsed++;
           _advSpentCounterForSession++;
         });

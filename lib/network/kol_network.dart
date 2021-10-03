@@ -11,16 +11,17 @@ class KolNetwork {
   static const String MAINT_POSTFIX = "maint.php";
 
   final String appName;
-  String _forAppName;
+  final String _forAppName;
 
-  String _username;
-  String _password;
-  String _awsAlb;
-  String _phpsessid;
+  late String _username;
+  late String _password;
+  String? _awsAlb;
+  String? _phpsessid;
+  String? _charPwd;
+  late String _playerId;
+  late String _pwdHash;
+
   bool _isLoggedIn = false;
-  String _charPwd = "";
-  String _playerId;
-  String _pwdHash;
 
   KolNetwork(this.appName) : _forAppName = "for=$appName";
 
@@ -100,7 +101,7 @@ class KolNetwork {
   }
 
   /// Fetches player data from api.php. Returns null on failure (bad network?)
-  Future<Map> getPlayerData() async {
+  Future<Map?> getPlayerData() async {
     var statusresponse =
         await makeRequestWithQueryParams("api.php", "what=status");
     //{"playerid":"2129446","name":"ajoshi","hardcore":"1","ascensions":"319",
@@ -164,12 +165,12 @@ class KolNetwork {
   /// not really logging out- just null out fields so they can't be used
   void logout() {
     _isLoggedIn = false;
-    _username = null;
-    _password = null;
-    _phpsessid = null;
-    _awsAlb = null;
-    _charPwd = null;
-    _pwdHash = null;
+    _username = "";
+    _password = "";
+    _phpsessid = "";
+    _awsAlb = "";
+    _charPwd = "";
+    _pwdHash = "";
   }
 
   /// Make a network request for the given url and the urlParams. Params do not
@@ -178,7 +179,7 @@ class KolNetwork {
   /// Performs GET requests by default, but can also perform PUTs
   Future<NetworkResponse> makeRequestWithQueryParams(
       String baseUrl, String params,
-      {HttpMethod method, bool allowEmptyResponse = false}) async {
+      {HttpMethod method = HttpMethod.GET, bool allowEmptyResponse = false}) async {
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
         method: method, allowEmptyResponse: allowEmptyResponse);
   }
@@ -186,7 +187,7 @@ class KolNetwork {
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url,
       {HttpMethod method = HttpMethod.GET, bool allowEmptyResponse = false}) async {
-    //  aj_print("call to $url");
+    aj_print("call to $url");
     try {
       var httpClient = new HttpClient();
       var headerCookie =
@@ -199,10 +200,12 @@ class KolNetwork {
         // else default is get
         httpRequest = await httpClient.getUrl(Uri.parse(BASE_URL + url));
       }
-      httpRequest.headers
-        ..add("PHPSESSID", _phpsessid)
-        ..add("AWSALB", _awsAlb)
-        ..add("cookie", headerCookie);
+      if(_phpsessid != null && _awsAlb != null) {
+        httpRequest.headers
+          ..add("PHPSESSID", _phpsessid!)
+          ..add("AWSALB", _awsAlb!)
+          ..add("cookie", headerCookie);
+      }
 
       var resp = await httpRequest.close();
 

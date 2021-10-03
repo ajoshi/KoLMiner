@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/player_info/user_info_requests.dart';
 
@@ -12,7 +11,7 @@ class UserInfoWidget extends StatefulWidget {
 
   UserInfoWidget(
     this.network, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,9 +21,10 @@ class UserInfoWidget extends StatefulWidget {
 }
 
 class UserInfoState extends State<UserInfoWidget> {
+  // init to -1 and not 0 because 0 is a valid state
   int _advs = -1;
   int _advsUsed = 0;
-  UserInfoRequest _userInfoRequest;
+  late final UserInfoRequest _userInfoRequest;
 
   initState() {
     super.initState();
@@ -46,7 +46,7 @@ class UserInfoState extends State<UserInfoWidget> {
 
   /// Builds the  box that shows user data
   Widget _buildInfoBox() {
-    if (_userInfoRequest == null || _advs == -1) {
+    if (_advs == -1) {
       return Text("");
     }
     return new Column(

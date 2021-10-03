@@ -45,7 +45,7 @@ void main() {
         string coords = "("+target[0] +", "+ target[1] + ")";
         aj_print("], true, 0);");
         aj_print("var square = mine.getNextMineableSquare();");
-        aj_print("expect(square.url, equals(\"" + coords + "\"));");
+        aj_print("expect(square?.url, equals(\"" + coords + "\"));");
         aj_print("});");
         aj_print("*/");
         }
@@ -58,7 +58,7 @@ void main() {
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 
     test('genTest4935', () {
@@ -68,7 +68,7 @@ void main() {
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 
     test('genTest1294', () {
@@ -78,7 +78,7 @@ void main() {
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 
     test('genTest2109', () {
@@ -88,7 +88,7 @@ void main() {
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 
     test('genTest8076', () {
@@ -98,7 +98,7 @@ void main() {
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 
     test('genTest1632', () {
@@ -110,7 +110,7 @@ void main() {
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 
 
@@ -121,7 +121,7 @@ void main() {
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 
     test('genTest6258', () {
@@ -131,7 +131,7 @@ void main() {
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 
 
@@ -140,7 +140,7 @@ void main() {
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 
 /*
@@ -150,7 +150,7 @@ void main() {
         MineableSquare("(6, 5)", true, 6, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 5)"));
+      expect(square?.url, equals("(6, 5)"));
     });
 /*
 Sparkly found at (6, 5).
@@ -164,7 +164,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -184,7 +184,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -204,7 +204,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -218,7 +218,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -238,7 +238,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -252,7 +252,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -274,7 +274,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -290,7 +290,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -304,7 +304,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 
@@ -345,7 +345,7 @@ Sending you to That 70s Volcano.
         MineableSquare("(6, 5)", true, 6, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 5)"));
+      expect(square?.url, equals("(6, 5)"));
     });
 /*
 Sparkly found at (6, 5).
@@ -359,7 +359,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -377,7 +377,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -395,7 +395,7 @@ Resetting mine.
         MineableSquare("(1, 6)", true, 1, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -415,7 +415,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -429,7 +429,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -451,7 +451,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -467,7 +467,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -483,7 +483,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -497,7 +497,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -515,7 +515,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -533,7 +533,7 @@ Resetting mine.
         MineableSquare("(1, 6)", true, 1, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -553,7 +553,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -569,7 +569,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -583,7 +583,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -612,7 +612,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -628,7 +628,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -644,7 +644,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -658,7 +658,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -682,7 +682,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -700,7 +700,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -716,7 +716,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -730,7 +730,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -752,7 +752,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -768,7 +768,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -784,7 +784,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -800,7 +800,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -814,7 +814,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -836,7 +836,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -856,7 +856,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -870,7 +870,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -892,7 +892,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -908,7 +908,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -922,7 +922,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -942,7 +942,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -956,7 +956,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -976,7 +976,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -992,7 +992,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -1008,7 +1008,7 @@ You lose 34 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 
     test('genTest2460', () {
@@ -1016,7 +1016,7 @@ You lose 34 hit points
         MineableSquare("(3, 5)", true, 3, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -1036,7 +1036,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -1050,7 +1050,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -1072,7 +1072,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1094,7 +1094,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1110,7 +1110,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -1126,7 +1126,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -1142,7 +1142,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -1156,7 +1156,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -1174,7 +1174,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -1194,7 +1194,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1214,7 +1214,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -1234,7 +1234,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -1248,7 +1248,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -1270,7 +1270,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -1286,7 +1286,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -1300,7 +1300,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -1314,7 +1314,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 5)", true, 6, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 5)"));
+      expect(square?.url, equals("(6, 5)"));
     });
 /*
 Sparkly found at (6, 5).
@@ -1337,7 +1337,7 @@ You gain 27 Meat
         MineableSquare("(3, 5)", true, 3, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -1351,7 +1351,7 @@ You lose 34 hit points
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -1371,7 +1371,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -1385,7 +1385,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -1405,7 +1405,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -1421,7 +1421,7 @@ You lose 34 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -1435,7 +1435,7 @@ You lose 34 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -1453,7 +1453,7 @@ Resetting mine.
         MineableSquare("(2, 6)", true, 2, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -1473,7 +1473,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -1493,7 +1493,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -1509,7 +1509,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -1523,7 +1523,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -1547,7 +1547,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1569,7 +1569,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1585,7 +1585,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -1601,7 +1601,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -1621,7 +1621,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1635,7 +1635,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -1649,7 +1649,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -1663,7 +1663,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 5)", true, 6, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 5)"));
+      expect(square?.url, equals("(6, 5)"));
     });
 /*
 Sparkly found at (6, 5).
@@ -1683,7 +1683,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1697,7 +1697,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -1717,7 +1717,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -1731,7 +1731,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -1745,7 +1745,7 @@ You lose 33 hit points
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -1765,7 +1765,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -1779,7 +1779,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -1793,7 +1793,7 @@ You lose 34 hit points
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -1813,7 +1813,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1827,7 +1827,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -1845,7 +1845,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -1859,7 +1859,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 5)", true, 6, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 5)"));
+      expect(square?.url, equals("(6, 5)"));
     });
 /*
 Sparkly found at (6, 5).
@@ -1886,7 +1886,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -1900,7 +1900,7 @@ You lose 34 hit points
         MineableSquare("(6, 5)", true, 6, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 5)"));
+      expect(square?.url, equals("(6, 5)"));
     });
 /*
 Sparkly found at (6, 5).
@@ -1914,7 +1914,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -1932,7 +1932,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -1955,7 +1955,7 @@ You gain 8 Smarm
         MineableSquare("(3, 5)", true, 3, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -1977,7 +1977,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -1993,7 +1993,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2009,7 +2009,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -2025,7 +2025,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -2039,7 +2039,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -2057,7 +2057,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -2075,7 +2075,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -2097,7 +2097,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2113,7 +2113,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -2127,7 +2127,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -2156,7 +2156,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2170,7 +2170,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -2188,7 +2188,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -2210,7 +2210,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -2228,7 +2228,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -2246,7 +2246,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -2262,7 +2262,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -2285,7 +2285,7 @@ You gain 27 Meat
         MineableSquare("(3, 5)", true, 3, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -2299,7 +2299,7 @@ You lose 33 hit points
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -2317,7 +2317,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -2337,7 +2337,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -2355,7 +2355,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2369,7 +2369,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 5)", true, 3, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -2389,7 +2389,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2403,7 +2403,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -2421,7 +2421,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -2439,7 +2439,7 @@ Resetting mine.
         MineableSquare("(1, 6)", true, 1, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -2453,7 +2453,7 @@ You lose 33 hit points
         MineableSquare("(1, 5)", true, 1, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -2471,7 +2471,7 @@ Resetting mine.
         MineableSquare("(2, 6)", true, 2, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2485,7 +2485,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(2, 5)", true, 2, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 
     /*
@@ -2502,7 +2502,7 @@ Sending you to That 70s Volcano.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -2522,7 +2522,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -2536,7 +2536,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -2550,7 +2550,7 @@ You lose 33 hit points
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -2570,7 +2570,7 @@ Resetting mine.
         MineableSquare("(2, 6)", true, 2, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -2584,7 +2584,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(2, 6)", true, 2, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2604,7 +2604,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2626,7 +2626,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2642,7 +2642,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -2656,7 +2656,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -2685,7 +2685,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -2705,7 +2705,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2719,7 +2719,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -2739,7 +2739,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2759,7 +2759,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2775,7 +2775,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -2789,7 +2789,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2807,7 +2807,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2827,7 +2827,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -2843,7 +2843,7 @@ You lose 34 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -2857,7 +2857,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -2877,7 +2877,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2893,7 +2893,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -2909,7 +2909,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -2925,7 +2925,7 @@ You lose 34 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -2941,7 +2941,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -2965,7 +2965,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -2983,7 +2983,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -2999,7 +2999,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3015,7 +3015,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -3029,7 +3029,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3049,7 +3049,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3063,7 +3063,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3077,7 +3077,7 @@ You lose 33 hit points
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -3091,7 +3091,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -3111,7 +3111,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3127,7 +3127,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -3141,7 +3141,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3155,7 +3155,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -3169,7 +3169,7 @@ You lose 34 hit points
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -3187,7 +3187,7 @@ Resetting mine.
         MineableSquare("(1, 6)", true, 1, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -3207,7 +3207,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3221,7 +3221,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3235,7 +3235,7 @@ You lose 34 hit points
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -3266,7 +3266,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3282,7 +3282,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3300,7 +3300,7 @@ Resetting mine.
         MineableSquare("(2, 6)", true, 2, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3320,7 +3320,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -3334,7 +3334,7 @@ You lose 34 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -3358,7 +3358,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3376,7 +3376,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -3392,7 +3392,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3406,7 +3406,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3426,7 +3426,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3440,7 +3440,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3460,7 +3460,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3474,7 +3474,7 @@ You lose 34 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -3495,7 +3495,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -3509,7 +3509,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -3527,7 +3527,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3545,7 +3545,7 @@ Resetting mine.
         MineableSquare("(1, 6)", true, 1, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -3563,7 +3563,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3581,7 +3581,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -3601,7 +3601,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3615,7 +3615,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -3629,7 +3629,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 5)", true, 6, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 5)"));
+      expect(square?.url, equals("(6, 5)"));
     });
 /*
 Sparkly found at (6, 5).
@@ -3647,7 +3647,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3669,7 +3669,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -3687,7 +3687,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -3703,7 +3703,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3717,7 +3717,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -3737,7 +3737,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3751,7 +3751,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -3778,7 +3778,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -3792,7 +3792,7 @@ You lose 34 hit points
         MineableSquare("(3, 5)", true, 3, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -3806,7 +3806,7 @@ You lose 33 hit points
         MineableSquare("(2, 5)", true, 2, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -3826,7 +3826,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -3840,7 +3840,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3860,7 +3860,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -3874,7 +3874,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3896,7 +3896,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -3912,7 +3912,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -3928,7 +3928,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -3944,7 +3944,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -3966,7 +3966,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -3982,7 +3982,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -3996,7 +3996,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -4018,7 +4018,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -4034,7 +4034,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -4052,7 +4052,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -4074,7 +4074,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -4090,7 +4090,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -4104,7 +4104,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -4118,7 +4118,7 @@ You lose 33 hit points
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -4136,7 +4136,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -4163,7 +4163,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 
     test('genTest2563', () {
@@ -4175,7 +4175,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -4193,7 +4193,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -4211,7 +4211,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -4227,7 +4227,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -4241,7 +4241,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -4259,7 +4259,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -4282,7 +4282,7 @@ You gain 9 Fortitude
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -4296,7 +4296,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -4310,7 +4310,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 5)", true, 3, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -4330,7 +4330,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -4346,7 +4346,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -4362,7 +4362,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -4376,7 +4376,7 @@ You lose 34 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -4398,7 +4398,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -4414,7 +4414,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -4430,7 +4430,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -4444,7 +4444,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -4464,7 +4464,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -4478,7 +4478,7 @@ You lose 34 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -4501,7 +4501,7 @@ You gain 27 Meat
         MineableSquare("(2, 5)", true, 2, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -4515,7 +4515,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(1, 5)", true, 1, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -4535,7 +4535,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -4549,7 +4549,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -4580,7 +4580,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -4598,7 +4598,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -4616,7 +4616,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -4632,7 +4632,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -4646,7 +4646,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -4666,7 +4666,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -4680,7 +4680,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -4702,7 +4702,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -4718,7 +4718,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -4732,7 +4732,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -4755,7 +4755,7 @@ You gain 10 Strongness
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -4777,7 +4777,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -4795,7 +4795,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -4811,7 +4811,7 @@ You lose 33 hit points
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -4825,7 +4825,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -4843,7 +4843,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -4863,7 +4863,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -4883,7 +4883,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -4899,7 +4899,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -4917,7 +4917,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -4933,7 +4933,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 5)"));
+      expect(square?.url, equals("(3, 5)"));
     });
 /*
 Sparkly found at (3, 5).
@@ -4947,7 +4947,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -4967,7 +4967,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -4983,7 +4983,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -4997,7 +4997,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -5019,7 +5019,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -5035,7 +5035,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -5049,7 +5049,7 @@ You lose 33 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -5071,7 +5071,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -5089,7 +5089,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -5105,7 +5105,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(3, 6)"));
+      expect(square?.url, equals("(3, 6)"));
     });
 /*
 Sparkly found at (3, 6).
@@ -5119,7 +5119,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -5141,7 +5141,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -5159,7 +5159,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -5177,7 +5177,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -5199,7 +5199,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -5215,7 +5215,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -5229,7 +5229,7 @@ You lose 34 hit points
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(6, 6)"));
+      expect(square?.url, equals("(6, 6)"));
     });
 /*
 Sparkly found at (6, 6).
@@ -5249,7 +5249,7 @@ Resetting mine.
         MineableSquare("(6, 6)", true, 6, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -5278,7 +5278,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -5294,7 +5294,7 @@ You lose 34 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 5)"));
+      expect(square?.url, equals("(2, 5)"));
     });
 /*
 Sparkly found at (2, 5).
@@ -5310,7 +5310,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -5324,7 +5324,7 @@ You lose 34 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
 /*
 Sparkly found at (4, 6).
@@ -5338,7 +5338,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(4, 5)", true, 4, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 5)"));
+      expect(square?.url, equals("(4, 5)"));
     });
 /*
 Sparkly found at (4, 5).
@@ -5352,7 +5352,7 @@ You lose 33 hit points
         MineableSquare("(5, 5)", true, 5, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 5)"));
+      expect(square?.url, equals("(5, 5)"));
     });
 /*
 Sparkly found at (5, 5).
@@ -5370,7 +5370,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -5399,7 +5399,7 @@ Resetting mine.
         MineableSquare("(3, 6)", true, 3, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -5417,7 +5417,7 @@ Resetting mine.
         MineableSquare("(1, 6)", true, 1, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -5431,7 +5431,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(1, 5)", true, 1, 5),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -5453,7 +5453,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -5471,7 +5471,7 @@ You lose 34 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 5)"));
+      expect(square?.url, equals("(1, 5)"));
     });
 /*
 Sparkly found at (1, 5).
@@ -5487,7 +5487,7 @@ You acquire an item: New Age healing crystal
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -5507,7 +5507,7 @@ Resetting mine.
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(1, 6)"));
+      expect(square?.url, equals("(1, 6)"));
     });
 /*
 Sparkly found at (1, 6).
@@ -5521,7 +5521,7 @@ You lose 33 hit points
         MineableSquare("(5, 6)", true, 5, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(5, 6)"));
+      expect(square?.url, equals("(5, 6)"));
     });
 /*
 Sparkly found at (5, 6).
@@ -5541,7 +5541,7 @@ Resetting mine.
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(2, 6)"));
+      expect(square?.url, equals("(2, 6)"));
     });
 /*
 Sparkly found at (2, 6).
@@ -5555,7 +5555,7 @@ You lose 33 hit points
         MineableSquare("(4, 6)", true, 4, 6),
       ], true, 0);
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("(4, 6)"));
+      expect(square?.url, equals("(4, 6)"));
     });
   });
 

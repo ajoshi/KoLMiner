@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 class Screen extends StatefulWidget {
   final KolNetwork network;
 
-  const Screen( this.network, {Key key}) : super(key: key);
+  const Screen( this.network, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return new ScreenState();
@@ -36,8 +36,8 @@ class ScreenState extends State<Screen> {
       context,
       MaterialPageRoute(
           builder: (context) => MiningPage(
+                widget.network,
                 title: 'Mine for gold',
-                network: widget.network,
               )),
     );
   }
@@ -45,6 +45,8 @@ class ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
     return new LoginPage(
-        title: 'KoL Miner', network: widget.network, onLogin: onLogin);
+        widget.network,
+        onLogin,
+        title: 'KoL Miner');
   }
 }

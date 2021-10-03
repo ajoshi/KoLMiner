@@ -2,6 +2,8 @@
 import '../constants.dart';
 import '../utils.dart';
 
+import 'package:kol_miner/extensions.dart';
+
 /// An instance of a mine. Contains a list of minable squares
 class Mine {
   final List<MineableSquare> squares;
@@ -19,12 +21,11 @@ class Mine {
   /// algorithm:
   /// check exposed shinies. If found, click
   /// if no shinies, click anywhere once. If shiny found, click. Else newmine
-  MineableSquare getNextMineableSquare() {
+  MineableSquare? getNextMineableSquare() {
     squares.sort((a, b) => b.priority() - a.priority());
     // mine visible shiny squares asap (unless they're in 3rd row)
-    MineableSquare squareToMine;
-    squareToMine = squares.firstWhere((square) => _isSquareWorthMining(square, minedSquares),
-        orElse: () => squareToMine = null);
+    MineableSquare? squareToMine;
+    squareToMine = squares.firstWhereOrNull((square) => _isSquareWorthMining(square, minedSquares));
     if (squareToMine == null) {
       aj_print("need a new mine");
       // need a new mine
@@ -36,7 +37,7 @@ class Mine {
   /// Returns a list of all shiny squares
   /// can be used to send multiple mine requests if multiple shinies are exposed
   /// Might not be worth using ever
-  Iterable<MineableSquare> _getAllMineableSquares(int minedSquares) {
+  Iterable<MineableSquare>? _getAllMineableSquares(int minedSquares) {
     // mine visible shiny squares asap (unless they're in 3rd row)
     Iterable<MineableSquare> squaresToMine;
     squares.sort((a, b) => a.priority().compareTo(b.priority()));

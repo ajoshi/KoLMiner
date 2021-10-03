@@ -42,7 +42,7 @@ void main() {
 
       var square = mine.getNextMineableSquare();
 
-      expect(square.url, equals("c"));
+      expect(square?.url, equals("c"));
     });
 
     test('getNextMineableSquare does not return shiny in 5th row if we can still mine in 6th row', () {
@@ -52,7 +52,7 @@ void main() {
 
       var square = mine.getNextMineableSquare();
 
-      expect(square.url, equals("c"));
+      expect(square?.url, equals("c"));
     });
 
 
@@ -75,7 +75,7 @@ void main() {
         MineableSquare("a", true, 1, 6)], true, 0);
 
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("a"));
+      expect(square?.url, equals("a"));
     });
 
     test('getNextMineableSquare returns shiny in 6th row if we mined 10 squares', () {
@@ -83,7 +83,7 @@ void main() {
         MineableSquare("a", true, 1, 6)], true, 10);
 
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("a"));
+      expect(square?.url, equals("a"));
     });
 
     test('getNextMineableSquare returns shiny in 6th row it is the only shiny', () {
@@ -95,7 +95,7 @@ void main() {
       ], true, 10);
 
       var square = mine.getNextMineableSquare();
-      expect(square.url, equals("b"));
+      expect(square?.url, equals("b"));
     });
   });
 

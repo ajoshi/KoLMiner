@@ -7,7 +7,7 @@ import 'package:kol_miner/login/login_form.dart';
 /// This is the first page a user sees. It allows the user to log in and calls
 /// the onLogin callback on success
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title, this.network, this.onLogin})
+  LoginPage(this.network, this.onLogin, {this.title = "", Key? key})
       : super(key: key);
 
   final VoidCallback onLogin;
@@ -20,7 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  MiningSessionData miningData;
+  MiningSessionData? miningData = null;
   void _onLoggedIn() {
     setState(() {
       widget.onLogin();
