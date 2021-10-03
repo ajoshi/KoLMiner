@@ -32,14 +32,7 @@ class Screen extends StatefulWidget {
 
 class ScreenState extends State<Screen> {
   void onLogin() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => MiningPage(
-                widget.network,
-                title: 'Mine for gold',
-              )),
-    );
+    _navigateToMiningScreen(context);
   }
 
   @override
@@ -48,5 +41,35 @@ class ScreenState extends State<Screen> {
         widget.network,
         onLogin,
         title: 'KoL Miner');
+  }
+
+  void _navigateToMiningScreen(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MiningPage(
+        widget.network,
+        title: 'Mine for gold',
+      )),
+    );
+
+    // Show an error dialog if an error result was returned
+    if(result != null) {
+      showDialog(
+        context: this.context,
+        builder: (buildContext) => getErrorDialog(buildContext, result.errorMessage),
+      );
+    }
+  }
+
+  /// Dialog to show when an error occurs
+  Widget getErrorDialog(BuildContext buildContext, String message) {
+    return new AlertDialog(
+      content: new Text(
+        message,
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
+    );
   }
 }

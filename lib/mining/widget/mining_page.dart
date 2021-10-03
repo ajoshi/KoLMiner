@@ -11,7 +11,7 @@ import '../../utils.dart';
 
 /// This is the screen where the mining happens
 class MiningPage extends StatefulWidget {
-  MiningPage(this.network, {Key? key, this.title = ""}) : super(key: key);
+  const MiningPage(this.network, {Key? key, this.title = ""}) : super(key: key);
 
   final String title;
   final KolNetwork network;
@@ -105,23 +105,9 @@ class MiningPageState extends State<MiningPage> {
   void onError(MiningResponse response) {
     // on error: stop mining, pop the backstack to go back to login and show error dialog
     didEncounterError = true;
-    Navigator.pop(context);
-    widget.network.logout();
     String message = getErrorMessageForMiningResponse(response);
-    showDialog(
-      context: this.context,
-      builder: (buildContext) => getErrorDialog(buildContext, message),
-    );
-  }
-
-  /// Dialog to show when an error occurs
-  Widget getErrorDialog(BuildContext buildContext, String message) {
-    return new AlertDialog(
-      content: new Text(
-        message,
-        style: Theme.of(context).textTheme.subtitle1,
-      ),
-    );
+    Navigator.pop(context, MiningPageError(message));
+    widget.network.logout();
   }
 
   initState() {
@@ -243,4 +229,10 @@ class MiningPageState extends State<MiningPage> {
       ],
     );
   }
+}
+
+class MiningPageError {
+  final String errorMessage;
+
+  MiningPageError(this.errorMessage);
 }
