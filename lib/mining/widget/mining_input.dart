@@ -43,7 +43,7 @@ class MiningInputFields extends StatelessWidget {
           child: new Text(
             'Mine away',
           ),
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.primary,
         ),
       ],
     );

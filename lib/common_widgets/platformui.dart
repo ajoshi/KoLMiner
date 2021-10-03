@@ -10,10 +10,6 @@ Widget getPlatformButton(BuildContext context, {required Widget child, Color? co
       color: color,
     );
   }
-  return RaisedButton(
-    onPressed: onPressed,
-    child: child,
-    color: color,
-    disabledColor: color == null? null :color.withAlpha(200),
-  );
+  // no need for button color- it's inherited from the theme now
+  return ElevatedButton(onPressed: onPressed, child: child);
 }
