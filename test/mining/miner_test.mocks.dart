@@ -56,30 +56,43 @@ class MockKolNetwork extends _i1.Mock implements _i2.KolNetwork {
   _i3.Future<_i2.NetworkResponse> makeRequestWithQueryParams(
           String? baseUrl, String? params,
           {_i2.HttpMethod? method = _i2.HttpMethod.GET,
-          bool? allowEmptyResponse = false}) =>
+          _i2.NetworkResponse? emptyResponseDefaultValue}) =>
       (super.noSuchMethod(
-              Invocation.method(#makeRequestWithQueryParams, [baseUrl, params],
-                  {#method: method, #allowEmptyResponse: allowEmptyResponse}),
+              Invocation.method(#makeRequestWithQueryParams, [
+                baseUrl,
+                params
+              ], {
+                #method: method,
+                #emptyResponseDefaultValue: emptyResponseDefaultValue
+              }),
               returnValue:
                   Future<_i2.NetworkResponse>.value(_FakeNetworkResponse_0()))
           as _i3.Future<_i2.NetworkResponse>);
   @override
   _i3.Future<_i2.NetworkResponse> makeRequestToPath(String? urlWithParams,
           {_i2.HttpMethod? method = _i2.HttpMethod.GET,
-          bool? allowEmptyResponse = false}) =>
+          _i2.NetworkResponse? emptyResponseDefaultValue}) =>
       (super.noSuchMethod(
-              Invocation.method(#makeRequestToPath, [urlWithParams],
-                  {#method: method, #allowEmptyResponse: allowEmptyResponse}),
+              Invocation.method(#makeRequestToPath, [
+                urlWithParams
+              ], {
+                #method: method,
+                #emptyResponseDefaultValue: emptyResponseDefaultValue
+              }),
               returnValue:
                   Future<_i2.NetworkResponse>.value(_FakeNetworkResponse_0()))
           as _i3.Future<_i2.NetworkResponse>);
   @override
   _i3.Future<_i2.NetworkResponse> makeRequest(String? url,
           {_i2.HttpMethod? method = _i2.HttpMethod.GET,
-          bool? allowEmptyResponse = false}) =>
+          _i2.NetworkResponse? emptyResponseDefaultValue}) =>
       (super.noSuchMethod(
-              Invocation.method(#makeRequest, [url],
-                  {#method: method, #allowEmptyResponse: allowEmptyResponse}),
+              Invocation.method(#makeRequest, [
+                url
+              ], {
+                #method: method,
+                #emptyResponseDefaultValue: emptyResponseDefaultValue
+              }),
               returnValue:
                   Future<_i2.NetworkResponse>.value(_FakeNetworkResponse_0()))
           as _i3.Future<_i2.NetworkResponse>);

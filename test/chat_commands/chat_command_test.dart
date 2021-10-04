@@ -13,8 +13,10 @@ void main() {
   group('App Provider Tests', () {
     var network = MockKolNetwork();
     var chatCommander = ChatCommander(network);
-    when(network.makeRequestToPath(any, method: HttpMethod.POST)).thenAnswer(
-        (_) => Future(
+    when(network.makeRequestToPath(any,
+            method: HttpMethod.POST,
+            emptyResponseDefaultValue: anyNamed("emptyResponseDefaultValue")))
+        .thenAnswer((_) => Future(
             () => NetworkResponse(NetworkResponseCode.SUCCESS, "response")));
 
     test('outfit change command follows redirect to outfit change request', () {
@@ -23,7 +25,8 @@ void main() {
 
       verify(network.makeRequestToPath(
               "inv_equip.php?action=outfit&whichoutfit=-237&ajax=1",
-              method: HttpMethod.POST))
+              method: HttpMethod.POST,
+              emptyResponseDefaultValue: anyNamed("emptyResponseDefaultValue")))
           .called(1);
       response.then((value) => expect(value, true));
     });
@@ -34,7 +37,8 @@ void main() {
 
       verify(network.makeRequestToPath(
               "inv_spleen.php?whichitem=5214&ajax=1&pwd=822fbb9ba37ac&quantity=1",
-              method: HttpMethod.POST))
+              method: HttpMethod.POST,
+              emptyResponseDefaultValue: anyNamed("emptyResponseDefaultValue")))
           .called(1);
     });
 
@@ -42,7 +46,9 @@ void main() {
       var response = chatCommander.followChatRedirectsInResponse(
           "{\"output\":\"<font color=green>Sorry, I can't find that outfit.<\\/font>\",\"msgs\":[]}");
 
-      verifyNever(network.makeRequestToPath(any, method: HttpMethod.POST));
+      verifyNever(network.makeRequestToPath(any,
+          method: HttpMethod.POST,
+          emptyResponseDefaultValue: anyNamed("emptyResponseDefaultValue")));
       response.then((value) => expect(value, false));
     });
 
@@ -50,7 +56,9 @@ void main() {
       var response = chatCommander.followChatRedirectsInResponse(
           "{\"msgs\":[{\"type\":\"private\",\"who\":{\"id\":\"2190946\",\"name\":\"sel\",\"color\":\"black\"},\"for\":{\"id\":\"1889009\",\"name\":\"Buffy\",\"color\":\"black\"},\"msg\":\"ode\",\"time\":1633294452,\"format\":0}]}");
 
-      verifyNever(network.makeRequestToPath(any, method: HttpMethod.POST));
+      verifyNever(network.makeRequestToPath(any,
+          method: HttpMethod.POST,
+          emptyResponseDefaultValue: anyNamed("emptyResponseDefaultValue")));
       response.then((value) => expect(value, false));
     });
 

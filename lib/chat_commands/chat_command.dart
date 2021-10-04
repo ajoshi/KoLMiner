@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:kol_miner/network/kol_network.dart';
 
 /// Wraps the [KolNetwork] class to make and parse arbitrary chat commands.
-/// Will also parse respnse and make secondary calls as server requests
+/// Will also parse response and make secondary calls as server requests
 class ChatCommander {
   final KolNetwork _network;
 
@@ -17,7 +17,9 @@ class ChatCommander {
     var response = await _network.makeRequestWithQueryParams(
         "submitnewchat.php",
         "playerid=${_network.getPlayerId()}&graf=%2Fnewbie+%2F$encodedCommand&j=1",
-        method: HttpMethod.POST);
+        method: HttpMethod.POST,
+        emptyResponseDefaultValue:
+            NetworkResponse(NetworkResponseCode.FAILURE, ""));
 
     return followChatRedirectsInResponse(response.response);
   }
@@ -43,7 +45,6 @@ class ChatCommander {
         //    print("redirecturl was null");
       }
       output = _getSubstringBetween(responseString, start, end, output.index);
-      // output = _getSubstringBetween(responseString, start, end, output.index + 1);
     }
 //    print("all donesies");
     return didSucceed;

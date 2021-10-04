@@ -180,9 +180,9 @@ class KolNetwork {
   Future<NetworkResponse> makeRequestWithQueryParams(
       String baseUrl, String params,
       {HttpMethod method = HttpMethod.GET,
-      bool allowEmptyResponse = false}) async {
+      NetworkResponse? emptyResponseDefaultValue}) async {
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
-        method: method, allowEmptyResponse: allowEmptyResponse);
+        method: method, emptyResponseDefaultValue: emptyResponseDefaultValue);
   }
 
   /// Make a network request for the given url and the urlParams. Params do not
@@ -191,15 +191,15 @@ class KolNetwork {
   /// Performs GET requests by default, but can also perform PUTs
   Future<NetworkResponse> makeRequestToPath(String urlWithParams,
       {HttpMethod method = HttpMethod.GET,
-      bool allowEmptyResponse = false}) async {
+      NetworkResponse? emptyResponseDefaultValue}) async {
     return makeRequest("$urlWithParams&$_forAppName&pwd=$_pwdHash",
-        method: method, allowEmptyResponse: allowEmptyResponse);
+        method: method, emptyResponseDefaultValue: emptyResponseDefaultValue);
   }
 
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url,
       {HttpMethod method = HttpMethod.GET,
-      bool allowEmptyResponse = false}) async {
+      NetworkResponse? emptyResponseDefaultValue}) async {
     aj_print("call to $url");
     try {
       var httpClient = new HttpClient();
@@ -237,12 +237,12 @@ class KolNetwork {
 
       //  TODO handle network failures while making request
       try {
-        return new NetworkResponse(NetworkResponseCode.SUCCESS,
-            await resp.transform(utf8.decoder).single);
+        var responseBody = await resp.transform(utf8.decoder).single;
+        return new NetworkResponse(NetworkResponseCode.SUCCESS, responseBody);
       } catch (_) {
         // couldn't parse the response. Send back empty string?
-        if (allowEmptyResponse) {
-          return NetworkResponse(NetworkResponseCode.SUCCESS, "");
+        if (emptyResponseDefaultValue != null) {
+          return emptyResponseDefaultValue;
         }
         aj_print("exception happened while parsing. Looping. ");
         return makeRequest(url, method: method);

@@ -17,14 +17,18 @@ class OutfitManager {
     }
     var response = await _network.makeRequestWithQueryParams(
         "inv_equip.php", "action=outfit&which=2&whichoutfit=$outfitId",
-        method: HttpMethod.POST, allowEmptyResponse: true);
+        method: HttpMethod.POST,
+        emptyResponseDefaultValue:
+            NetworkResponse(NetworkResponseCode.SUCCESS, ""));
     return (response.responseCode == NetworkResponseCode.SUCCESS);
   }
 
   Future<bool> equipSinglePiece(int equipmentId) async {
     var response = await _network.makeRequestWithQueryParams(
         "inv_equip.php", "which=2&action=equip&whichitem=$equipmentId",
-        method: HttpMethod.POST, allowEmptyResponse: true);
+        method: HttpMethod.POST,
+        emptyResponseDefaultValue:
+            NetworkResponse(NetworkResponseCode.SUCCESS, ""));
     return (response.responseCode == NetworkResponseCode.SUCCESS);
   }
 
