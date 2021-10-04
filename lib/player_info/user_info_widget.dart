@@ -53,10 +53,8 @@ class UserInfoState extends State<UserInfoWidget> {
       children: <Widget>[
         _buildHpMpBar("HP", Colors.red, _userInfoRequest.currentHp,
             _userInfoRequest.maxHp),
-// I don't think the MP bar is needed, at least in v1. The only purpose is
-// summoning and I don't allow it
-//        _buildHpMpBar("MP", Colors.blue, _userInfoRequest.currentMp,
-//            _userInfoRequest.maxMp),
+        _buildHpMpBar("MP", Colors.blue, _userInfoRequest.currentMp,
+            _userInfoRequest.maxMp),
         new Text(
           "Advs: $_advs ",
           style: Theme.of(context).textTheme.bodyText1,
