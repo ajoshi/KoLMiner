@@ -75,8 +75,7 @@ class MiningPageState extends State<MiningPage> {
     // save this new data so we know how much we've mined since installation
     saveNewMiningData(new MiningSessionData(_goldCounterForSession,
         _advSpentCounterForSession, endTime - startTime));
-    _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
-    _userInfoWidget.key.currentState?.requestPlayerDataUpdate();
+    _refreshPlayerData();
 
     // update ui with good news: we've mined and now we can mine again (maybe)
     setState(() {
@@ -119,10 +118,16 @@ class MiningPageState extends State<MiningPage> {
     miner = new Miner(widget.network);
   }
 
+  void _refreshPlayerData() {
+    _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
+    _userInfoWidget.key.currentState?.requestPlayerDataUpdate();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        actions: <Widget>[IconButton(onPressed: _refreshPlayerData, icon: const Icon(Icons.refresh))],
         title: new Text(widget.title),
       ),
       body: getCenteredListView(),
