@@ -1,4 +1,3 @@
-
 import '../constants.dart';
 import '../utils.dart';
 
@@ -25,7 +24,8 @@ class Mine {
     squares.sort((a, b) => b.priority() - a.priority());
     // mine visible shiny squares asap (unless they're in 3rd row)
     MineableSquare? squareToMine;
-    squareToMine = squares.firstWhereOrNull((square) => _isSquareWorthMining(square, minedSquares));
+    squareToMine = squares.firstWhereOrNull(
+        (square) => _isSquareWorthMining(square, minedSquares));
     if (squareToMine == null) {
       aj_print("need a new mine");
       // need a new mine
@@ -41,7 +41,8 @@ class Mine {
     // mine visible shiny squares asap (unless they're in 3rd row)
     Iterable<MineableSquare> squaresToMine;
     squares.sort((a, b) => a.priority().compareTo(b.priority()));
-    squaresToMine = squares.where((square) => _isSquareWorthMining(square, minedSquares));
+    squaresToMine =
+        squares.where((square) => _isSquareWorthMining(square, minedSquares));
     if (squaresToMine == null) {
       aj_print("need a new mine");
       // need a new mine
@@ -53,7 +54,7 @@ class Mine {
   /// true if this square has an 'acceptable' probability of being worthwhile
   bool _isSquareWorthMining(MineableSquare square, int minedSquares) {
     var isHighPriority = square.isHighPriority();
-    if(isHighPriority) {
+    if (isHighPriority) {
       return true;
     }
     // since this is called via the stream api, the order of evaluation might be wrong. It might be better
@@ -66,8 +67,9 @@ class Mine {
   /// This method gives us a square we can mine that has a high-ish prob of
   /// exposing a shiny. Else we can just ask for a new mine.
   MineableSquare getThrowawayMineSquare() {
-    var highProbSquare = squares.firstWhereOrNull((square) => square.x != 01 && square.x != 6);
-    if (highProbSquare == null ){
+    var highProbSquare =
+        squares.firstWhereOrNull((square) => square.x != 01 && square.x != 6);
+    if (highProbSquare == null) {
       return squares.first;
     }
     return highProbSquare;
@@ -90,15 +92,15 @@ class MineableSquare {
   final int x;
   final int y;
 
-  MineableSquare(this.url, this.isShiny, this.x, this.y):
-        _isFirstTwoRows = y == 5 || y == 6 ;
+  MineableSquare(this.url, this.isShiny, this.x, this.y)
+      : _isFirstTwoRows = y == 5 || y == 6;
 
   int priority() {
     // we can't mine too deep
     if (!_isFirstTwoRows) return 0;
     // only shiny squares get a nonzero priority- nonshiny are trash
     // We also want to mine row 5 before 6, so pri is essentially the y and then x
-    return (6-y)*10 + (6-x);
+    return (6 - y) * 10 + (6 - x);
   }
 
   bool isHighPriority() {

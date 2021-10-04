@@ -14,8 +14,8 @@ void main() {
     var miner = Miner(MockKolNetwork());
 
     test('Miner should mine', () {
-   //   miner.mineNextSquare();
-  //    expect(miner.currentMine.minedSquares, equals(0));
+      //   miner.mineNextSquare();
+      //    expect(miner.currentMine.minedSquares, equals(0));
     });
   });
 }

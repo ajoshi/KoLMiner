@@ -15,10 +15,11 @@ class KolAccount {
     return username + password;
   }
 
-  bool operator == (other) {
-    if(other is KolAccount) {
+  bool operator ==(other) {
+    if (other is KolAccount) {
       return (username == other.username) && (password == other.password);
-    } else return false;
+    } else
+      return false;
   }
 
   int get hashCode {
@@ -39,39 +40,39 @@ class KolAccountManager {
     // god, this is laughably bad
     List<String>? usernames = prefs?.getStringList(KEY_USERNAMES);
     List<String>? passwords = prefs?.getStringList(KEY_PASSWORDS);
-    if(usernames == null || passwords == null) {
+    if (usernames == null || passwords == null) {
       aj_print("no accounts on disk");
       return accounts;
     }
 
     int userCount = min(usernames.length, passwords.length);
     // join the 2 username+password arrays to make a KolAccount array
-    for(int c = 0; c < userCount; c++) {
+    for (int c = 0; c < userCount; c++) {
       KolAccount account = KolAccount(usernames[c], passwords[c]);
 //      aj_print(account);
       accounts.add(account);
     }
-  //  aj_print("getAllAccs: $userCount");
+    //  aj_print("getAllAccs: $userCount");
     return accounts;
   }
 
   /// saves one kol account to disk
   saveAccount(KolAccount account) async {
-     await _getSharedPref();
-     List<KolAccount> accounts = await getAllAccounts();
-     //   aj_print("saving " + account.username + " " + account.password);
-     if (accounts.contains(account)) {
-       accounts.remove(account);
-     }
-     accounts.insert(0, account);
-     saveAccounts(accounts);
+    await _getSharedPref();
+    List<KolAccount> accounts = await getAllAccounts();
+    //   aj_print("saving " + account.username + " " + account.password);
+    if (accounts.contains(account)) {
+      accounts.remove(account);
+    }
+    accounts.insert(0, account);
+    saveAccounts(accounts);
   }
 
   /// saves all the passed in accounts to disk
   saveAccounts(List<KolAccount> accounts) async {
     var usernames = <String>[];
     var passwords = <String>[];
-    for(var account in accounts) {
+    for (var account in accounts) {
       usernames.add(account.username);
       passwords.add(account.password);
     }

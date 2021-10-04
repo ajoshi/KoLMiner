@@ -10,7 +10,7 @@ const String PREF_AVG_ADVS_SPENT = "avg_advs_spent";
 const String PREF_TOTAL_TIME_SPENT = "total_time_spent";
 
 void saveNewMiningData(MiningSessionData data) async {
-  aj_print("time per mine = ${data.timeTaken/data.advCount}");
+  aj_print("time per mine = ${data.timeTaken / data.advCount}");
 
   final prefs = await SharedPreferences.getInstance();
   final oldGold = prefs.getInt(PREF_AVG_GOLD_COUNT) ?? 0;
@@ -59,7 +59,7 @@ class MiningSessionData {
   }
 
   String _getTimeTakeAsString() {
-    var time = (timeTaken/advCount)/1000;
+    var time = (timeTaken / advCount) / 1000;
     return "${time.toStringAsFixed(2)}";
   }
 

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:kol_miner/chat_commands/chat_command.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/constants.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
@@ -28,7 +29,6 @@ class LazyUselessPersonWidget extends StatefulWidget {
 class LazyPersonState extends State<LazyUselessPersonWidget> {
   late final LazyRequest lazyRequest;
   late final OutfitManager _outfitManager;
-
   int _milkTurns = -1;
 
   initState() {
@@ -129,6 +129,12 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
     lazyRequest.requestPerfectDrink().then((code) => requestPlayerDataUpdate());
   }
 
+  _onEatClicked() {
+    lazyRequest.requestMilkUse().then((_) => lazyRequest
+        .requestEatSleazyHimein()
+        .then((code) => requestPlayerDataUpdate()));
+  }
+
   _equipVolc() {
     _outfitManager.equipOutfitUsingName("volc");
   }
@@ -145,12 +151,6 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
     _outfitManager
         .equipOutfitUsingName("velv")
         .then((_) => lazyRequest.visitDisco());
-  }
-
-  _onEatClicked() {
-    lazyRequest.requestMilkUse().then((_) => lazyRequest
-        .requestEatSleazyHimein()
-        .then((code) => requestPlayerDataUpdate()));
   }
 
   _onResolveClicked() {

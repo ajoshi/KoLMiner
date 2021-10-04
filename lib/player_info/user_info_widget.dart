@@ -61,7 +61,8 @@ class UserInfoState extends State<UserInfoWidget> {
           "Advs: $_advs ",
           style: Theme.of(context).textTheme.bodyText1,
         ),
-        new Text("$_advsUsed used",
+        new Text(
+          "$_advsUsed used",
           style: Theme.of(context).textTheme.caption,
         ),
       ],

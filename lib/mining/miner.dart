@@ -49,34 +49,35 @@ class Miner {
     if (currentMine == null) {
       // get the layout if we don't have it
       var response = await getMineLayout();
-      if (response.miningResponseCode != MiningResponseCode.SUCCESS || currentMine == null) {
+      if (response.miningResponseCode != MiningResponseCode.SUCCESS ||
+          currentMine == null) {
         // can't access the mine at all
         return MiningResponse(
             response.networkResponseCode, response.miningResponseCode, false);
       }
     }
-      //  aj_print(currentMine);
-      MineableSquare? targetSquare = currentMine!.getNextMineableSquare();
-      if (targetSquare == null) {
-        // if we have no valid links anymore, get a new mine
-        if (currentMine!.canGetNewMine) {
-          aj_print("we need a new mine and we can get one");
-          if (await getNextMine()) {
-            aj_print("got a new mine!");
-            // if we did get a new mine, then mine in that one
-            return mineNextSquare();
-          } else {
-            // failed to get new mine. Out of advs? no hot res left?
-            return new MiningResponse(
-                NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
-          }
+    //  aj_print(currentMine);
+    MineableSquare? targetSquare = currentMine!.getNextMineableSquare();
+    if (targetSquare == null) {
+      // if we have no valid links anymore, get a new mine
+      if (currentMine!.canGetNewMine) {
+        aj_print("we need a new mine and we can get one");
+        if (await getNextMine()) {
+          aj_print("got a new mine!");
+          // if we did get a new mine, then mine in that one
+          return mineNextSquare();
         } else {
-          aj_print("mining randomly so we can gtfo");
-          // mine somewhere at random so the 'find new cavern' button shows up
-          targetSquare = currentMine!.getThrowawayMineSquare();
+          // failed to get new mine. Out of advs? no hot res left?
+          return new MiningResponse(
+              NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
         }
+      } else {
+        aj_print("mining randomly so we can gtfo");
+        // mine somewhere at random so the 'find new cavern' button shows up
+        targetSquare = currentMine!.getThrowawayMineSquare();
       }
-      return mineSquare(targetSquare);
+    }
+    return mineSquare(targetSquare);
   }
 
   /// Mines the given square and returns a failure if it can't
@@ -84,10 +85,9 @@ class Miner {
     //    aj_print("we gonn mine $targetSquare");
     // if the url changes (maybe?) to not have params in it, the app name won't be parsed
     // since params are optional, everything should work fine on our end though
-    var mineResponse =
-        await _network.makeRequest("${targetSquare.url}&${_network.appName}");
+    var mineResponse = await _network.makeRequestToPath("${targetSquare.url}");
     if (mineResponse.responseCode == NetworkResponseCode.SUCCESS) {
-        aj_print("mined $targetSquare");
+      aj_print("mined $targetSquare");
       bool didStrikeGold = mineResponse.response.contains("carat");
       if (mineResponse.response.contains("You're out of adventures.") ||
           mineResponse.response
@@ -97,8 +97,9 @@ class Miner {
         return MiningResponse(
             NetworkResponseCode.SUCCESS, MiningResponseCode.FAILURE, false);
       }
-      var currentlyMinedSquares = currentMine?.minedSquares == null ? 0 : currentMine!.minedSquares;
-        parseMineLayout(mineResponse.response, currentlyMinedSquares + 1);
+      var currentlyMinedSquares =
+          currentMine?.minedSquares == null ? 0 : currentMine!.minedSquares;
+      parseMineLayout(mineResponse.response, currentlyMinedSquares + 1);
       if (didStrikeGold) {
         // once a gold is found, we want to move on to the next mine
         autoSellGold();
@@ -144,18 +145,18 @@ class Miner {
       var isShiny = altText?.contains("Promising");
       // alt: use the alttext for images to figure out the location+shininess
       // var isShiny = child.attributes["src"].contains("https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mine/wallsparkle");
-      var ysubstring = altText?.substring(altText.length - 2, altText.length - 1);
+      var ysubstring =
+          altText?.substring(altText.length - 2, altText.length - 1);
       // failure to parse gives us squares 6,6 which are not mineable
-      int y =
-          int.parse(ysubstring == null ? "6" : ysubstring);
-      var xsubstring = altText?.substring(altText.length - 4, altText.length - 3);
-      int x =
-          int.parse(xsubstring == null ? "6" : xsubstring);
-      MineableSquare square =
-          MineableSquare(link, isShiny == true, x, y);
+      int y = int.parse(ysubstring == null ? "6" : ysubstring);
+      var xsubstring =
+          altText?.substring(altText.length - 4, altText.length - 3);
+      int x = int.parse(xsubstring == null ? "6" : xsubstring);
+      MineableSquare square = MineableSquare(link, isShiny == true, x, y);
       listOfMineSquares.add(square);
     }
-    Mine newMine = new Mine(listOfMineSquares, contents.contains("Find New Cavern"), squaresAlreadyMined);
+    Mine newMine = new Mine(listOfMineSquares,
+        contents.contains("Find New Cavern"), squaresAlreadyMined);
     layout.getElementsByClassName("button");
     if (newMine.squares.length == 0) {
       aj_print("network response: [$contents]");

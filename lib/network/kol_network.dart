@@ -49,12 +49,12 @@ class KolNetwork {
       var loginUrl = BASE_URL + realLoginPageUrl.toString();
       loginUrl = loginUrl +
           "&loggingin=Yup."
-          "&promo="
-          "&mrstore="
-          "&secure=1"
-          "&loginname=$_username/q"
-          "&password=$_password"
-          "&submitbutton=Log+In&$_forAppName";
+              "&promo="
+              "&mrstore="
+              "&secure=1"
+              "&loginname=$_username/q"
+              "&password=$_password"
+              "&submitbutton=Log+In&$_forAppName";
 
       Uri tempUri = Uri.parse(loginUrl);
 
@@ -179,14 +179,27 @@ class KolNetwork {
   /// Performs GET requests by default, but can also perform PUTs
   Future<NetworkResponse> makeRequestWithQueryParams(
       String baseUrl, String params,
-      {HttpMethod method = HttpMethod.GET, bool allowEmptyResponse = false}) async {
+      {HttpMethod method = HttpMethod.GET,
+      bool allowEmptyResponse = false}) async {
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
+        method: method, allowEmptyResponse: allowEmptyResponse);
+  }
+
+  /// Make a network request for the given url and the urlParams. Params do not
+  /// start with & or ?. Eg. "which=1&b=2"
+  /// The 'for' param is added automatically.
+  /// Performs GET requests by default, but can also perform PUTs
+  Future<NetworkResponse> makeRequestToPath(String urlWithParams,
+      {HttpMethod method = HttpMethod.GET,
+      bool allowEmptyResponse = false}) async {
+    return makeRequest("$urlWithParams&$_forAppName&pwd=$_pwdHash",
         method: method, allowEmptyResponse: allowEmptyResponse);
   }
 
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url,
-      {HttpMethod method = HttpMethod.GET, bool allowEmptyResponse = false}) async {
+      {HttpMethod method = HttpMethod.GET,
+      bool allowEmptyResponse = false}) async {
     aj_print("call to $url");
     try {
       var httpClient = new HttpClient();
@@ -200,7 +213,7 @@ class KolNetwork {
         // else default is get
         httpRequest = await httpClient.getUrl(Uri.parse(BASE_URL + url));
       }
-      if(_phpsessid != null && _awsAlb != null) {
+      if (_phpsessid != null && _awsAlb != null) {
         httpRequest.headers
           ..add("PHPSESSID", _phpsessid!)
           ..add("AWSALB", _awsAlb!)

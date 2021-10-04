@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 class Screen extends StatefulWidget {
   final KolNetwork network;
 
-  const Screen( this.network, {Key? key}) : super(key: key);
+  const Screen(this.network, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return new ScreenState();
@@ -37,10 +37,7 @@ class ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return new LoginPage(
-        widget.network,
-        onLogin,
-        title: 'KoL Miner');
+    return new LoginPage(widget.network, onLogin, title: 'KoL Miner');
   }
 
   void _navigateToMiningScreen(BuildContext context) async {
@@ -48,17 +45,19 @@ class ScreenState extends State<Screen> {
     // Navigator.pop on the Selection Screen.
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MiningPage(
-        widget.network,
-        title: 'Mine for gold',
-      )),
+      MaterialPageRoute(
+          builder: (context) => MiningPage(
+                widget.network,
+                title: 'Mine for gold',
+              )),
     );
 
     // Show an error dialog if an error result was returned
-    if(result != null) {
+    if (result != null) {
       showDialog(
         context: this.context,
-        builder: (buildContext) => getErrorDialog(buildContext, result.errorMessage),
+        builder: (buildContext) =>
+            getErrorDialog(buildContext, result.errorMessage),
       );
     }
   }

@@ -4,7 +4,11 @@ import 'package:kol_miner/common_widgets/platformui.dart';
 
 /// Edittext and button that lets the user mine
 class MiningInputFields extends StatelessWidget {
-  MiningInputFields(this.advsToMineController, this.enable, this.onMineClicked,);
+  MiningInputFields(
+    this.advsToMineController,
+    this.enable,
+    this.onMineClicked,
+  );
 
   final VoidCallback onMineClicked;
   final TextEditingController advsToMineController;
@@ -39,7 +43,7 @@ class MiningInputFields extends StatelessWidget {
         new Padding(padding: EdgeInsets.only(top: 10.0)),
         getPlatformButton(
           context,
-          onPressed: enable?  _onMineClicked : null,
+          onPressed: enable ? _onMineClicked : null,
           child: new Text(
             'Mine away',
           ),
