@@ -26,11 +26,6 @@ Widget getSecondaryButton(BuildContext context,
       },
     ),
   );
-  /*
-    style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-  ),
-   */
 
   return ElevatedButton(
     onPressed: onPressed,
