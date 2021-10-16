@@ -18,7 +18,7 @@ class MiningOutput extends StatelessWidget {
           style: Theme.of(context).textTheme.headline4,
         ),
         new Text(
-          'Meat: ${getMeatAsString()}',
+          'Meat gained: ${getMeatAsString()}',
           style: Theme.of(context).textTheme.subtitle1,
         ),
         new Text(

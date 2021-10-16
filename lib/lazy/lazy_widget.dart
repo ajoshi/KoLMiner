@@ -48,7 +48,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
             buildInfoBox(),
             getRowOfActions(LazyWidgetRow('HP/MP', [
               LazyWidgetButtonModel('Resolve', _onResolveClicked),
-              LazyWidgetButtonModel('Healz', _onHealClicked)
+              LazyWidgetButtonModel('Nunnery', _onHealClicked)
             ])),
             getRowOfActions(new LazyWidgetRow('Consume', [
               LazyWidgetButtonModel('Eat', _onEatClicked),

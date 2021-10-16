@@ -127,7 +127,10 @@ class MiningPageState extends State<MiningPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        actions: <Widget>[IconButton(onPressed: _refreshPlayerData, icon: const Icon(Icons.refresh))],
+        actions: <Widget>[
+          IconButton(
+              onPressed: _refreshPlayerData, icon: const Icon(Icons.refresh))
+        ],
         title: new Text(widget.title),
       ),
       body: getCenteredListView(),
