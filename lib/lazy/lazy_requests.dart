@@ -63,7 +63,7 @@ class LazyRequest {
   /// Drink perfect mimosa
   requestPerfectDrink() async {
     await network.makeRequestWithQueryParams(
-        "inv_booze.php", "which=1&whichitem=8740");
+        "inv_booze.php", "which=1&whichitem=8739");
   }
 
   /// Eat sleazy hi mein
