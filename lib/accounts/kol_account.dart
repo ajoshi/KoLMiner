@@ -12,7 +12,7 @@ class KolAccount {
   KolAccount(this.username, this.password);
 
   String toString() {
-    return username + password;
+    return username + " " + password;
   }
 
   bool operator ==(other) {

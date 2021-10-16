@@ -34,7 +34,7 @@ class _LoginFormState extends State<LoginForm> {
       new GlobalKey();
 
   // current value of the Autocomplete text field
-  late final String _usernameTextViewValue;
+  String _usernameTextViewValue = "";
 
   final KolAccountManager accountManager = KolAccountManager();
 
@@ -62,6 +62,7 @@ class _LoginFormState extends State<LoginForm> {
       isLoggingIn = true;
       var password = passwordController.text;
       var newAccount = KolAccount(_usernameTextViewValue, password);
+      aj_print("logging in with " + newAccount.toString());
       widget.network
           .login(
             newAccount.username,
@@ -117,6 +118,8 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onAccountListLoaded(List<KolAccount> newAccounts) {
     accounts = newAccounts;
+    aj_print("new list of accounts: ");
+    accounts?.map((e) => aj_print(e.toString()));
     var suggestions =
         newAccounts.map((acct) => acct.username).toList(growable: false);
 
