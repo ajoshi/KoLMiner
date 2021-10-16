@@ -37,7 +37,11 @@ class ChatCommander {
           _getSubstringBetween(output.match, "dojax('", "');)-->");
       if (redirectUrl != null) {
         didSucceed = (await _network.makeRequestToPath(redirectUrl.match,
-                    method: HttpMethod.POST))
+                    method: HttpMethod.POST,
+                    emptyResponseDefaultValue: NetworkResponse(
+                        NetworkResponseCode.FAILURE,
+                        "") // commands can sometimes not respond, like skills.php?whichskill=7218&quantity=3&ajax=1&action=Skillz&ref=1&targetplayer=2129446
+                    ))
                 .responseCode ==
             NetworkResponseCode.SUCCESS;
         //      print("Redirect for ${redirectUrl.match} at index ${redirectUrl.index}: $didSucceed");

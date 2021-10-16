@@ -147,11 +147,21 @@ class Miner {
       // var isShiny = child.attributes["src"].contains("https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mine/wallsparkle");
       var ysubstring =
           altText?.substring(altText.length - 2, altText.length - 1);
+      int y = 0;
       // failure to parse gives us squares 6,6 which are not mineable
-      int y = int.parse(ysubstring == null ? "6" : ysubstring);
+      try {
+        y = int.parse(ysubstring == null ? "6" : ysubstring);
+      } catch (formatException) {
+        y = 6;
+      }
       var xsubstring =
           altText?.substring(altText.length - 4, altText.length - 3);
-      int x = int.parse(xsubstring == null ? "6" : xsubstring);
+      int x = 0;
+      try {
+        x = int.parse(xsubstring == null ? "6" : xsubstring);
+      } catch (formatException) {
+        x = 6;
+      }
       MineableSquare square = MineableSquare(link, isShiny == true, x, y);
       listOfMineSquares.add(square);
     }
