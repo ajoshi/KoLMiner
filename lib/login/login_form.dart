@@ -69,6 +69,7 @@ class _LoginFormState extends State<LoginForm> {
             newAccount.password,
           )
           .then((responseCode) => onLoginResponse(responseCode, newAccount));
+      usernameSuggestions = <String>[];
     });
   }
 
@@ -226,17 +227,18 @@ class _LoginFormState extends State<LoginForm> {
             padding: const EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 5.0),
             child: getSubmitButtonOrSpinner()),
         Padding(
-            padding: const EdgeInsets.only(top: 6.0),
-            child: GestureDetector(
-              child: new Text(
-                'Create new account or reset password',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.indigoAccent,
-                ),
+          padding: const EdgeInsets.only(top: 6.0),
+          child: GestureDetector(
+            child: new Text(
+              'Create new account or reset password',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.indigoAccent,
               ),
-              onTap: () => _launchKolInBrowser(),
-            )),
+            ),
+            onTap: () => _launchKolInBrowser(),
+          ),
+        ),
         messageToShow.isEmpty
             ? new Container()
             : Padding(
@@ -246,7 +248,8 @@ class _LoginFormState extends State<LoginForm> {
                   style: TextStyle(
                     color: Colors.red,
                   ),
-                )),
+                ),
+              ),
       ],
     );
   }
