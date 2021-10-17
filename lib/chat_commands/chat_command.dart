@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:universal_html/html.dart' as html;
 
 import 'package:kol_miner/network/kol_network.dart';
 
@@ -12,46 +13,84 @@ class ChatCommander {
   /// Makes an arbitrary chat command request and follows most server redirects
   /// in the public interest the leading / is always appended
   /// Request should be of form "buy 10 ben" and not "/buy 10 ben"
-  Future<bool> executeChatcommand(String command) async {
+  Future<String?> executeChatcommand(String command) async {
     var encodedCommand = Uri.encodeFull(command);
-    var response = await _network.makeRequestWithQueryParams(
-        "submitnewchat.php",
-        "playerid=${_network.getPlayerId()}&graf=%2Fnewbie+%2F$encodedCommand&j=1",
-        method: HttpMethod.POST,
-        emptyResponseDefaultValue:
-            NetworkResponse(NetworkResponseCode.FAILURE, ""));
-
-    return followChatRedirectsInResponse(response.response);
+    return executeChainCommands(encodedCommand, isChatCommand: true);
   }
 
-  Future<bool> followChatRedirectsInResponse(String responseString) async {
+  Future<String?> _executeCommand(String command,
+      {bool isChatCommand = false}) async {
+    if (isChatCommand) {
+      return (await _network.makeRequestWithQueryParams("submitnewchat.php",
+              "playerid=${_network.getPlayerId()}&graf=%2Fnewbie+%2F$command&j=1",
+              method: HttpMethod.POST,
+              emptyResponseDefaultValue:
+                  // commands can sometimes not respond, like skills.php?whichskill=7218&quantity=3&ajax=1&action=Skillz&ref=1&targetplayer=2129446
+                  NetworkResponse(NetworkResponseCode.FAILURE, "")))
+          .response;
+    } else {
+      return _callPath(command);
+    }
+  }
+
+  Future<String?> _callPath(String path) async {
+    return (await _network.makeRequestToPath(path,
+            method: HttpMethod.POST,
+            emptyResponseDefaultValue:
+                NetworkResponse(NetworkResponseCode.FAILURE, "")))
+        .response;
+  }
+
+  Future<String?> executeChainCommands(String command,
+      {bool isChatCommand = false}) async {
+    var response = await _executeCommand(command, isChatCommand: isChatCommand);
+    if (response == null) return "";
     var start = "<font color=green>";
     var end = "<\\/font>";
+    String chatOutput = "";
 
-    bool didSucceed = false;
-    // we could also output the displayed html in this response. Shows output ike "using 1 slimy paste"
-    var output = _getSubstringBetween(responseString, start, end);
+    var output = _getSubstringBetween(response, start, end);
+    chatOutput = _appendTwoStringsWithNewline(
+        chatOutput, _getChatOutputFromResponse(response));
     while (output != null) {
-      //     print("Substring found for for ${output.match} at index ${output.index}");
       var redirectUrl =
           _getSubstringBetween(output.match, "dojax('", "');)-->");
       if (redirectUrl != null) {
-        didSucceed = (await _network.makeRequestToPath(redirectUrl.match,
-                    method: HttpMethod.POST,
-                    emptyResponseDefaultValue: NetworkResponse(
-                        NetworkResponseCode.FAILURE,
-                        "") // commands can sometimes not respond, like skills.php?whichskill=7218&quantity=3&ajax=1&action=Skillz&ref=1&targetplayer=2129446
-                    ))
-                .responseCode ==
-            NetworkResponseCode.SUCCESS;
-        //      print("Redirect for ${redirectUrl.match} at index ${redirectUrl.index}: $didSucceed");
+        var childResponse = _getChatOutputFromResponse(
+            await executeChainCommands(redirectUrl.match));
+        chatOutput = _appendTwoStringsWithNewline(chatOutput, childResponse);
+        //      aj_print("Redirect for ${redirectUrl.match} at index ${redirectUrl.index}: $didSucceed");
       } else {
-        //    print("redirecturl was null");
+        //    aj_print("redirecturl was null");
       }
-      output = _getSubstringBetween(responseString, start, end, output.index);
+      output = _getSubstringBetween(response, start, end, output.index);
     }
-//    print("all donesies");
-    return didSucceed;
+
+    return chatOutput;
+  }
+
+  String _appendTwoStringsWithNewline(String a, String b) {
+    if (a.isEmpty) return b;
+    if (b.isEmpty) return a;
+
+    return a + "\n" + b;
+  }
+
+  String _getChatOutputFromResponse(String? response) {
+    if (response == null) return "";
+    var outputsMatch =
+        _getSubstringBetween(response, "\"output\":\"", "<\\/font>");
+    if (outputsMatch != null) {
+      response = outputsMatch.match;
+    } else {
+      var resultsMatch = _getSubstringAfter(response, "Results:");
+      if (resultsMatch != null) {
+        response = resultsMatch.match;
+      }
+    }
+    //   aj_print("Substring found for for $response");
+    var text = html.Element.span()..appendHtml(response);
+    return text.innerText;
   }
 
   SubstringMatch? _getSubstringBetween(
@@ -65,6 +104,17 @@ class ChatCommander {
     int endIndex = response.indexOf(rightBound, startIndex);
 
     return SubstringMatch(response.substring(startIndex, endIndex), startIndex);
+  }
+
+  SubstringMatch? _getSubstringAfter(String response, String leftBound,
+      [int offset = 0]) {
+    int startIndex = response.indexOf(leftBound, offset);
+    if (startIndex == -1) {
+      return null;
+    }
+    startIndex += leftBound.length;
+
+    return SubstringMatch(response.substring(startIndex), startIndex);
   }
 }
 

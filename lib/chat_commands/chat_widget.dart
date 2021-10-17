@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/utils.dart';
@@ -21,19 +21,38 @@ class ChatWidgetState extends State<ChatWidget> {
   late final ChatCommander _chatCommander;
 
   var isEnabled = true;
+  var chatOutput = "";
 
   initState() {
     super.initState();
     _chatCommander = new ChatCommander(widget.network);
   }
 
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    chatInputTextController.dispose();
+    super.dispose();
+  }
+
   void _sendChat(String text) {
     aj_print("Chat: $text");
     _setSendButtonEnabled(false);
-    _chatCommander.executeChatcommand(text).then((value) => _onChatResponse());
+    _chatCommander
+        .executeChatcommand(text)
+        .then((value) => _onChatResponse(value));
   }
 
-  void _onChatResponse() {
+  void _setChatOutput(String output) {
+    setState(() {
+      chatOutput = output;
+    });
+  }
+
+  void _onChatResponse(String? response) {
+    if (response != null) {
+      _setChatOutput(response);
+    }
     chatInputTextController.clear();
     _setSendButtonEnabled(true);
   }
@@ -47,6 +66,30 @@ class ChatWidgetState extends State<ChatWidget> {
   void _onSendChatSubmitted() {
     var chatRequest = chatInputTextController.text;
     _sendChat(chatRequest);
+  }
+
+  /// We want the chat output to be hidden when there is no output
+  Widget _buildChatOutputWidget() {
+    if (chatOutput.isEmpty) {
+      return new Container();
+    }
+    return new GestureDetector(
+      onTap: () {
+        _setChatOutput("");
+      },
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+            color: Color.fromARGB(30, 100, 100, 100),
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        child: Padding(
+          padding: EdgeInsets.all(5.0),
+          child: Text(
+            chatOutput,
+            maxLines: 4,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -69,6 +112,10 @@ class ChatWidgetState extends State<ChatWidget> {
           enabled: isEnabled,
           keyboardType: TextInputType.text,
           onSubmitted: _sendChat,
+        ),
+        Padding(
+          padding: EdgeInsets.all(5.0),
+          child: _buildChatOutputWidget(),
         ),
       ],
     );

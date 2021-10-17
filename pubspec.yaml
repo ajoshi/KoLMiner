@@ -21,6 +21,7 @@ dependencies:
   # to format numbers with commas (or periods)
   intl: ^0.17.0
   html: any
+  universal_html: ^1.1.18
   provider: ^6.0.1            #tests
 
 dev_dependencies:
