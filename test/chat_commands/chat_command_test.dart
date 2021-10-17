@@ -20,7 +20,7 @@ void main() {
             () => NetworkResponse(NetworkResponseCode.SUCCESS, "response")));
 
     test('outfit change command follows redirect to outfit change request', () {
-      var response = chatCommander.followChatRedirectsInResponse(
+      var response = chatCommander.executeChainCommands(
           "{\"output\":\"<font color=green>Equipping \"volcano mining (#237)\".<!--js(dojax('inv_equip.php?action=outfit&whichoutfit=-237&ajax=1');)--><\\/font>\",\"msgs\":[]}");
 
       verify(network.makeRequestToPath(
@@ -32,7 +32,7 @@ void main() {
     });
 
     test('single consumption command redirects to consumption endpoint', () {
-      chatCommander.followChatRedirectsInResponse(
+      chatCommander.executeChainCommands(
           "{\"output\":\"<font color=green>Using 1 slimy paste.<!--js(dojax('inv_spleen.php?whichitem=5214&ajax=1&pwd=822fbb9ba37ac&quantity=1');)--><\\/font>\",\"msgs\":[]}");
 
       verify(network.makeRequestToPath(
@@ -43,7 +43,7 @@ void main() {
     });
 
     test('invalid command fails as expected', () {
-      var response = chatCommander.followChatRedirectsInResponse(
+      var response = chatCommander.executeChainCommands(
           "{\"output\":\"<font color=green>Sorry, I can't find that outfit.<\\/font>\",\"msgs\":[]}");
 
       verifyNever(network.makeRequestToPath(any,
@@ -53,7 +53,7 @@ void main() {
     });
 
     test('chat message is sent', () {
-      var response = chatCommander.followChatRedirectsInResponse(
+      var response = chatCommander.executeChainCommands(
           "{\"msgs\":[{\"type\":\"private\",\"who\":{\"id\":\"2190946\",\"name\":\"sel\",\"color\":\"black\"},\"for\":{\"id\":\"1889009\",\"name\":\"Buffy\",\"color\":\"black\"},\"msg\":\"ode\",\"time\":1633294452,\"format\":0}]}");
 
       verifyNever(network.makeRequestToPath(any,

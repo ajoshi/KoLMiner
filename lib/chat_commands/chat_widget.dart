@@ -85,7 +85,7 @@ class ChatWidgetState extends State<ChatWidget> {
           padding: EdgeInsets.all(5.0),
           child: Text(
             chatOutput,
-            maxLines: 4,
+            maxLines: 6,
           ),
         ),
       ),
