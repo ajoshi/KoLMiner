@@ -90,6 +90,7 @@ class _LoginFormState extends State<LoginForm> {
     switch (responsecode) {
       case NetworkResponseCode.SUCCESS:
         accountManager.saveAccount(newAccount);
+        accounts = null;
         widget.onLogin();
         break;
       case NetworkResponseCode.ROLLOVER:
@@ -119,7 +120,9 @@ class _LoginFormState extends State<LoginForm> {
   void _onAccountListLoaded(List<KolAccount> newAccounts) {
     accounts = newAccounts;
     aj_print("new list of accounts: ");
-    accounts?.map((e) => aj_print(e.toString()));
+    newAccounts.forEach((element) {
+      aj_print(element);
+    });
     var suggestions =
         newAccounts.map((acct) => acct.username).toList(growable: false);
 
