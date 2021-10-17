@@ -87,15 +87,19 @@ class KolNetwork {
   /// Logging in doesn't get us all the player data, but hitting the charpane does
   /// So we check the charpane for the pwdhash and charpwd
   Future<bool> _getCharPwdAndHash() async {
-    var response = await makeRequest("charpane.php?$_forAppName");
+    var response =
+        await makeRequest("charpane.php?$_forAppName", useStreams: true);
     if (response.responseCode == NetworkResponseCode.SUCCESS) {
-      var charInfoHtml = response.response;
-      _playerId = _getBetween2Strings(charInfoHtml, "playerid = ", ";");
-      _pwdHash = _getBetween2Strings(charInfoHtml, "pwdhash = \"", "\"");
-
-      _charPwd =
-          _getBetween2Strings(charInfoHtml, "setCookie('charpwd', winW, ", ",");
-      return true;
+      // I guess there's too much data to stream.
+      // Flutter fails with some generic exception, but moving to streams fixes it
+      // theory: oom when converting the entire login response to a string
+      return response.responseStream.map((response) {
+        _playerId = _getBetween2Strings(response, "playerid = ", ";");
+        _pwdHash = _getBetween2Strings(response, "pwdhash = \"", "\"");
+        _playerId =
+            _getBetween2Strings(response, "setCookie('charpwd', winW, ", ",");
+        return true;
+      }).first;
     }
     return false;
   }
@@ -199,7 +203,8 @@ class KolNetwork {
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
   Future<NetworkResponse> makeRequest(String url,
       {HttpMethod method = HttpMethod.GET,
-      NetworkResponse? emptyResponseDefaultValue}) async {
+      NetworkResponse? emptyResponseDefaultValue,
+      bool useStreams = false}) async {
     aj_print("call to $url");
     try {
       var httpClient = new HttpClient();
@@ -237,8 +242,14 @@ class KolNetwork {
 
       //  TODO handle network failures while making request
       try {
-        var responseBody = await resp.transform(utf8.decoder).single;
-        return new NetworkResponse(NetworkResponseCode.SUCCESS, responseBody);
+        var responseBodyStream = resp.transform(utf8.decoder);
+        if (useStreams) {
+          return new NetworkResponse(NetworkResponseCode.SUCCESS, "",
+              responseStream: responseBodyStream);
+        } else {
+          return new NetworkResponse(
+              NetworkResponseCode.SUCCESS, await responseBodyStream.single);
+        }
       } catch (_) {
         // couldn't parse the response. Send back empty string?
         if (emptyResponseDefaultValue != null) {
@@ -268,8 +279,10 @@ class KolNetwork {
 class NetworkResponse {
   final NetworkResponseCode responseCode;
   final String response;
+  final Stream<String> responseStream;
 
-  NetworkResponse(this.responseCode, this.response);
+  NetworkResponse(this.responseCode, this.response,
+      {this.responseStream = const Stream.empty()});
 }
 
 enum NetworkResponseCode {
