@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/chat_commands/chat_input.dart';
+import 'package:kol_miner/chat_commands/chat_widget.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/mining/miner.dart';
 import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
@@ -23,7 +23,6 @@ class MiningPage extends StatefulWidget {
 
 class MiningPageState extends State<MiningPage> {
   final miningInputTextController = TextEditingController();
-  final chatInputTextController = TextEditingController();
 
   late final Miner miner;
 
@@ -116,6 +115,13 @@ class MiningPageState extends State<MiningPage> {
     _lazyPersonWidget = new LazyUselessPersonWidget(widget.network);
     _userInfoWidget = new UserInfoWidget(widget.network);
     miner = new Miner(widget.network);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    miningInputTextController.dispose();
+    super.dispose();
   }
 
   void _refreshPlayerData() {
