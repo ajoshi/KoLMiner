@@ -152,26 +152,10 @@ class KolNetwork {
         return networkResponse.responseStream.map((response) {
           return json.decode(response);
         });
-
-        // Map parsedResponse = json.decode(response.response);
-        // //int maxMp = parsedResponse["maxmp"];
-        // //     var advs = parsedResponse["adventures"];
-        // return parsedResponse;
       }
       return null;
     }
     );
-
-    // if (statusresponse.responseCode == NetworkResponseCode.SUCCESS) {
-    //   // return statusresponse.responseStream.map((response) {
-    //   //   Map<String, dynamic> m = json.decode(statusresponse.response);
-    //   // });
-    //   Map parsedResponse = json.decode(statusresponse.response);
-    //   //int maxMp = parsedResponse["maxmp"];
-    //   //     var advs = parsedResponse["adventures"];
-    //   return parsedResponse;
-    // }
-    // return null;
   }
 
   /// Given a bigString, finds the substring between the two passed in Strings
