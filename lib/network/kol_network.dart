@@ -184,9 +184,12 @@ class KolNetwork {
   Future<NetworkResponse> makeRequestWithQueryParams(
       String baseUrl, String params,
       {HttpMethod method = HttpMethod.GET,
-      NetworkResponse? emptyResponseDefaultValue}) async {
+      NetworkResponse? emptyResponseDefaultValue,
+      bool useStreams = false}) async {
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
-        method: method, emptyResponseDefaultValue: emptyResponseDefaultValue);
+        method: method,
+        emptyResponseDefaultValue: emptyResponseDefaultValue,
+        useStreams: useStreams);
   }
 
   /// Make a network request for the given url and the urlParams. Params do not
@@ -195,9 +198,12 @@ class KolNetwork {
   /// Performs GET requests by default, but can also perform PUTs
   Future<NetworkResponse> makeRequestToPath(String urlWithParams,
       {HttpMethod method = HttpMethod.GET,
-      NetworkResponse? emptyResponseDefaultValue}) async {
+      NetworkResponse? emptyResponseDefaultValue,
+      bool useStreams = false}) async {
     return makeRequest("$urlWithParams&$_forAppName&pwd=$_pwdHash",
-        method: method, emptyResponseDefaultValue: emptyResponseDefaultValue);
+        method: method,
+        emptyResponseDefaultValue: emptyResponseDefaultValue,
+        useStreams: useStreams);
   }
 
   /// Make a network request for a given url. Defaults to GET, but can make PUT requests as well
@@ -256,7 +262,7 @@ class KolNetwork {
           return emptyResponseDefaultValue;
         }
         aj_print("exception happened while parsing. Looping. ");
-        return makeRequest(url, method: method);
+        return makeRequest(url, method: method, useStreams: useStreams);
       }
     } on IOException catch (_) {
       return NetworkResponse(NetworkResponseCode.FAILURE, "");
