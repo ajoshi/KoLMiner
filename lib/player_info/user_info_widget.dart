@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/player_info/user_info_requests.dart';
+import 'package:intl/intl.dart';
 
 /// Shows basic user info: HP, MP, advs
 class UserInfoWidget extends StatefulWidget {
@@ -25,6 +26,7 @@ class UserInfoState extends State<UserInfoWidget> {
   int _advs = -1;
   int _advsUsed = 0;
   late final UserInfoRequest _userInfoRequest;
+  final meatFormat = new NumberFormat.decimalPattern();
 
   initState() {
     super.initState();
@@ -55,6 +57,18 @@ class UserInfoState extends State<UserInfoWidget> {
             _userInfoRequest.maxHp),
         _buildHpMpBar("MP", Colors.blue, _userInfoRequest.currentMp,
             _userInfoRequest.maxMp),
+        new Text(
+          "Full: ${_userInfoRequest.full}",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        new Text(
+          "Drunk: ${_userInfoRequest.drunk}",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        new Text(
+          "Meat: ${meatFormat.format(_userInfoRequest.meat)}",
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
         new Text(
           "Advs: $_advs ",
           style: Theme.of(context).textTheme.bodyText1,
