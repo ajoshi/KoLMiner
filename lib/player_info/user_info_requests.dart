@@ -11,6 +11,9 @@ class UserInfoRequest {
   late int maxMp;
   late int maxHp;
   late int advs;
+  late int drunk;
+  late int full;
+  late int meat;
 
   UserInfoRequest(this._network);
 
@@ -27,6 +30,9 @@ class UserInfoRequest {
       maxMp = _asInt(playerData["maxmp"]);
       maxHp = _asInt(playerData["maxhp"]);
       advs = _asInt(playerData["adventures"]);
+      drunk = _asInt(playerData["drunk"]);
+      full = _asInt(playerData["full"]);
+      meat = _asInt(playerData["meat"]);
 
       return true;
     }
