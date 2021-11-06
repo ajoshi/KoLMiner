@@ -20,23 +20,40 @@ class UserInfoRequest {
   /// Update the hp/mp/advs info text
   /// advs left, hp, mp
   /// advs spent, gold found, meat
-  Future<bool> getPlayerData() async {
-    var playerData = await _network.getPlayerData();
-    if (playerData != null) {
-      // get the user info
-      userName = _asString(playerData["name"]);
-      currentHp = _asInt(playerData["hp"]);
-      currentMp = _asInt(playerData["mp"]);
-      maxMp = _asInt(playerData["maxmp"]);
-      maxHp = _asInt(playerData["maxhp"]);
-      advs = _asInt(playerData["adventures"]);
-      drunk = _asInt(playerData["drunk"]);
-      full = _asInt(playerData["full"]);
-      meat = _asInt(playerData["meat"]);
+  Stream<bool> getPlayerData() {
+    var playerData = _network.getPlayerData();
 
-      return true;
-    }
-    return false;
+    return playerData.map((map) {
+      if(map != null) {
+        // get the user info
+        userName = _asString(map["name"]);
+        currentHp = _asInt(map["hp"]);
+        currentMp = _asInt(map["mp"]);
+        maxMp = _asInt(map["maxmp"]);
+        maxHp = _asInt(map["maxhp"]);
+        advs = _asInt(map["adventures"]);
+        drunk = _asInt(map["drunk"]);
+        full = _asInt(map["full"]);
+        meat = _asInt(map["meat"]);
+        return true;
+      }
+      return false;
+    });
+    // if (playerData != null) {
+    //   // get the user info
+    //   userName = _asString(playerData["name"]);
+    //   currentHp = _asInt(playerData["hp"]);
+    //   currentMp = _asInt(playerData["mp"]);
+    //   maxMp = _asInt(playerData["maxmp"]);
+    //   maxHp = _asInt(playerData["maxhp"]);
+    //   advs = _asInt(playerData["adventures"]);
+    //   drunk = _asInt(playerData["drunk"]);
+    //   full = _asInt(playerData["full"]);
+    //   meat = _asInt(playerData["meat"]);
+    //
+    //   return true;
+    // }
+   // return false;
   }
 
   int _asInt(dynamic potentialInt) {

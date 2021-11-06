@@ -108,7 +108,7 @@ class UserInfoState extends State<UserInfoWidget> {
   /// Makes a server request to update player data and updates UI when data comes back
   requestPlayerDataUpdate() {
     if (mounted) {
-      _userInfoRequest.getPlayerData().then((_) => _updatePlayerData());
+      _userInfoRequest.getPlayerData().first.then((_) => _updatePlayerData());
     }
   }
 }

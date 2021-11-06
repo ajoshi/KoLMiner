@@ -121,7 +121,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   /// Makes a server request to update player data and updates UI when data comes back
   requestPlayerDataUpdate() {
     if (mounted) {
-      lazyRequest.getPlayerData().then((_) => _updatePlayerData());
+      lazyRequest.getPlayerData().first.then((_) => _updatePlayerData());
     }
   }
 

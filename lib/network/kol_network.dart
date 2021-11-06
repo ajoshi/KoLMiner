@@ -105,9 +105,9 @@ class KolNetwork {
   }
 
   /// Fetches player data from api.php. Returns null on failure (bad network?)
-  Future<Map?> getPlayerData() async {
-    var statusresponse =
-        await makeRequestWithQueryParams("api.php", "what=status");
+  Stream<Map?> getPlayerData() {
+    var networkResponseAsStream =
+         makeRequestWithQueryParams("api.php", "what=status", useStreams: true);
     //{"playerid":"2129446","name":"ajoshi","hardcore":"1","ascensions":"319",
     // "path":"22","sign":"Vole","roninleft":"308","casual":"0","drunk":"13",
     // "full":"4","turnsplayed":"760080","familiar":"213","hp":"359","mp":"54",
@@ -145,13 +145,33 @@ class KolNetwork {
     // "snowflake","518f53443c261c2b61ea11fe8716a715","168"]},"familiarpic":"xoskeleton",
     // "pathname":"Standard",
     // "effects":{"0bf172ccba65be4fdc4c0f908325b5c1":["Everything Looks Yellow",66,"eyes",null,790]}}
-    if (statusresponse.responseCode == NetworkResponseCode.SUCCESS) {
-      Map parsedResponse = json.decode(statusresponse.response);
-      //int maxMp = parsedResponse["maxmp"];
-      //     var advs = parsedResponse["adventures"];
-      return parsedResponse;
+
+    return networkResponseAsStream.asStream().asyncExpand((networkResponse)
+    {
+      if (networkResponse.responseCode == NetworkResponseCode.SUCCESS) {
+        return networkResponse.responseStream.map((response) {
+          return json.decode(response);
+        });
+
+        // Map parsedResponse = json.decode(response.response);
+        // //int maxMp = parsedResponse["maxmp"];
+        // //     var advs = parsedResponse["adventures"];
+        // return parsedResponse;
+      }
+      return null;
     }
-    return null;
+    );
+
+    // if (statusresponse.responseCode == NetworkResponseCode.SUCCESS) {
+    //   // return statusresponse.responseStream.map((response) {
+    //   //   Map<String, dynamic> m = json.decode(statusresponse.response);
+    //   // });
+    //   Map parsedResponse = json.decode(statusresponse.response);
+    //   //int maxMp = parsedResponse["maxmp"];
+    //   //     var advs = parsedResponse["adventures"];
+    //   return parsedResponse;
+    // }
+    // return null;
   }
 
   /// Given a bigString, finds the substring between the two passed in Strings

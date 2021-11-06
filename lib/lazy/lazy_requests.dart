@@ -32,20 +32,22 @@ class LazyRequest {
   }
 
   /// Update the hp/mp/advs info text
-  Future<bool> getPlayerData() async {
-    var playerData = await network.getPlayerData();
-    if (playerData != null) {
-      currentMp = playerData["mp"];
-      // go through effects to find how many turns of milk we have
-      if (playerData.containsKey("effects")) {
-        // someone could have 0 effects so we put in a guard
-        var effects = playerData["effects"];
-        currentMilkTurns = getEffectTurns(effects, MILK_EFFECT_HASH);
-        odeTurns = getEffectTurns(effects, ODE_EFFECT_HASH);
+  Stream<bool> getPlayerData() {
+    var playerData = network.getPlayerData();
+    return playerData.map((map) {
+      if (map != null) {
+        currentMp = map["mp"];
+        // go through effects to find how many turns of milk we have
+        if (map.containsKey("effects")) {
+          // someone could have 0 effects so we put in a guard
+          var effects = map["effects"];
+          currentMilkTurns = getEffectTurns(effects, MILK_EFFECT_HASH);
+          odeTurns = getEffectTurns(effects, ODE_EFFECT_HASH);
+        }
+        return true;
       }
-      return true;
-    }
-    return false;
+      return false;
+    });
   }
 
   Future<NetworkResponseCode> requestNunHealing() async {
