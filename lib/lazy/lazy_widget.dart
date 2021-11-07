@@ -51,11 +51,11 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
               LazyWidgetButtonModel('Nunnery', _onHealClicked)
             ])),
             getRowOfActions(new LazyWidgetRow('Consume', [
-              LazyWidgetButtonModel('Eat', _onEatClicked),
-              LazyWidgetButtonModel('Drink', _onDrinkClicked)
+              LazyWidgetButtonModel('hi mein', _onEatClicked),
+              LazyWidgetButtonModel('perfect mimosa', _onDrinkClicked)
             ])),
             getRowOfActions(new LazyWidgetRow('Equip', [
-              LazyWidgetButtonModel('RO', _onEquipOutfitRoll),
+              LazyWidgetButtonModel('roll', _onEquipOutfitRoll),
               LazyWidgetButtonModel('Mining', _equipVolc),
               LazyWidgetButtonModel('Velvet', _onEquipOutfitVelv)
             ])),
