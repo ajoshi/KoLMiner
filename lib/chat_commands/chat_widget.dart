@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kol_miner/SafeTextEditingController.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/utils.dart';
@@ -16,8 +17,8 @@ class ChatWidget extends StatefulWidget {
   ChatWidgetState createState() => new ChatWidgetState();
 }
 
-class ChatWidgetState extends State<ChatWidget> {
-  final chatInputTextController = TextEditingController();
+class ChatWidgetState extends SafeTextEditingControllerHost<ChatWidget> {
+  final chatInputTextController = SafeTextEditingController();
   late final ChatCommander _chatCommander;
 
   var isEnabled = true;
@@ -26,13 +27,7 @@ class ChatWidgetState extends State<ChatWidget> {
   initState() {
     super.initState();
     _chatCommander = new ChatCommander(widget.network);
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    chatInputTextController.dispose();
-    super.dispose();
+    chatInputTextController.register(this);
   }
 
   void _sendChat(String text) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kol_miner/SafeTextEditingController.dart';
 import 'package:kol_miner/chat_commands/chat_widget.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/mining/miner.dart';
@@ -7,6 +8,7 @@ import 'package:kol_miner/lazy/lazy_widget.dart';
 import 'package:kol_miner/mining/widget/mining_input.dart';
 import 'package:kol_miner/mining/widget/mining_output.dart';
 import 'package:kol_miner/player_info/user_info_widget.dart';
+import 'package:kol_miner/settings/settings_page.dart';
 
 import '../../utils.dart';
 
@@ -21,8 +23,8 @@ class MiningPage extends StatefulWidget {
   MiningPageState createState() => new MiningPageState();
 }
 
-class MiningPageState extends State<MiningPage> {
-  final miningInputTextController = TextEditingController();
+class MiningPageState extends SafeTextEditingControllerHost<MiningPage> {
+  final miningInputTextController = SafeTextEditingController();
 
   late final Miner miner;
 
@@ -112,21 +114,28 @@ class MiningPageState extends State<MiningPage> {
 
   initState() {
     super.initState();
+    miningInputTextController.register(this);
     _lazyPersonWidget = new LazyUselessPersonWidget(widget.network);
     _userInfoWidget = new UserInfoWidget(widget.network);
     miner = new Miner(widget.network);
   }
 
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    miningInputTextController.dispose();
-    super.dispose();
-  }
-
   void _refreshPlayerData() {
     _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
     _userInfoWidget.key.currentState?.requestPlayerDataUpdate();
+  }
+
+  void _navigateToSettings() {
+    final result = Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => SettingsPage()
+      )
+    );
+    result.whenComplete(() =>
+    // this should actually rerender the UI, but whatever
+        _refreshPlayerData()
+    );
   }
 
   @override
@@ -135,7 +144,11 @@ class MiningPageState extends State<MiningPage> {
       appBar: new AppBar(
         actions: <Widget>[
           IconButton(
-              onPressed: _refreshPlayerData, icon: const Icon(Icons.refresh))
+              onPressed: _refreshPlayerData, icon: const Icon(Icons.refresh), tooltip: "Refresh data",
+          ),
+          IconButton(
+              onPressed: _navigateToSettings, icon: const Icon(Icons.settings), tooltip: "Settings",
+          ),
         ],
         title: new Text(widget.title),
       ),
