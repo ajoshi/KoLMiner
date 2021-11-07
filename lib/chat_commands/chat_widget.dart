@@ -17,7 +17,7 @@ class ChatWidget extends StatefulWidget {
   ChatWidgetState createState() => new ChatWidgetState();
 }
 
-class ChatWidgetState extends SafeTextEditingControllerHost<ChatWidget> {
+class ChatWidgetState extends DisposableHostState<ChatWidget> {
   final chatInputTextController = SafeTextEditingController();
   late final ChatCommander _chatCommander;
 

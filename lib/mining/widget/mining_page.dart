@@ -23,7 +23,7 @@ class MiningPage extends StatefulWidget {
   MiningPageState createState() => new MiningPageState();
 }
 
-class MiningPageState extends SafeTextEditingControllerHost<MiningPage> {
+class MiningPageState extends DisposableHostState<MiningPage> {
   final miningInputTextController = SafeTextEditingController();
 
   late final Miner miner;

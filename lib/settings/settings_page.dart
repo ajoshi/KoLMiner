@@ -1,9 +1,7 @@
-import 'dart:ui';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
-import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
-import 'package:kol_miner/historical_mining_data/historical_mine_data_widget.dart';
 import 'package:kol_miner/settings/settings.dart';
 import 'package:kol_miner/utils.dart';
 
@@ -20,8 +18,11 @@ class SettingsPage extends StatefulWidget {
   _SettingsPageState createState() => new _SettingsPageState();
 }
 
-class _SettingsPageState extends SafeTextEditingControllerHost<SettingsPage> {
-  Settings? _settings = null;
+class _SettingsPageState extends DisposableHostState<SettingsPage> {
+  Settings? _settings;
+  // Stick all controllers in a map so we don't recreate them every time build happens
+  final Map<String, SafeTextEditingController> _textEditingControllerMap =
+      new HashMap();
 
   void _setSettings(Settings settings) {
     setState(() {
@@ -29,49 +30,62 @@ class _SettingsPageState extends SafeTextEditingControllerHost<SettingsPage> {
     });
   }
 
-  void _onSavePressed() {
-    //    saveNewSettings(_settings);
-    aj_print("${_settings?.food?.name}");
-    aj_print("${_settings?.food?.data}");
+  SafeTextEditingController _getEditingControllerForKey(String key, String defaultText) {
+    var existingController = _textEditingControllerMap[key];
+    if (existingController != null) return existingController;
+
+    var newController = new SafeTextEditingController().register(this);
+    newController.text = defaultText;
+    _textEditingControllerMap[key] = newController;
+    return newController;
   }
 
-  Widget _inputRow(Setting? setting, String hintText) {
-    TextEditingController nameController = new SafeTextEditingController().register(this);
-    TextEditingController valueController = new SafeTextEditingController().register(this);
-    return new Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          new Text(hintText, style: Theme.of(context).textTheme.overline),
-          new SettingTextInputField("Button name", TextInputType.text, (value) {
-            setting?.name = value;
-          },
-              nameController
-          ),
-          new SettingTextInputField(hintText + " id",
-              TextInputType.numberWithOptions(signed: false, decimal: false),
-              (value) {
-            setting?.data = value;
-          },
-              valueController),
-        ]);
+  Widget _actionIdInputRow(Setting? setting, String hintText) {
+    return _inputRow(setting, hintText,
+        TextInputType.numberWithOptions(signed: false, decimal: false), " id");
   }
 
   Widget _chatInputRow(Setting? setting, String hintText) {
-    TextEditingController nameController = new SafeTextEditingController().register(this);
-    TextEditingController valueController = new SafeTextEditingController().register(this);
+    return _inputRow(setting, hintText, TextInputType.text, " command");
+  }
+
+  Widget _inputRow(Setting? setting, String hintText,
+      TextInputType secondInputType, String secondInputHintSuffix) {
+    if (setting == null) {
+      return Container();
+    }
+    TextEditingController nameController =
+        _getEditingControllerForKey(setting.sharedprefKey + "Name", setting.name);
+    TextEditingController valueController =
+        _getEditingControllerForKey(setting.sharedprefKey + "Value", setting.data);
     return new Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           new Text(hintText, style: Theme.of(context).textTheme.overline),
           new SettingTextInputField("Button name", TextInputType.text, (value) {
-            setting?.name = value;
-          },
-              nameController),
-          new SettingTextInputField(hintText + " command", TextInputType.text, (value) {
-            setting?.data = value;
-          },
-              valueController),
+            setting.name = value;
+          }, nameController),
+          new SettingTextInputField(
+              hintText + secondInputHintSuffix, secondInputType, (value) {
+            setting.data = value;
+          }, valueController),
         ]);
+  }
+
+  /// This is needed because focus change listener doesn't get fired right when user taps on a button
+  /// So we artificially move focus, then wait 10 ms (fml) and then invoke the exit callback
+  void _onSaveClicked() {
+    // TODO: Use a higher scoped focusnode instead
+    // https://flutter.dev/docs/development/ui/advanced/focus#unfocusing
+    FocusScope.of(context).unfocus();
+    Future.delayed(const Duration(milliseconds: 10), () {})
+        .then((value) => _saveSettingsAndExit());
+  }
+
+  void _saveSettingsAndExit() {
+    saveNewSettings(_settings);
+    aj_print("$_settings");
+    Navigator.pop(context);
   }
 
   @override
@@ -83,7 +97,7 @@ class _SettingsPageState extends SafeTextEditingControllerHost<SettingsPage> {
     }
 
     var loginPage = new Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(5.0),
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -94,9 +108,9 @@ class _SettingsPageState extends SafeTextEditingControllerHost<SettingsPage> {
                 //https://www.kingdomofloathing.com/inv_eat.php?pwd=f22d1ea8c998551f6ce74de08c89172e&which=1&whichitem=5483
                 style: Theme.of(context).textTheme.bodyText2),
           ),
-          _inputRow(_settings?.food, "Food"),
-          _inputRow(_settings?.booze, "Booze"),
-          _inputRow(_settings?.skill, "Skill"),
+          _actionIdInputRow(_settings?.food, "Food"),
+          _actionIdInputRow(_settings?.booze, "Booze"),
+          _actionIdInputRow(_settings?.skill, "Skill"),
           Padding(
             padding: const EdgeInsets.only(
                 left: 4.0, top: 12.0, right: 4.0, bottom: 4.0),
@@ -108,11 +122,14 @@ class _SettingsPageState extends SafeTextEditingControllerHost<SettingsPage> {
           _chatInputRow(_settings?.chat2, "Cmd 2"),
           _chatInputRow(_settings?.chat3, "Cmd 3"),
           Center(
-            child: getKolButton(
-              context,
-              onPressed: _onSavePressed,
-              child: new Text(
-                "Save",
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: getKolButton(
+                context,
+                onPressed: _onSaveClicked,
+                child: new Text(
+                  "Save",
+                ),
               ),
             ),
           ),

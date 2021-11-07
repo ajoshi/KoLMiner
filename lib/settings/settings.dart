@@ -32,8 +32,8 @@ void saveNewSettings(Settings? data) async {
 
 void _save(SharedPreferences prefs, Setting? setting) {
   if(setting != null) {
-    prefs.setString(setting._sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, setting.data);
-    prefs.setString(setting._sharedprefKey + PREF_SETTINGS_SUFFIX_NAME, setting.name);
+    prefs.setString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, setting.data);
+    prefs.setString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME, setting.name);
   }
 }
 
@@ -52,8 +52,8 @@ Future<Settings> getSettings() async {
 
 void _updateSetting(SharedPreferences prefs, Setting? setting) {
   if(setting != null) {
-    setting.data = prefs.getString(setting._sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? "";
-    setting.name = prefs.getString(setting._sharedprefKey + PREF_SETTINGS_SUFFIX_NAME) ?? "";
+    setting.data = prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? "";
+    setting.name = prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME) ?? "";
   }
 }
 
@@ -71,9 +71,14 @@ Settings settingsOf() {
 class Setting {
   String data;
   String name;
-  final String _sharedprefKey;
+  final String sharedprefKey;
 
-  Setting(this.name, this.data, this._sharedprefKey);
+  @override
+  String toString() {
+    return "$name: $data";
+  }
+
+  Setting(this.name, this.data, this.sharedprefKey);
 }
 
 class Settings {
@@ -86,4 +91,9 @@ class Settings {
   final Setting? chat3;
 
   Settings(this.food, this.booze, this.skill,this.chat1, this.chat2, this.chat3,);
+
+  @override
+  String toString() {
+    return "$food\n$booze\n$skill\n$chat1\n$chat2\n$chat3";
+  }
 }
