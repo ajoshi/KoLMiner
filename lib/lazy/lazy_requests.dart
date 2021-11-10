@@ -50,29 +50,32 @@ class LazyRequest {
     });
   }
 
+  /// nun your business
   Future<NetworkResponseCode> requestNunHealing() async {
     return (await network.makeRequestWithQueryParams(
             "postwarisland.php", "action=nuns&place=nunnery"))
         .responseCode;
   }
 
-  Future<NetworkResponseCode> requestResolutionSummon() async {
+  /// skill a skill
+  Future<NetworkResponseCode> requestSkill(String id) async {
     var response = await network.makeRequestWithQueryParams(
-        "runskillz.php", "targetplayer=0&whichskill=7224&quantity=1");
+        "runskillz.php", "targetplayer=0&whichskill=$id&quantity=1");
     return response.responseCode;
   }
 
-  /// Drink perfect mimosa
-  requestPerfectDrink() async {
-    await network.makeRequestWithQueryParams(
-        "inv_booze.php", "which=1&whichitem=8739");
+  /// drink a booze
+  Future<NetworkResponseCode> requestDrink(String id) async {
+    return (await network.makeRequestWithQueryParams(
+        "inv_booze.php", "which=1&whichitem=$id")).responseCode;
   }
 
-  /// Eat sleazy hi mein
-  requestEatSleazyHimein() async {
+
+  /// Eat a food
+  Future<NetworkResponseCode> requestFood(String id) async {
     aj_print("eating");
-    await network.makeRequestWithQueryParams(
-        "inv_eat.php", "which=1&whichitem=1596");
+    return (await network.makeRequestWithQueryParams(
+        "inv_eat.php", "which=1&whichitem=$id")).responseCode;
   }
 
   /// Visit the disco for free coin

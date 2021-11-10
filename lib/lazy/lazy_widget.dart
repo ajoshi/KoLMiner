@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:kol_miner/chat_commands/chat_command.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/constants.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
@@ -126,12 +125,12 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   _onDrinkClicked() {
-    lazyRequest.requestPerfectDrink().then((code) => requestPlayerDataUpdate());
+    lazyRequest.requestDrink("8739").then((code) => requestPlayerDataUpdate());
   }
 
   _onEatClicked() {
     lazyRequest.requestMilkUse().then((_) => lazyRequest
-        .requestEatSleazyHimein()
+        .requestFood("1596")
         .then((code) => requestPlayerDataUpdate()));
   }
 
@@ -155,7 +154,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
 
   _onResolveClicked() {
     lazyRequest
-        .requestResolutionSummon()
+        .requestSkill("7224")
         .then((code) => requestPlayerDataUpdate());
   }
 

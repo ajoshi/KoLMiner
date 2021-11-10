@@ -9,9 +9,11 @@ import 'chat_command.dart';
 
 /// Edittext and button that lets the user send in chat commands
 class ChatWidget extends StatefulWidget {
-  const ChatWidget(this.network, {Key? key}) : super(key: key);
+  ChatWidget(this.network, {Key? key}) : super(key: key);
 
   final KolNetwork network;
+  // Lets the parent send in arbitrary chat commands
+  final GlobalKey<ChatWidgetState> key = new GlobalKey();
 
   @override
   ChatWidgetState createState() => new ChatWidgetState();
@@ -30,17 +32,17 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
     chatInputTextController.register(this);
   }
 
-  void _sendChat(String text) {
+  void sendChat(String text) {
     aj_print("Chat: $text");
     _setSendButtonEnabled(false);
     _chatCommander
-        .executeChatcommand(text)
+        .executeChatCommand(text)
         .then((value) => _onChatResponse(value));
   }
 
   void _setChatOutput(String output) {
     setState(() {
-      chatOutput = output;
+      chatOutput = output.replaceAll("\\\"", "\"");
     });
   }
 
@@ -60,7 +62,7 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
 
   void _onSendChatSubmitted() {
     var chatRequest = chatInputTextController.text;
-    _sendChat(chatRequest);
+    sendChat(chatRequest);
   }
 
   /// We want the chat output to be hidden when there is no output
@@ -96,7 +98,7 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
           decoration: new InputDecoration(
             helperText: "Enter chat command here ",
             prefixText: "/",
-            suffix: getPlatformButton(
+            suffix: getKolButton(
               context,
               onPressed: isEnabled ? _onSendChatSubmitted : null,
               child: new Text(
@@ -105,8 +107,9 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
             ),
           ),
           enabled: isEnabled,
+          maxLength: 200, // hardcoded to what kol has
           keyboardType: TextInputType.text,
-          onSubmitted: _sendChat,
+          onSubmitted: sendChat,
         ),
         Padding(
           padding: EdgeInsets.all(5.0),

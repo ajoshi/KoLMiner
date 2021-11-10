@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kol_miner/SafeTextEditingController.dart';
 import 'package:kol_miner/chat_commands/chat_widget.dart';
+import 'package:kol_miner/lazy/preconfigured_actions_widget.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/mining/miner.dart';
 import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
@@ -8,8 +11,10 @@ import 'package:kol_miner/lazy/lazy_widget.dart';
 import 'package:kol_miner/mining/widget/mining_input.dart';
 import 'package:kol_miner/mining/widget/mining_output.dart';
 import 'package:kol_miner/player_info/user_info_widget.dart';
+import 'package:kol_miner/settings/settings.dart';
 import 'package:kol_miner/settings/settings_page.dart';
 
+import '../../Batching.dart';
 import '../../utils.dart';
 
 /// This is the screen where the mining happens
@@ -23,13 +28,15 @@ class MiningPage extends StatefulWidget {
   MiningPageState createState() => new MiningPageState();
 }
 
-class MiningPageState extends DisposableHostState<MiningPage> {
+class MiningPageState extends DisposableHostState<MiningPage> implements PreconfiguredActionsWidgetHost {
   final miningInputTextController = SafeTextEditingController();
 
   late final Miner miner;
 
   late final LazyUselessPersonWidget _lazyPersonWidget;
   late final UserInfoWidget _userInfoWidget;
+  late final ChatWidget _chatWidget;
+  late final StatusRequestBatcher _requestBatcher;
 
   int _goldCounter = 0;
   int _advsUsed = 0;
@@ -41,6 +48,8 @@ class MiningPageState extends DisposableHostState<MiningPage> {
 
   bool didEncounterError = false;
   bool enableButton = true;
+
+  Settings? settings;
 
   void _onMineClicked() {
     getMiningData().then((value) => aj_print(value.toString()));
@@ -112,16 +121,26 @@ class MiningPageState extends DisposableHostState<MiningPage> {
     widget.network.logout();
   }
 
+  late StreamSubscription<bool> batchedRequestSubscription;
+
   initState() {
     super.initState();
     miningInputTextController.register(this);
+    _requestBatcher = new StatusRequestBatcher(_refreshPlayerData);
+    _requestBatcher.register(this);
     _lazyPersonWidget = new LazyUselessPersonWidget(widget.network);
     _userInfoWidget = new UserInfoWidget(widget.network);
+    _chatWidget = new ChatWidget(widget.network);
+    _fetchSettings();
     miner = new Miner(widget.network);
   }
 
+  void _batchedRefreshPlayerData() {
+    _requestBatcher.addRequest();
+  }
+
   void _refreshPlayerData() {
-    _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
+   _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
     _userInfoWidget.key.currentState?.requestPlayerDataUpdate();
   }
 
@@ -133,9 +152,16 @@ class MiningPageState extends DisposableHostState<MiningPage> {
       )
     );
     result.whenComplete(() =>
-    // this should actually rerender the UI, but whatever
-        _refreshPlayerData()
+      _fetchSettings()
     );
+  }
+
+  void _fetchSettings() {
+    getSettings().then((value) {
+      setState(() {
+        settings = value;
+      });
+    });
   }
 
   @override
@@ -240,10 +266,19 @@ class MiningPageState extends DisposableHostState<MiningPage> {
           enableButton,
           _onMineClicked,
         ),
-        new ChatWidget(widget.network),
+        _chatWidget,
+        getPreconfiguredActions(),
         _lazyPersonWidget,
       ],
     );
+  }
+
+  Widget getPreconfiguredActions() {
+    if (settings != null) {
+      return new PreconfiguredActionsWidget(this, widget.network, settings!);
+    } else {
+    return Container();
+    }
   }
 
   /// Gives us a padded and centered listview full of content
@@ -258,6 +293,22 @@ class MiningPageState extends DisposableHostState<MiningPage> {
         ),
       ],
     );
+  }
+
+  @override
+  void onPreConfiguredActionsWidgetError() {
+    // TODO this should use a more generic 'error' method than this
+    onError(MiningResponse(NetworkResponseCode.FAILURE, MiningResponseCode.NO_ACCESS, false));
+  }
+
+  @override
+  void onPreConfiguredActionsWidgetRequestsStatusUpdate() {
+    _batchedRefreshPlayerData();
+  }
+
+  @override
+  void onPreConfiguredActionsWidgetChatRequest(String chat) {
+    _chatWidget.key.currentState?.sendChat(chat);
   }
 }
 

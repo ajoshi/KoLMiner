@@ -190,6 +190,9 @@ class KolNetwork {
       {HttpMethod method = HttpMethod.GET,
       NetworkResponse? emptyResponseDefaultValue,
       bool useStreams = false}) async {
+    if(!isLoggedIn()) {
+      return Future.value(NetworkResponse(NetworkResponseCode.EXPIRED_HASH, ""));
+    }
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
         method: method,
         emptyResponseDefaultValue: emptyResponseDefaultValue,

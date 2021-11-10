@@ -13,7 +13,7 @@ class ChatCommander {
   /// Makes an arbitrary chat command request and follows most server redirects
   /// in the public interest the leading / is always appended
   /// Request should be of form "buy 10 ben" and not "/buy 10 ben"
-  Future<String?> executeChatcommand(String command) async {
+  Future<String?> executeChatCommand(String command) async {
     var encodedCommand = Uri.encodeFull(command);
     return executeChainCommands(encodedCommand, isSecondaryCall: false, isPureChatCommand: command.startsWith("w ") || command.startsWith("msg "));
   }

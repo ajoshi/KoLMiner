@@ -62,16 +62,16 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           ConstrainedBox(
-            child: new Text(hintText, style: Theme.of(context).textTheme.overline),
+            child: new Text(hintText, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.overline),
             constraints: const BoxConstraints(minWidth: 40),
           ),
           new SettingTextInputField("Button name", TextInputType.text, (value) {
             setting.name = value;
-          }, nameController),
+          }, nameController, 10),
           new SettingTextInputField(
               hintText + secondInputHintSuffix, secondInputType, (value) {
             setting.data = value;
-          }, valueController),
+          }, valueController, 30),
         ]);
   }
 

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 /// Edittext that lets users enter savable settings
 class SettingTextInputField extends StatelessWidget {
   SettingTextInputField(this.hintText, this.inputType, this.changeListener,
-      this.textEditingController);
+      this.textEditingController, this.maxLength);
 
   final String hintText;
   final TextInputType inputType;
   final ValueChanged<String> changeListener;
+  final int maxLength;
 
   final TextEditingController textEditingController;
 
   Widget _buildInputWidget(String hintText, TextInputType inputType,
-      ValueChanged<String> changeListener) {
+      ValueChanged<String> changeListener, int maxLength) {
     return Flexible(
       child: Container(
         margin: const EdgeInsets.all(4.0),
@@ -32,6 +34,9 @@ class SettingTextInputField extends StatelessWidget {
           },
           child: Builder(builder: (BuildContext context) {
             return new TextField(
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(maxLength),
+              ],
               cursorColor: Colors.indigo,
               decoration: new InputDecoration.collapsed(
                 hintText: hintText,
@@ -46,6 +51,15 @@ class SettingTextInputField extends StatelessWidget {
     );
   }
   /*
+              return new TextField(
+              maxLength: maxLength,
+              cursorColor: Colors.indigo,
+              decoration: new InputDecoration(
+                isCollapsed: true,
+                counterText: '',
+                hintText: hintText,
+              ),
+
       return Focus(
       autofocus: autofocus,
       child: Builder(builder: (BuildContext context) {
@@ -68,7 +82,7 @@ class SettingTextInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var widget = _buildInputWidget(hintText, inputType, changeListener);
+    var widget = _buildInputWidget(hintText, inputType, changeListener, maxLength);
     return widget;
   }
 }
