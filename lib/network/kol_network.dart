@@ -107,7 +107,7 @@ class KolNetwork {
   /// Fetches player data from api.php. Returns null on failure (bad network?)
   Stream<Map?> getPlayerData() {
     var networkResponseAsStream =
-         makeRequestWithQueryParams("api.php", "what=status", useStreams: true);
+        makeRequestWithQueryParams("api.php", "what=status", useStreams: true);
     //{"playerid":"2129446","name":"ajoshi","hardcore":"1","ascensions":"319",
     // "path":"22","sign":"Vole","roninleft":"308","casual":"0","drunk":"13",
     // "full":"4","turnsplayed":"760080","familiar":"213","hp":"359","mp":"54",
@@ -146,16 +146,14 @@ class KolNetwork {
     // "pathname":"Standard",
     // "effects":{"0bf172ccba65be4fdc4c0f908325b5c1":["Everything Looks Yellow",66,"eyes",null,790]}}
 
-    return networkResponseAsStream.asStream().asyncExpand((networkResponse)
-    {
+    return networkResponseAsStream.asStream().asyncExpand((networkResponse) {
       if (networkResponse.responseCode == NetworkResponseCode.SUCCESS) {
         return networkResponse.responseStream.map((response) {
           return json.decode(response);
         });
       }
       return null;
-    }
-    );
+    });
   }
 
   /// Given a bigString, finds the substring between the two passed in Strings
@@ -190,8 +188,9 @@ class KolNetwork {
       {HttpMethod method = HttpMethod.GET,
       NetworkResponse? emptyResponseDefaultValue,
       bool useStreams = false}) async {
-    if(!isLoggedIn()) {
-      return Future.value(NetworkResponse(NetworkResponseCode.EXPIRED_HASH, ""));
+    if (!isLoggedIn()) {
+      return Future.value(
+          NetworkResponse(NetworkResponseCode.EXPIRED_HASH, ""));
     }
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
         method: method,

@@ -82,7 +82,8 @@ class SettingTextInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var widget = _buildInputWidget(hintText, inputType, changeListener, maxLength);
+    var widget =
+        _buildInputWidget(hintText, inputType, changeListener, maxLength);
     return widget;
   }
 }

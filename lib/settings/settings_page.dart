@@ -30,7 +30,8 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
     });
   }
 
-  SafeTextEditingController _getEditingControllerForKey(String key, String defaultText) {
+  SafeTextEditingController _getEditingControllerForKey(
+      String key, String defaultText) {
     var existingController = _textEditingControllerMap[key];
     if (existingController != null) return existingController;
 
@@ -54,15 +55,17 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
     if (setting == null) {
       return Container();
     }
-    TextEditingController nameController =
-        _getEditingControllerForKey(setting.sharedprefKey + "Name", setting.name);
-    TextEditingController valueController =
-        _getEditingControllerForKey(setting.sharedprefKey + "Value", setting.data);
+    TextEditingController nameController = _getEditingControllerForKey(
+        setting.sharedprefKey + "Name", setting.name);
+    TextEditingController valueController = _getEditingControllerForKey(
+        setting.sharedprefKey + "Value", setting.data);
     return new Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           ConstrainedBox(
-            child: new Text(hintText, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.overline),
+            child: new Text(hintText,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.overline),
             constraints: const BoxConstraints(minWidth: 40),
           ),
           new SettingTextInputField("Button name", TextInputType.text, (value) {

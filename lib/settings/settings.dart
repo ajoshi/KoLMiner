@@ -18,9 +18,10 @@ const String PREF_SETTINGS_CHAT4 = PREF_SETTINGS_PREFIX + "CHAT4";
 const String PREF_SETTINGS_SUFFIX_VAL = "_VAL";
 const String PREF_SETTINGS_SUFFIX_NAME = "_NAME";
 
-
 void saveNewSettings(Settings? data) async {
-  if(data == null) { return; }
+  if (data == null) {
+    return;
+  }
   final prefs = await SharedPreferences.getInstance();
 
   _save(prefs, data.food);
@@ -33,9 +34,11 @@ void saveNewSettings(Settings? data) async {
 }
 
 void _save(SharedPreferences prefs, Setting? setting) {
-  if(setting != null) {
-    prefs.setString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, setting.data);
-    prefs.setString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME, setting.name);
+  if (setting != null) {
+    prefs.setString(
+        setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, setting.data);
+    prefs.setString(
+        setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME, setting.name);
   }
 }
 
@@ -54,22 +57,25 @@ Future<Settings> getSettings() async {
 }
 
 void _updateSetting(SharedPreferences prefs, Setting? setting) {
-  if(setting != null) {
-    setting.data = prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? "";
-    setting.name = prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME) ?? "";
+  if (setting != null) {
+    setting.data =
+        prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? "";
+    setting.name =
+        prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME) ??
+            "";
   }
 }
 
 Settings settingsOf() {
   return Settings(
     Setting("", "", PREF_SETTINGS_FOOD),
-      Setting("", "", PREF_SETTINGS_BOOZE),
-      Setting("", "", PREF_SETTINGS_SKILL),
-      Setting("", "", PREF_SETTINGS_CHAT1),
-      Setting("", "", PREF_SETTINGS_CHAT2),
-      Setting("", "", PREF_SETTINGS_CHAT3),
-      Setting("", "", PREF_SETTINGS_CHAT4),
-      );
+    Setting("", "", PREF_SETTINGS_BOOZE),
+    Setting("", "", PREF_SETTINGS_SKILL),
+    Setting("", "", PREF_SETTINGS_CHAT1),
+    Setting("", "", PREF_SETTINGS_CHAT2),
+    Setting("", "", PREF_SETTINGS_CHAT3),
+    Setting("", "", PREF_SETTINGS_CHAT4),
+  );
 }
 
 class Setting {
@@ -95,7 +101,8 @@ class Settings {
   final Setting? chat3;
   final Setting? chat4;
 
-  Settings(this.food, this.booze, this.skill,this.chat1, this.chat2, this.chat3,this.chat4);
+  Settings(this.food, this.booze, this.skill, this.chat1, this.chat2,
+      this.chat3, this.chat4);
 
   @override
   String toString() {

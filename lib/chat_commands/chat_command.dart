@@ -15,7 +15,10 @@ class ChatCommander {
   /// Request should be of form "buy 10 ben" and not "/buy 10 ben"
   Future<String?> executeChatCommand(String command) async {
     var encodedCommand = Uri.encodeFull(command);
-    return executeChainCommands(encodedCommand, isSecondaryCall: false, isPureChatCommand: command.startsWith("w ") || command.startsWith("msg "));
+    return executeChainCommands(encodedCommand,
+        isSecondaryCall: false,
+        isPureChatCommand:
+            command.startsWith("w ") || command.startsWith("msg "));
   }
 
   /// Executes the pass in chat [command].
@@ -26,11 +29,11 @@ class ChatCommander {
       return _callPath(command);
     } else {
       return (await _network.makeRequestWithQueryParams("submitnewchat.php",
-          "playerid=${_network.getPlayerId()}&graf=%2Fnewbie+%2F$command&j=1",
-          method: HttpMethod.POST,
-          emptyResponseDefaultValue:
-          // commands can sometimes not respond, like skills.php?whichskill=7218&quantity=3&ajax=1&action=Skillz&ref=1&targetplayer=2129446
-          NetworkResponse(NetworkResponseCode.FAILURE, "")))
+              "playerid=${_network.getPlayerId()}&graf=%2Fnewbie+%2F$command&j=1",
+              method: HttpMethod.POST,
+              emptyResponseDefaultValue:
+                  // commands can sometimes not respond, like skills.php?whichskill=7218&quantity=3&ajax=1&action=Skillz&ref=1&targetplayer=2129446
+                  NetworkResponse(NetworkResponseCode.FAILURE, "")))
           .response;
     }
   }
@@ -47,7 +50,8 @@ class ChatCommander {
   /// Returns no output if [isPureChatCommand] since chat isn't supported by this app
   Future<String?> executeChainCommands(String command,
       {bool isSecondaryCall = true, bool isPureChatCommand = false}) async {
-    var response = await _executeCommand(command, isSecondaryCall: isSecondaryCall);
+    var response =
+        await _executeCommand(command, isSecondaryCall: isSecondaryCall);
     if (response == null) return "";
     var start = "<font color=green>";
     var end = "<\\/font>";
@@ -69,7 +73,7 @@ class ChatCommander {
       }
       output = _getSubstringBetween(response, start, end, output.index);
     }
-    if(isPureChatCommand) {
+    if (isPureChatCommand) {
       // Pure chat commands give us json and I don't care enough to parse it again
       return "";
     }

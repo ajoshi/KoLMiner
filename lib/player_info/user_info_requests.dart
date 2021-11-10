@@ -24,7 +24,7 @@ class UserInfoRequest {
     var playerData = _network.getPlayerData();
 
     return playerData.map((map) {
-      if(map != null) {
+      if (map != null) {
         // get the user info
         userName = _asString(map["name"]);
         currentHp = _asInt(map["hp"]);

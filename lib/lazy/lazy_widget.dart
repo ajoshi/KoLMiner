@@ -153,9 +153,7 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   _onResolveClicked() {
-    lazyRequest
-        .requestSkill("7224")
-        .then((code) => requestPlayerDataUpdate());
+    lazyRequest.requestSkill("7224").then((code) => requestPlayerDataUpdate());
   }
 
   _onHealClicked() {

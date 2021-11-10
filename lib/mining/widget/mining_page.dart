@@ -28,7 +28,8 @@ class MiningPage extends StatefulWidget {
   MiningPageState createState() => new MiningPageState();
 }
 
-class MiningPageState extends DisposableHostState<MiningPage> implements PreconfiguredActionsWidgetHost {
+class MiningPageState extends DisposableHostState<MiningPage>
+    implements PreconfiguredActionsWidgetHost {
   final miningInputTextController = SafeTextEditingController();
 
   late final Miner miner;
@@ -140,20 +141,14 @@ class MiningPageState extends DisposableHostState<MiningPage> implements Preconf
   }
 
   void _refreshPlayerData() {
-   _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
+    _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
     _userInfoWidget.key.currentState?.requestPlayerDataUpdate();
   }
 
   void _navigateToSettings() {
     final result = Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => SettingsPage()
-      )
-    );
-    result.whenComplete(() =>
-      _fetchSettings()
-    );
+        context, MaterialPageRoute(builder: (context) => SettingsPage()));
+    result.whenComplete(() => _fetchSettings());
   }
 
   void _fetchSettings() {
@@ -170,10 +165,14 @@ class MiningPageState extends DisposableHostState<MiningPage> implements Preconf
       appBar: new AppBar(
         actions: <Widget>[
           IconButton(
-              onPressed: _refreshPlayerData, icon: const Icon(Icons.refresh), tooltip: "Refresh data",
+            onPressed: _refreshPlayerData,
+            icon: const Icon(Icons.refresh),
+            tooltip: "Refresh data",
           ),
           IconButton(
-              onPressed: _navigateToSettings, icon: const Icon(Icons.settings), tooltip: "Settings",
+            onPressed: _navigateToSettings,
+            icon: const Icon(Icons.settings),
+            tooltip: "Settings",
           ),
         ],
         title: new Text(widget.title),
@@ -277,7 +276,7 @@ class MiningPageState extends DisposableHostState<MiningPage> implements Preconf
     if (settings != null) {
       return new PreconfiguredActionsWidget(this, widget.network, settings!);
     } else {
-    return Container();
+      return Container();
     }
   }
 
@@ -298,7 +297,8 @@ class MiningPageState extends DisposableHostState<MiningPage> implements Preconf
   @override
   void onPreConfiguredActionsWidgetError() {
     // TODO this should use a more generic 'error' method than this
-    onError(MiningResponse(NetworkResponseCode.FAILURE, MiningResponseCode.NO_ACCESS, false));
+    onError(MiningResponse(
+        NetworkResponseCode.FAILURE, MiningResponseCode.NO_ACCESS, false));
   }
 
   @override

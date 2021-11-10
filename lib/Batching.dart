@@ -16,10 +16,9 @@ class StatusRequestBatcher extends AutoDisposable {
       return temp;
     });
     batchedRequestSubscription = eventStream.listen((event) {
-      if(event){
+      if (event) {
         onEvent();
-      } else {
-      }
+      } else {}
     });
   }
 

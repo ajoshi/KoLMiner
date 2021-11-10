@@ -67,15 +67,16 @@ class LazyRequest {
   /// drink a booze
   Future<NetworkResponseCode> requestDrink(String id) async {
     return (await network.makeRequestWithQueryParams(
-        "inv_booze.php", "which=1&whichitem=$id")).responseCode;
+            "inv_booze.php", "which=1&whichitem=$id"))
+        .responseCode;
   }
-
 
   /// Eat a food
   Future<NetworkResponseCode> requestFood(String id) async {
     aj_print("eating");
     return (await network.makeRequestWithQueryParams(
-        "inv_eat.php", "which=1&whichitem=$id")).responseCode;
+            "inv_eat.php", "which=1&whichitem=$id"))
+        .responseCode;
   }
 
   /// Visit the disco for free coin
