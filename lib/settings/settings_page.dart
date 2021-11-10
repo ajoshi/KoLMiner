@@ -124,6 +124,7 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           _chatInputRow(_settings?.chat1, "Cmd 1"),
           _chatInputRow(_settings?.chat2, "Cmd 2"),
           _chatInputRow(_settings?.chat3, "Cmd 3"),
+          _chatInputRow(_settings?.chat4, "Cmd 4"),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10.0),

@@ -55,6 +55,7 @@ class PreconfiguredActionsWidget extends StatelessWidget {
             ]), context),
             getRowOfActions(new _WidgetRow('', [
               _PreconfiguredActionModel(settings.chat3, _onChatClicked),
+              _PreconfiguredActionModel(settings.chat4, _onChatClicked),
             ]), context),
           ],
         ),
