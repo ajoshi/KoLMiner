@@ -196,8 +196,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
     }
     switch (response.miningResponseCode) {
       case MiningResponseCode.FAILURE:
-        message =
-            'Unable to mine (0 HP? No hot res? Dirty bugbears in your interwebz?) '
+        message = 'Unable to mine (0 HP? No hot res? Wrong outfit?) '
             'Log in via your browser, fix the issue, and log in again';
         break;
       case MiningResponseCode.NO_ACCESS:
@@ -207,7 +206,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
       case MiningResponseCode.SUCCESS:
         // success shouldn't show up in onError
         message =
-            'Uhhh.... tell me if you see this message because it\'s a bug';
+            'Uhhh.... tell me if you see this message because it\'s another bug';
         break;
     }
     return message;

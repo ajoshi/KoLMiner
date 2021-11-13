@@ -60,7 +60,8 @@ class LazyRequest {
   /// skill a skill
   Future<NetworkResponseCode> requestSkill(String id) async {
     var response = await network.makeRequestWithQueryParams(
-        "runskillz.php", "targetplayer=0&whichskill=$id&quantity=1");
+        "runskillz.php", "targetplayer=0&whichskill=$id&quantity=1",
+        expectRedirects: true);
     return response.responseCode;
   }
 

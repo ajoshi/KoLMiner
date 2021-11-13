@@ -66,11 +66,11 @@ class Mine {
   // requested until we've mined at least once.
   /// This method gives us a square we can mine that has a high-ish prob of
   /// exposing a shiny. Else we can just ask for a new mine.
-  MineableSquare getThrowawayMineSquare() {
+  MineableSquare? getThrowawayMineSquare() {
     var highProbSquare =
         squares.firstWhereOrNull((square) => square.x != 01 && square.x != 6);
     if (highProbSquare == null) {
-      return squares.first;
+      return squares.firstOrNull();
     }
     return highProbSquare;
   }

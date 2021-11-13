@@ -187,7 +187,8 @@ class KolNetwork {
       String baseUrl, String params,
       {HttpMethod method = HttpMethod.GET,
       NetworkResponse? emptyResponseDefaultValue,
-      bool useStreams = false}) async {
+      bool useStreams = false,
+      bool expectRedirects = false}) async {
     if (!isLoggedIn()) {
       return Future.value(
           NetworkResponse(NetworkResponseCode.EXPIRED_HASH, ""));
@@ -195,7 +196,8 @@ class KolNetwork {
     return makeRequest("$baseUrl?$_forAppName&pwd=$_pwdHash&$params",
         method: method,
         emptyResponseDefaultValue: emptyResponseDefaultValue,
-        useStreams: useStreams);
+        useStreams: useStreams,
+        expectRedirects: expectRedirects);
   }
 
   /// Make a network request for the given url and the urlParams. Params do not
@@ -216,7 +218,8 @@ class KolNetwork {
   Future<NetworkResponse> makeRequest(String url,
       {HttpMethod method = HttpMethod.GET,
       NetworkResponse? emptyResponseDefaultValue,
-      bool useStreams = false}) async {
+      bool useStreams = false,
+      bool expectRedirects = false}) async {
     aj_print("call to $url");
     try {
       var httpClient = new HttpClient();
@@ -245,7 +248,9 @@ class KolNetwork {
             redirectUrl.toString().contains(MAINT_POSTFIX)) {
           return NetworkResponse(NetworkResponseCode.ROLLOVER, "");
         }
-        if (redirectUrl != null) {
+        if (redirectUrl != null &&
+            !expectRedirects &&
+            redirectUrl.toString() != "main.php") {
           return NetworkResponse(NetworkResponseCode.EXPIRED_HASH, "");
         }
       }

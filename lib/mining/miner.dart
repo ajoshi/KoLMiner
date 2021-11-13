@@ -69,13 +69,17 @@ class Miner {
         } else {
           // failed to get new mine. Out of advs? no hot res left?
           return new MiningResponse(
-              NetworkResponseCode.FAILURE, MiningResponseCode.FAILURE, false);
+              NetworkResponseCode.SUCCESS, MiningResponseCode.FAILURE, false);
         }
       } else {
         aj_print("mining randomly so we can gtfo");
         // mine somewhere at random so the 'find new cavern' button shows up
         targetSquare = currentMine!.getThrowawayMineSquare();
       }
+    }
+    if (targetSquare == null) {
+      return Future.value(MiningResponse(
+          NetworkResponseCode.SUCCESS, MiningResponseCode.FAILURE, false));
     }
     return mineSquare(targetSquare);
   }
