@@ -42,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: new Text('Log in to KoL',
+                  semanticsLabel: 'Log in to K O L:',
                   style: Theme.of(context).textTheme.headline4),
             ),
             Padding(

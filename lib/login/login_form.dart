@@ -2,6 +2,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kol_miner/accounts/kol_account.dart';
+import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/extensions.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -75,7 +76,8 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget getSubmitButtonOrSpinner() {
     if (_isEnabled()) {
-      return new RaisedButton(
+      return getPlatformButton(
+        context,
         onPressed: widget.enabled ? _onLoginPressed : null,
         child: new Text('Log in'),
       );

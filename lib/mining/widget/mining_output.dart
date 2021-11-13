@@ -11,14 +11,17 @@ class MiningOutput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Semantics(
+        child: Column(
       children: <Widget>[
         new Text(
           'Gold mined: $goldCount',
+          semanticsLabel: '$goldCount chunks of gold mined.',
           style: Theme.of(context).textTheme.headline4,
         ),
         new Text(
           'Meat gained: ${getMeatAsString()}',
+          semanticsLabel: ' ${getMeatAsString()} meat gained.',
           style: Theme.of(context).textTheme.subtitle1,
         ),
         new Text(
@@ -26,7 +29,7 @@ class MiningOutput extends StatelessWidget {
           style: Theme.of(context).textTheme.subtitle1,
         ),
       ],
-    );
+    ));
   }
 
   /// Calculates the MPA of this session

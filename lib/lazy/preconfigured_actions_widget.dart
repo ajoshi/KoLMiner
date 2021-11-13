@@ -69,6 +69,11 @@ class PreconfiguredActionsWidget extends StatelessWidget {
     );
   }
 
+  String _getSemanticsLabelForButton(String? title) {
+    if (title == null || title.isEmpty) return "";
+    return "$title buttons";
+  }
+
   Widget getRowOfActions(_WidgetRow rowData, BuildContext context) {
     var row = rowData.buttons
         .map((buttonModel) => _getButtonForAction(buttonModel, context))
@@ -80,11 +85,12 @@ class PreconfiguredActionsWidget extends StatelessWidget {
     }
     var label = ConstrainedBox(
       child: Text(rowData.title,
+          semanticsLabel: "${_getSemanticsLabelForButton(rowData.title)}",
           style: Theme.of(context).textTheme.caption,
           overflow: TextOverflow.ellipsis),
       constraints: const BoxConstraints(minWidth: 60),
     );
-    row.insert(0, label);
+    row.insert(0, MergeSemantics(child: label));
     return Padding(
       padding: EdgeInsets.all(1.0),
       child: Row(

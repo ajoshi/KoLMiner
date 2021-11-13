@@ -35,7 +35,7 @@ class MiningInputFields extends StatelessWidget {
         new TextField(
           controller: advsToMineController,
           decoration:
-              new InputDecoration(helperText: "How many adventure to mine"),
+              new InputDecoration(helperText: "How many adventures to mine"),
           enabled: enable,
           keyboardType: TextInputType.numberWithOptions(),
           onSubmitted: _onKeyboardSubmit,

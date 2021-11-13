@@ -8,6 +8,11 @@ class HistoricalMineWidget extends StatelessWidget {
   final double textSize;
   HistoricalMineWidget(this.data, {this.textSize = 12.0});
 
+  String _getSemanitcsLabel() {
+    if (data == null) return "";
+    return "Mined ${data?.goldcount} gold over ${data?.advCount} adventures. ${data?.getMpaAsString()} MPA";
+  }
+
   @override
   Widget build(BuildContext context) {
     if (data == null || data?.advCount == 0) {
@@ -18,8 +23,8 @@ class HistoricalMineWidget extends StatelessWidget {
     return new Column(
       children: <Widget>[
         new Text(
-          //"Saved you ${data.getAdvCountAsString()} adventures (${data.getMpaAsString()}
           data.toString(),
+          semanticsLabel: _getSemanitcsLabel(),
           style: TextStyle(fontSize: textSize),
         ),
       ],

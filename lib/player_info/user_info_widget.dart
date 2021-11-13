@@ -51,45 +51,57 @@ class UserInfoState extends State<UserInfoWidget> {
     if (_advs == -1) {
       return Text("");
     }
-    return new Column(
-      children: <Widget>[
-        _buildHpMpBar("HP", Colors.red, _userInfoRequest.currentHp,
-            _userInfoRequest.maxHp),
-        _buildHpMpBar("MP", Colors.blue, _userInfoRequest.currentMp,
-            _userInfoRequest.maxMp),
-        new Text(
-          "Full: ${_userInfoRequest.full}",
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-        new Text(
-          "Drunk: ${_userInfoRequest.drunk}",
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-        new Text(
-          "Meat: ${meatFormat.format(_userInfoRequest.meat)}",
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-        new Text(
-          "Advs: $_advs ",
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-        new Text(
-          "$_advsUsed used",
-          style: Theme.of(context).textTheme.caption,
-        ),
-      ],
-    );
+    return Semantics(
+        label: "Character info.",
+        child: new Column(
+          children: <Widget>[
+            _buildHpMpBar("HP", Colors.red, _userInfoRequest.currentHp,
+                _userInfoRequest.maxHp),
+            _buildHpMpBar("MP", Colors.blue, _userInfoRequest.currentMp,
+                _userInfoRequest.maxMp),
+            new Text(
+              "Fullness: ${_userInfoRequest.full}",
+              semanticsLabel: "${_userInfoRequest.full} Fullness.",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            new Text(
+              "Drunkeness: ${_userInfoRequest.drunk}",
+              semanticsLabel: "${_userInfoRequest.drunk} Drunkeness.",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            new Text(
+              "Meat: ${meatFormat.format(_userInfoRequest.meat)}",
+              semanticsLabel:
+                  "${meatFormat.format(_userInfoRequest.meat)} Meat.",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            new Text(
+              "Advs: $_advs",
+              semanticsLabel: "$_advs adventures left",
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            new Text(
+              "$_advsUsed used",
+              semanticsLabel: "$_advsUsed used.",
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ],
+        ));
   }
 
   /// Builds a progress bar that shows current+max HP and MP
   Widget _buildHpMpBar(String title, Color color, int value, int max) {
-    return new Container(
+    return Semantics(
+        child: new Container(
       child: new Row(
         children: <Widget>[
-          new Text("$title: $value/$max "),
+          ExcludeSemantics(
+            child: new Text("$title: $value/$max "),
+          ),
           new Container(
             padding: EdgeInsets.only(left: 4.0),
             child: new LinearProgressIndicator(
+              semanticsLabel: title,
               value: value / max,
               valueColor: AlwaysStoppedAnimation<Color>(color),
               backgroundColor: Color.fromRGBO(200, 200, 200, .3),
@@ -100,7 +112,7 @@ class UserInfoState extends State<UserInfoWidget> {
         mainAxisSize: MainAxisSize.min,
       ),
       padding: EdgeInsets.only(top: 2.0, bottom: 2.0, left: 25.0, right: 25.0),
-    );
+    ));
   }
 
   /// Updates the UI with the new mp

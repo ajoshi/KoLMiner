@@ -241,19 +241,16 @@ class MiningPageState extends DisposableHostState<MiningPage>
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: new Text(
-            "Mining is love. Mining is life.",
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(1.0),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: new Text(
+        //     "Mining is love. Mining is life.",
+        //     style: TextStyle(
+        //       fontSize: 20.0,
+        //       fontWeight: FontWeight.bold,
+        //     ),
+        //   ),
+        // ),
         // don't create a new widget each time because it needs to make a network call
         _userInfoWidget,
         new MiningOutput(
