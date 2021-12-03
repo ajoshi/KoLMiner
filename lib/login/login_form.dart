@@ -261,7 +261,9 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _launchKolInBrowser() async {
-    const url = "http://www.kingdomofloathing.com";
+    // https://pub.dev/packages/url_launcher#configuration
+    // TODO might need additional fixing if iOS needs this
+    const url = "https://www.kingdomofloathing.com/";
     if (await canLaunch(url)) {
       await launch(
         url,
