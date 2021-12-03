@@ -11,33 +11,36 @@ class AutoCompleteUsernameInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-       return Autocomplete<String>(
-          fieldViewBuilder: getAutoCompleteField,
-          optionsBuilder: (TextEditingValue textEditingValue) {
-            if(_usernames == null) {
-              return List.empty(growable: false);
-            }
-            if (textEditingValue.text == '') {
-              return _usernames!;
-            }
-            return _usernames!.where((String option) {
-              return option.toLowerCase().contains(
-                  textEditingValue.text.toLowerCase());
-            });
-          },
-          onSelected: _host.onUsernameSelected,
-        );
+    return Autocomplete<String>(
+      fieldViewBuilder: getAutoCompleteField,
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (_usernames == null) {
+          return List.empty(growable: false);
+        }
+        if (textEditingValue.text == '') {
+          return _usernames!;
+        }
+        return _usernames!.where((String option) {
+          return option
+              .toLowerCase()
+              .contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      onSelected: _host.onUsernameSelected,
+    );
   }
 
-  Widget getAutoCompleteField(BuildContext context,
+  Widget getAutoCompleteField(
+      BuildContext context,
       TextEditingController textEditingController,
-  FocusNode focusNode,
+      FocusNode focusNode,
       VoidCallback onFieldSubmitted) {
     return new _AutocompleteField(
       focusNode: focusNode,
       textEditingController: textEditingController,
       onFieldSubmitted: onFieldSubmitted,
-    textChangedListener: _onTextChanged,);
+      textChangedListener: _onTextChanged,
+    );
   }
 
   void _onTextChanged(String newText) {
@@ -47,13 +50,13 @@ class AutoCompleteUsernameInput extends StatelessWidget {
 
 /// the thing that lets us show a hint (By overriding the decoration)
 class _AutocompleteField extends StatelessWidget {
-  const _AutocompleteField({
-    Key? key,
-    required this.focusNode,
-    required this.textEditingController,
-    required this.onFieldSubmitted,
-    required this.textChangedListener
-  }) : super(key: key);
+  const _AutocompleteField(
+      {Key? key,
+      required this.focusNode,
+      required this.textEditingController,
+      required this.onFieldSubmitted,
+      required this.textChangedListener})
+      : super(key: key);
 
   final FocusNode focusNode;
 
@@ -84,6 +87,7 @@ class _AutocompleteField extends StatelessWidget {
 abstract class AutoCompleteUsernameInputHost {
   /// called when a username is selected by ime or tap (tap seems flaky af)
   onUsernameSelected(String username);
+
   /// Called whenever the text is edited- this helps us when a new username is being added
   onTextChanged(String newText);
 }
