@@ -1,6 +1,6 @@
 /// Holds constants so imports don't import useless files. Super new concept, ikr
 
-const bool DEBUG = true;
+const bool DEBUG = false;
 
 /// The current mining algorithm (2 rows only) is suboptimal
 /// this flag enables the algo which sometimes looks at row 3
