@@ -30,9 +30,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    getMiningData().then((data) => setState(() {
-          miningData = data;
-        }));
+    if (miningData == null) {
+      getMiningData().then((data) => setState(() {
+            miningData = data;
+          }));
+    }
     var loginPage = new Padding(
       padding: const EdgeInsets.all(10.0),
       child: new Center(
@@ -52,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.all(5.0),
               child: new LoginForm(
                 widget.network,
                 _onLoggedIn,

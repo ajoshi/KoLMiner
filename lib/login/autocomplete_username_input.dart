@@ -15,7 +15,7 @@ class AutoCompleteUsernameInput extends StatelessWidget {
       fieldViewBuilder: getAutoCompleteField,
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (_usernames == null) {
-          return List.empty(growable: false);
+          return const [];
         }
         if (textEditingValue.text == '') {
           return _usernames!;
@@ -40,6 +40,7 @@ class AutoCompleteUsernameInput extends StatelessWidget {
       textEditingController: textEditingController,
       onFieldSubmitted: onFieldSubmitted,
       textChangedListener: _onTextChanged,
+      key: key,
     );
   }
 
@@ -72,6 +73,7 @@ class _AutocompleteField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: key,
       onChanged: _onTextChanged,
       controller: textEditingController,
       focusNode: focusNode,

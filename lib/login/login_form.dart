@@ -1,9 +1,9 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kol_miner/accounts/kol_account.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/extensions.dart';
+import 'package:kol_miner/login/autocomplete_username_input.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,16 +23,11 @@ class LoginForm extends StatefulWidget {
 
 // Define a corresponding State class. This class will hold the data related to
 // our Form.
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends State<LoginForm>
+    implements AutoCompleteUsernameInputHost {
   // Create a text controller. We will use it to retrieve the current value
   // of the TextField!
   final passwordController = TextEditingController();
-
-  // Normal edittext unless the entered string is a subset of known username
-  // if subset, it shows a dropdown. Selecting dropdown populates password field
-  late AutoCompleteTextField usernameAutoCompleteView;
-  GlobalKey<AutoCompleteTextFieldState<String>> keyForAutocomplete =
-      new GlobalKey();
 
   // current value of the Autocomplete text field
   String _usernameTextViewValue = "";
@@ -70,7 +65,6 @@ class _LoginFormState extends State<LoginForm> {
             newAccount.password,
           )
           .then((responseCode) => onLoginResponse(responseCode, newAccount));
-      usernameSuggestions = <String>[];
     });
   }
 
@@ -94,6 +88,7 @@ class _LoginFormState extends State<LoginForm> {
       case NetworkResponseCode.SUCCESS:
         accountManager.saveAccount(newAccount);
         accounts = null;
+        _updateAccountsList();
         widget.onLogin();
         break;
       case NetworkResponseCode.ROLLOVER:
@@ -131,7 +126,6 @@ class _LoginFormState extends State<LoginForm> {
 
     setState(() {
       usernameSuggestions = suggestions;
-      _updateUsernameSuggestions();
       isLoggingIn = false;
       // if (accounts.length > 0) {
       // maybe we can autologin if there is just one account? But then how will
@@ -140,12 +134,6 @@ class _LoginFormState extends State<LoginForm> {
       //  passwordController.text = accounts[0].password;
       // }
     });
-  }
-
-  void _updateUsernameSuggestions() {
-    if (usernameSuggestions?.isNotEmpty == true) {
-      usernameAutoCompleteView.updateSuggestions(usernameSuggestions);
-    }
   }
 
   void _onUsernameFieldUpdated(String newText) {
@@ -169,61 +157,40 @@ class _LoginFormState extends State<LoginForm> {
     aj_print("Text submitted: " + newText);
   }
 
+  void _onUsernameSelected(String username) {
+    _usernameTextViewValue = username;
+    var passwordForText = _getPasswordForUsername(username);
+    if (passwordForText != null) {
+      passwordController.text = passwordForText;
+      // try to log in
+      _onLoginPressed();
+    }
+  }
+
+  void _updateAccountsList() {
+    accountManager
+        .getAllAccounts()
+        .then((accounts) => _onAccountListLoaded(accounts));
+  }
+
   @override
   Widget build(BuildContext context) {
     if (accounts == null) {
-      accountManager
-          .getAllAccounts()
-          .then((accounts) => _onAccountListLoaded(accounts));
+      _updateAccountsList();
     }
-
-    void _onUsernameSelected(String username) {
-      _usernameTextViewValue = username;
-      var passwordForText = _getPasswordForUsername(username);
-      if (passwordForText != null) {
-        passwordController.text = passwordForText;
-        // try to log in
-        _onLoginPressed();
-      }
-    }
-
-    new OutlineInputBorder(
-        gapPadding: 0.0, borderRadius: new BorderRadius.circular(20.0));
-
-    usernameAutoCompleteView = AutoCompleteTextField<String>(
-      itemSubmitted: _onUsernameSelected,
-      textChanged: _onUsernameFieldUpdated,
-      textSubmitted: _onSubmitImeAction,
-      clearOnSubmit: false,
-      key: keyForAutocomplete,
-      decoration: new InputDecoration(
-          hintText: "Username", suffixIcon: new Icon(Icons.person)),
-      itemBuilder: (context, item) {
-        return new Padding(padding: EdgeInsets.all(8.0), child: new Text(item));
-      },
-      itemSorter: (a, b) {
-        return a.compareTo(b);
-      },
-      itemFilter: (item, query) {
-        return item.toLowerCase().startsWith(query.toLowerCase());
-      },
-      suggestions: usernameSuggestions,
-      minLength: 0,
-    );
-
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        usernameSuggestions == null ? Container() : usernameAutoCompleteView,
+        AutoCompleteUsernameInput(usernameSuggestions, this),
         new TextField(
           obscureText: true,
           decoration: new InputDecoration(
             hintText: "Password",
             suffixIcon: new Icon(Icons.lock),
           ),
-//          style: TextStyle(fontSize: 20.0, color: Colors.black),
           enabled: _isEnabled(),
           controller: passwordController,
+          onSubmitted: (value) => _onLoginPressed(),
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 5.0),
@@ -271,5 +238,15 @@ class _LoginFormState extends State<LoginForm> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  @override
+  onUsernameSelected(String username) {
+    _onUsernameSelected(username);
+  }
+
+  @override
+  onTextChanged(String newText) {
+    _onUsernameFieldUpdated(newText);
   }
 }
