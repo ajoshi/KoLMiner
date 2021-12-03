@@ -149,6 +149,12 @@ class KolNetwork {
     return networkResponseAsStream.asStream().asyncExpand((networkResponse) {
       if (networkResponse.responseCode == NetworkResponseCode.SUCCESS) {
         return networkResponse.responseStream.map((response) {
+          aj_print("response stream emission ${response.length}");
+          if (!response.endsWith("]}}")) {
+            var lastIndex = response.lastIndexOf("]");
+            var s2 = response.replaceRange(lastIndex, response.length, "]}}");
+            return json.decode(s2);
+          }
           return json.decode(response);
         });
       }
