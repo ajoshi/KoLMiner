@@ -55,16 +55,22 @@ class PreconfiguredActionsWidget extends StatelessWidget {
           // TODO this is stupid: it's a list, so we can calculate ui instead of hardcoding 3 to a row
           getRowOfActions(
               new _WidgetRow('Chat', [
-                _PreconfiguredActionModel(settings.chatCommands?.elementAt(0), _onChatClicked),
-                _PreconfiguredActionModel(settings.chatCommands?.elementAt(1), _onChatClicked),
-                _PreconfiguredActionModel(settings.chatCommands?.elementAt(2), _onChatClicked),
+                _PreconfiguredActionModel(
+                    settings.chatCommands?.elementAt(0), _onChatClicked),
+                _PreconfiguredActionModel(
+                    settings.chatCommands?.elementAt(1), _onChatClicked),
+                _PreconfiguredActionModel(
+                    settings.chatCommands?.elementAt(2), _onChatClicked),
               ]),
               context),
           getRowOfActions(
               new _WidgetRow('', [
-                _PreconfiguredActionModel(settings.chatCommands?.elementAt(3), _onChatClicked),
-                _PreconfiguredActionModel(settings.chatCommands?.elementAt(4), _onChatClicked),
-                _PreconfiguredActionModel(settings.chatCommands?.elementAt(5), _onChatClicked),
+                _PreconfiguredActionModel(
+                    settings.chatCommands?.elementAt(3), _onChatClicked),
+                _PreconfiguredActionModel(
+                    settings.chatCommands?.elementAt(4), _onChatClicked),
+                _PreconfiguredActionModel(
+                    settings.chatCommands?.elementAt(5), _onChatClicked),
               ]),
               context),
         ],

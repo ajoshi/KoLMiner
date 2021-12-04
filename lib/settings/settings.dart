@@ -29,7 +29,7 @@ void saveNewSettings(Settings? data) async {
   _save(prefs, data.food);
   _save(prefs, data.booze);
   _save(prefs, data.skill);
-  data.chatCommands?.forEach((cmd)  => _save(prefs, cmd) );
+  data.chatCommands?.forEach((cmd) => _save(prefs, cmd));
 }
 
 void _save(SharedPreferences prefs, Setting? setting) {
@@ -48,7 +48,7 @@ Future<Settings> getSettings() async {
   _updateSetting(prefs, settings.food);
   _updateSetting(prefs, settings.booze);
   _updateSetting(prefs, settings.skill);
-  settings.chatCommands?.forEach((cmd)  => _updateSetting(prefs, cmd) );
+  settings.chatCommands?.forEach((cmd) => _updateSetting(prefs, cmd));
   return settings;
 }
 
@@ -67,14 +67,14 @@ Settings settingsOf() {
     Setting("", "", PREF_SETTINGS_FOOD),
     Setting("", "", PREF_SETTINGS_BOOZE),
     Setting("", "", PREF_SETTINGS_SKILL),
-      [
-        Setting("", "", PREF_SETTINGS_CHAT1),
-        Setting("", "", PREF_SETTINGS_CHAT2),
-        Setting("", "", PREF_SETTINGS_CHAT3),
-        Setting("", "", PREF_SETTINGS_CHAT4),
-        Setting("", "", PREF_SETTINGS_CHAT5),
-        Setting("", "", PREF_SETTINGS_CHAT6),
-      ],
+    [
+      Setting("", "", PREF_SETTINGS_CHAT1),
+      Setting("", "", PREF_SETTINGS_CHAT2),
+      Setting("", "", PREF_SETTINGS_CHAT3),
+      Setting("", "", PREF_SETTINGS_CHAT4),
+      Setting("", "", PREF_SETTINGS_CHAT5),
+      Setting("", "", PREF_SETTINGS_CHAT6),
+    ],
   );
 }
 
