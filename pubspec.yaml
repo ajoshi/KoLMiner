@@ -14,8 +14,6 @@ dependencies:
   shared_preferences: ^2.0.8
   # to modify the app launcher icon
   flutter_launcher_icons: "^0.9.2"
-  # for login page username dropdown
-  autocomplete_textfield: ^1.7.3
   # to launch kol website
   url_launcher: ^6.0.12
   # to format numbers with commas (or periods)
