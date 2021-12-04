@@ -6,24 +6,26 @@ import 'package:kol_miner/mining/widget/mining_page.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
-  static const String APP_NAME = "ajoshiMiningApp";
+  static const String APP_API_NAME = "ajoshiMiningApp";
+  static const String APP_NAME = "KoL Miner";
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'KoL Miner',
+      title: APP_NAME,
       theme: new ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: new Screen(new KolNetwork(APP_NAME)),
+      home: new Screen(new KolNetwork(APP_API_NAME), APP_NAME),
     );
   }
 }
 
 class Screen extends StatefulWidget {
   final KolNetwork network;
+  final String title;
 
-  const Screen(this.network, {Key? key}) : super(key: key);
+  const Screen(this.network, this.title, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return new ScreenState();
@@ -37,7 +39,7 @@ class ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return new LoginPage(widget.network, onLogin, title: 'KoL Miner');
+    return new LoginPage(widget.network, onLogin, title: widget.title);
   }
 
   void _navigateToMiningScreen(BuildContext context) async {
