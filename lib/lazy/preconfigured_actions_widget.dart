@@ -52,16 +52,19 @@ class PreconfiguredActionsWidget extends StatelessWidget {
                     Setting("Visit nuns", "", ""), _onHealClicked),
               ]),
               context),
+          // TODO this is stupid: it's a list, so we can calculate ui instead of hardcoding 3 to a row
           getRowOfActions(
               new _WidgetRow('Chat', [
-                _PreconfiguredActionModel(settings.chat1, _onChatClicked),
-                _PreconfiguredActionModel(settings.chat2, _onChatClicked)
+                _PreconfiguredActionModel(settings.chatCommands?.elementAt(0), _onChatClicked),
+                _PreconfiguredActionModel(settings.chatCommands?.elementAt(1), _onChatClicked),
+                _PreconfiguredActionModel(settings.chatCommands?.elementAt(2), _onChatClicked),
               ]),
               context),
           getRowOfActions(
               new _WidgetRow('', [
-                _PreconfiguredActionModel(settings.chat3, _onChatClicked),
-                _PreconfiguredActionModel(settings.chat4, _onChatClicked),
+                _PreconfiguredActionModel(settings.chatCommands?.elementAt(3), _onChatClicked),
+                _PreconfiguredActionModel(settings.chatCommands?.elementAt(4), _onChatClicked),
+                _PreconfiguredActionModel(settings.chatCommands?.elementAt(5), _onChatClicked),
               ]),
               context),
         ],
@@ -88,7 +91,7 @@ class PreconfiguredActionsWidget extends StatelessWidget {
           semanticsLabel: "${_getSemanticsLabelForButton(rowData.title)}",
           style: Theme.of(context).textTheme.caption,
           overflow: TextOverflow.ellipsis),
-      constraints: const BoxConstraints(minWidth: 60),
+      constraints: const BoxConstraints(minWidth: 55),
     );
     row.insert(0, MergeSemantics(child: label));
     return Padding(
@@ -104,7 +107,7 @@ class PreconfiguredActionsWidget extends StatelessWidget {
     if (model.setting == null || model.setting!.name.isEmpty)
       return Container();
     return Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: EdgeInsets.all(2.0),
         child: getKolButton(
           context,
           onPressed: () {

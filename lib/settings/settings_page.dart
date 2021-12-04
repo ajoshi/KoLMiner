@@ -141,10 +141,12 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
-          _chatInputRow(_settings?.chat1, "Cmd 1", "Chat command 1"),
-          _chatInputRow(_settings?.chat2, "Cmd 2", "Chat command 2"),
-          _chatInputRow(_settings?.chat3, "Cmd 3", "Chat command 3"),
-          _chatInputRow(_settings?.chat4, "Cmd 4", "Chat command 4"),
+          _chatInputRow(_settings?.chatCommands?.elementAt(0), "Cmd 1", "Chat command 1"),
+          _chatInputRow(_settings?.chatCommands?.elementAt(1), "Cmd 2", "Chat command 2"),
+          _chatInputRow(_settings?.chatCommands?.elementAt(2), "Cmd 3", "Chat command 3"),
+          _chatInputRow(_settings?.chatCommands?.elementAt(3), "Cmd 4", "Chat command 4"),
+          _chatInputRow(_settings?.chatCommands?.elementAt(4), "Cmd 5", "Chat command 5"),
+          _chatInputRow(_settings?.chatCommands?.elementAt(5), "Cmd 6", "Chat command 6"),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
