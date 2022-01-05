@@ -59,10 +59,13 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
 
   Widget _inputRow(
       Setting? setting,
-      String hintText,
-      TextInputType secondInputType,
+      String label,
+      TextInputType? secondInputType,
       String secondInputHintSuffix,
-      String semanticsLabel) {
+      String semanticsLabel,
+      {BoxConstraints boxConstraints = const BoxConstraints(minWidth: 40),
+      String hint = "Button name"}
+      ) {
     if (setting == null) {
       return Container();
     }
@@ -75,18 +78,19 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
         children: <Widget>[
           MergeSemantics(
             child: ConstrainedBox(
-              child: new Text(hintText,
+              child: new Text(label,
                   semanticsLabel: semanticsLabel,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.overline),
-              constraints: const BoxConstraints(minWidth: 40),
+              constraints: boxConstraints,
             ),
           ),
-          new SettingTextInputField("Button name", TextInputType.text, (value) {
+          new SettingTextInputField(hint, TextInputType.text, (value) {
             setting.name = value;
           }, nameController, 10),
-          new SettingTextInputField(
-              hintText + secondInputHintSuffix, secondInputType, (value) {
+          if(secondInputType != null)
+            new SettingTextInputField(
+              label + secondInputHintSuffix, secondInputType, (value) {
             setting.data = value;
           }, valueController, 30),
         ]);
@@ -125,6 +129,31 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: new Text(
+                  "Save your volcano mining and rollover outfits if you want the app to equip them automatically",
+                  style: Theme.of(context).textTheme.bodyText2),
+            ),
+          ),
+          _inputRow(
+              _settings?.roOutfitName,
+              "Rollover outfit",
+              null,
+              "",
+              "Rollover outfit name",
+              boxConstraints: const BoxConstraints(minWidth: 100),
+              hint: "RO outfit name"),
+          _inputRow(
+              _settings?.volcOutfitName,
+              "Mining outfit",
+              null,
+              "",
+              "Volcano Mining outfit name",
+              boxConstraints: const BoxConstraints(minWidth: 100),
+              hint: "Mining outfit name"),
+
+          MergeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: new Text(
                   "Save commonly used food/booze/skills as buttons for easier use",
                   style: Theme.of(context).textTheme.bodyText2),
             ),
@@ -132,6 +161,7 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           _actionIdInputRow(_settings?.food, "Food"),
           _actionIdInputRow(_settings?.booze, "Booze"),
           _actionIdInputRow(_settings?.skill, "Skill"),
+
           MergeSemantics(
             child: Padding(
               padding: const EdgeInsets.only(

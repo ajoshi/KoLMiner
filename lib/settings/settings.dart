@@ -17,6 +17,9 @@ const String PREF_SETTINGS_CHAT4 = PREF_SETTINGS_PREFIX + "CHAT4";
 const String PREF_SETTINGS_CHAT5 = PREF_SETTINGS_PREFIX + "CHAT5";
 const String PREF_SETTINGS_CHAT6 = PREF_SETTINGS_PREFIX + "CHAT6";
 
+const String PREF_SETTINGS_VOLC_OUTFIT_NAME = PREF_SETTINGS_PREFIX + "VOLC_OUTFIT";
+const String PREF_SETTINGS_RO_OUTFIT_NAME = PREF_SETTINGS_PREFIX + "RO_OUTFIT";
+
 const String PREF_SETTINGS_SUFFIX_VAL = "_VAL";
 const String PREF_SETTINGS_SUFFIX_NAME = "_NAME";
 
@@ -29,6 +32,8 @@ void saveNewSettings(Settings? data) async {
   _save(prefs, data.food);
   _save(prefs, data.booze);
   _save(prefs, data.skill);
+  _save(prefs, data.volcOutfitName);
+  _save(prefs, data.roOutfitName);
   data.chatCommands?.forEach((cmd) => _save(prefs, cmd));
 }
 
@@ -48,6 +53,8 @@ Future<Settings> getSettings() async {
   _updateSetting(prefs, settings.food);
   _updateSetting(prefs, settings.booze);
   _updateSetting(prefs, settings.skill);
+  _updateSetting(prefs, settings.volcOutfitName);
+  _updateSetting(prefs, settings.roOutfitName);
   settings.chatCommands?.forEach((cmd) => _updateSetting(prefs, cmd));
   return settings;
 }
@@ -75,6 +82,10 @@ Settings settingsOf() {
       Setting("", "", PREF_SETTINGS_CHAT5),
       Setting("", "", PREF_SETTINGS_CHAT6),
     ],
+      // the following settings don't actually have a value- just a name
+      Setting("", "", PREF_SETTINGS_VOLC_OUTFIT_NAME),
+      Setting("", "", PREF_SETTINGS_RO_OUTFIT_NAME),
+    false
   );
 }
 
@@ -98,10 +109,14 @@ class Settings {
 
   final List<Setting>? chatCommands;
 
-  Settings(this.food, this.booze, this.skill, this.chatCommands);
+  final bool shouldAutoEquip;
+  final Setting? volcOutfitName;
+  final Setting? roOutfitName;
+
+  Settings(this.food, this.booze, this.skill, this.chatCommands, this.volcOutfitName, this.roOutfitName, this.shouldAutoEquip);
 
   @override
   String toString() {
-    return "$food\n$booze\n$skill\n$chatCommands";
+    return "$food\n$booze\n$skill\n$volcOutfitName\n$roOutfitName\n$shouldAutoEquip\n$chatCommands";
   }
 }

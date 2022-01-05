@@ -72,6 +72,10 @@ class MiningPageState extends DisposableHostState<MiningPage>
 
   /// Mines the specified number of times. Will stop if an error occurs.
   void mineNtimes(int n) async {
+    String? volcOutfit = settings?.volcOutfitName?.name;
+    if(volcOutfit != null && volcOutfit.isNotEmpty) {
+      await _chatWidget.key.currentState?.sendChatAndWait("outfit $volcOutfit");
+    }
     var startTime = new DateTime.now().millisecondsSinceEpoch;
     while (n > 0 && !didEncounterError) {
       if (!mounted) {
@@ -88,6 +92,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
         _advSpentCounterForSession, endTime - startTime));
     _refreshPlayerData();
 
+    await _chatWidget.key.currentState?.sendChatAndWait("outfit roll");
     // update ui with good news: we've mined and now we can mine again (maybe)
     setState(() {
       enableButton = true;
@@ -115,6 +120,10 @@ class MiningPageState extends DisposableHostState<MiningPage>
 
   /// What to do when we hit an error: back out to login page
   void onError(MiningResponse response) {
+    String? roOutfit = settings?.roOutfitName?.name;
+    if(roOutfit != null && roOutfit.isNotEmpty) {
+      _chatWidget.key.currentState?.sendChat("outfit $roOutfit");
+    }
     // on error: stop mining, pop the backstack to go back to login and show error dialog
     didEncounterError = true;
     String message = getErrorMessageForMiningResponse(response);
@@ -240,17 +249,6 @@ class MiningPageState extends DisposableHostState<MiningPage>
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: new Text(
-        //     "Mining is love. Mining is life.",
-        //     style: TextStyle(
-        //       fontSize: 20.0,
-        //       fontWeight: FontWeight.bold,
-        //     ),
-        //   ),
-        // ),
-        // don't create a new widget each time because it needs to make a network call
         _userInfoWidget,
         new MiningOutput(
           _goldCounter,
@@ -261,8 +259,8 @@ class MiningPageState extends DisposableHostState<MiningPage>
           enableButton,
           _onMineClicked,
         ),
-        _chatWidget,
         getPreconfiguredActions(),
+        _chatWidget,
         _lazyPersonWidget,
       ],
     );

@@ -40,18 +40,26 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
         .then((value) => _onChatResponse(value));
   }
 
+  Future<String?> sendChatAndWait(String text) {
+    aj_print("Chat: $text");
+    _setSendButtonEnabled(false);
+    return _chatCommander
+        .executeChatCommand(text).then((value) => _onChatResponse(value));
+  }
+
   void _setChatOutput(String output) {
     setState(() {
       chatOutput = output.replaceAll("\\\"", "\"");
     });
   }
 
-  void _onChatResponse(String? response) {
+  String? _onChatResponse(String? response) {
     if (response != null) {
       _setChatOutput(response);
     }
     chatInputTextController.clear();
     _setSendButtonEnabled(true);
+    return response;
   }
 
   void _setSendButtonEnabled(bool newValue) {
