@@ -11,6 +11,4 @@ For help getting started with Flutter, view their online
 
 Now that you have Flutter installed, clone this repo and import this project. 
 
-Run `flutter pub pub run flutter\_launcher\_icons:main`
-
 Now build the app using the Flutter IDE. Enjoy!
