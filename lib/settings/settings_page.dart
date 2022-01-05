@@ -129,7 +129,7 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: new Text(
-                  "Save your volcano mining and rollover outfits if you want the app to equip them automatically",
+                  "Enter your volcano mining and rollover outfit names, and the app will equip them automatically",
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
