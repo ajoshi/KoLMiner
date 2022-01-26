@@ -6,6 +6,7 @@ import 'package:kol_miner/constants.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/outfit/outfit_manager.dart';
+import '../utils.dart';
 
 /// This widget is for use by lazy people who are a burden to humanity
 class LazyUselessPersonWidget extends StatefulWidget {
@@ -147,9 +148,13 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
   }
 
   _onCollectCoinClicked() {
+    aj_print("_onCollectCoinClicked");
     _outfitManager
         .equipOutfitUsingName("velv")
-        .then((_) => lazyRequest.visitDisco());
+        .then((_) {
+        aj_print("velv equipped");
+          lazyRequest.visitDisco();
+    });
   }
 
   _onResolveClicked() {

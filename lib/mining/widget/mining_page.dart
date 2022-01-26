@@ -288,6 +288,8 @@ class MiningPageState extends DisposableHostState<MiningPage>
     );
   }
 
+  // SECTION PreConfiguredActionsWidgetHost start
+
   @override
   void onPreConfiguredActionsWidgetError() {
     // TODO this should use a more generic 'error' method than this
@@ -304,6 +306,17 @@ class MiningPageState extends DisposableHostState<MiningPage>
   void onPreConfiguredActionsWidgetChatRequest(String chat) {
     _chatWidget.key.currentState?.sendChat(chat);
   }
+
+  Future<String?> onPreConfiguredActionsWidgetChatRequestForResponse(String text) async {
+    var chatWidgetState = _chatWidget.key.currentState;
+    if (chatWidgetState == null) {
+      return Future.value(null);
+    } else {
+      return chatWidgetState.sendChatAndWait(text);
+    }
+  }
+
+  // SECTION PreConfiguredActionsWidgetHost end
 }
 
 class MiningPageError {

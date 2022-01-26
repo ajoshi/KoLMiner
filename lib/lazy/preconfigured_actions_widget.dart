@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:kol_miner/chat_commands/chat_command.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
 import 'package:kol_miner/network/kol_network.dart';
@@ -13,6 +12,7 @@ abstract class PreconfiguredActionsWidgetHost {
   void onPreConfiguredActionsWidgetRequestsStatusUpdate();
   void onPreConfiguredActionsWidgetError();
   void onPreConfiguredActionsWidgetChatRequest(String chat);
+  Future<String?> onPreConfiguredActionsWidgetChatRequestForResponse(String text);
 }
 
 /// This widget allows users to eat/sleep/etc using buttons
@@ -42,7 +42,8 @@ class PreconfiguredActionsWidget extends StatelessWidget {
           getRowOfActions(
               _WidgetRow('Consume', [
                 _PreconfiguredActionModel(settings.food, _onEatClicked),
-                _PreconfiguredActionModel(settings.booze, _onDrinkClicked)
+                _PreconfiguredActionModel(settings.booze, _onDrinkClicked),
+   //             _PreconfiguredActionModel(settings.booze, _onVelvClicked)
               ]),
               context),
           getRowOfActions(
@@ -148,6 +149,17 @@ class PreconfiguredActionsWidget extends StatelessWidget {
       {
         _requestStatusUpdate();
       }
+    });
+  }
+
+  _onVelvClicked(String fake) {
+    host.onPreConfiguredActionsWidgetChatRequestForResponse("outfit velvet").then((value) {
+      aj_print("velv equipped");
+      _onChatClicked("count volcoino");
+      lazyRequest.visitDiscoFuture().then((value) {
+        aj_print("disco discoed");
+        _onChatClicked("count volcoino");
+      });
     });
   }
 

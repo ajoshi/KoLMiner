@@ -46,6 +46,13 @@ class UserInfoState extends State<UserInfoWidget> {
     );
   }
 
+  int _getColorInt(int maxColor, int maxValue, int currentValue) {
+    var ratio = (currentValue/maxValue);
+    if (ratio > 1) ratio = 1; // we can go over the limit, but the color should just stay *at* the limit
+    var color = (ratio*maxColor).toInt();
+    return color;
+  }
+
   /// Builds the  box that shows user data
   Widget _buildInfoBox() {
     if (_advs == -1) {
@@ -62,11 +69,16 @@ class UserInfoState extends State<UserInfoWidget> {
             new Text(
               "Fullness: ${_userInfoRequest.full}",
               semanticsLabel: "${_userInfoRequest.full} Fullness.",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Color.fromARGB(255, 0, _getColorInt(128, 20, _userInfoRequest.full), 0)),
             ),
             new Text(
               "Drunkeness: ${_userInfoRequest.drunk}",
               semanticsLabel: "${_userInfoRequest.drunk} Drunkeness.",
+              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Color.fromARGB(255, _getColorInt(255, 20, _userInfoRequest.drunk), 0, 0)),
+            ),
+            new Text(
+              "Ode: ${_userInfoRequest.odeTurns}",
+              semanticsLabel: "${_userInfoRequest.odeTurns} turns of ode",
               style: Theme.of(context).textTheme.bodyText2,
             ),
             new Text(
