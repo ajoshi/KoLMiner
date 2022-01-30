@@ -30,6 +30,9 @@ class MiningPage extends StatefulWidget {
 
 class MiningPageState extends DisposableHostState<MiningPage>
     implements PreconfiguredActionsWidgetHost {
+  // waiting until all mining is complete to refresh is ridic
+  // This allows us to refresh the status ever n (10) turns for a somewhat responsive ui
+  static const _REFRESH_STATUS_EVERY_N_TURNS = 10;
   final miningInputTextController = SafeTextEditingController();
 
   late final Miner miner;
@@ -77,12 +80,16 @@ class MiningPageState extends DisposableHostState<MiningPage>
       await _chatWidget.key.currentState?.sendChatAndWait("outfit $volcOutfit");
     }
     var startTime = new DateTime.now().millisecondsSinceEpoch;
-    while (n > 0 && !didEncounterError) {
+    var counter = 0;
+    while (counter < n && !didEncounterError) {
       if (!mounted) {
         // stop mining if the user has left the mining page
         return;
       }
-      n--;
+      counter++;
+      if(counter % _REFRESH_STATUS_EVERY_N_TURNS == 0) {
+        _refreshPlayerData();
+      }
       var response = await miner.mineNextSquare();
       onMineResponse(response);
     }
@@ -150,8 +157,25 @@ class MiningPageState extends DisposableHostState<MiningPage>
   }
 
   void _refreshPlayerData() {
-    _lazyPersonWidget.key.currentState?.requestPlayerDataUpdate();
-    _userInfoWidget.key.currentState?.requestPlayerDataUpdate();
+    _userInfoWidget.key.currentState?.requestPlayerDataUpdateAndReturnValue().then((request) {
+      // This is a really bad way of hooking into "mp too high/hp too low" checks
+      if (request != null) {
+        if(settings?.autocastMaxMp?.name.isNotEmpty == true) {
+          if(request.currentMp > (int.parse(settings!.autocastMaxMp!.name)) && settings?.skill?.data != null) {
+            aj_print("MP too high");
+            _lazyPersonWidget.key.currentState?.lazyRequest.requestSkill(settings!.skill!.data);
+            _requestBatcher.addRequest();
+          }
+        }
+        if(settings?.autohealMinHp?.name.isNotEmpty == true) {
+          if(request.currentHp < (int.parse(settings!.autohealMinHp!.name))) {
+            aj_print("HP too low");
+            _lazyPersonWidget.key.currentState?.lazyRequest.requestNunHealing();
+            _requestBatcher.addRequest();
+          }
+        }
+      }
+    });
   }
 
   void _navigateToSettings() {
@@ -259,8 +283,8 @@ class MiningPageState extends DisposableHostState<MiningPage>
           enableButton,
           _onMineClicked,
         ),
-        getPreconfiguredActions(),
         _chatWidget,
+        getPreconfiguredActions(),
         _lazyPersonWidget,
       ],
     );

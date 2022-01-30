@@ -39,20 +39,6 @@ class PreconfiguredActionsWidget extends StatelessWidget {
       padding: EdgeInsets.only(top: 10.0),
       child: Column(
         children: <Widget>[
-          getRowOfActions(
-              _WidgetRow('Consume', [
-                _PreconfiguredActionModel(settings.food, _onEatClicked),
-                _PreconfiguredActionModel(settings.booze, _onDrinkClicked),
-   //             _PreconfiguredActionModel(settings.booze, _onVelvClicked)
-              ]),
-              context),
-          getRowOfActions(
-              new _WidgetRow('MP', [
-                _PreconfiguredActionModel(settings.skill, _onResolveClicked),
-                _PreconfiguredActionModel(
-                    Setting("Visit nuns", "", ""), _onHealClicked),
-              ]),
-              context),
           // TODO this is stupid: it's a list, so we can calculate ui instead of hardcoding 3 to a row
           getRowOfActions(
               new _WidgetRow('Chat', [
@@ -72,6 +58,20 @@ class PreconfiguredActionsWidget extends StatelessWidget {
                     settings.chatCommands?.elementAt(4), _onChatClicked),
                 _PreconfiguredActionModel(
                     settings.chatCommands?.elementAt(5), _onChatClicked),
+              ]),
+              context),
+          getRowOfActions(
+              new _WidgetRow('Misc', [
+                _PreconfiguredActionModel(settings.skill, _onResolveClicked),
+                _PreconfiguredActionModel(
+                    Setting("Visit nuns", "", ""), _onHealClicked),
+              ]),
+              context),
+          getRowOfActions(
+              _WidgetRow('Consume', [
+                _PreconfiguredActionModel(settings.food, _onEatClicked),
+                _PreconfiguredActionModel(settings.booze, _onDrinkClicked),
+                _PreconfiguredActionModel(Setting("Velvet", "", ""), _onVelvClicked)
               ]),
               context),
         ],

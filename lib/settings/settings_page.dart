@@ -183,6 +183,40 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
               _settings?.chatCommands?.elementAt(4), "Cmd 5", "Chat command 5"),
           _chatInputRow(
               _settings?.chatCommands?.elementAt(5), "Cmd 6", "Chat command 6"),
+
+          MergeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: new Text(
+                  "The app will autoheal at the nuns if your HP drops too low. Autoheal is disabled if this is empty.",
+                  style: Theme.of(context).textTheme.bodyText2),
+            ),
+          ),
+          _inputRow(
+              _settings?.autohealMinHp,
+              "Min HP for nuns",
+              null,
+              "",
+              "Min HP for nuns",
+              boxConstraints: const BoxConstraints(minWidth: 100),
+              hint: ""),
+          MergeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: new Text(
+                  "The app will autocast the default skill above if MP goes above a certain limit. Autocasting is disabled if this empty.",
+                  style: Theme.of(context).textTheme.bodyText2),
+            ),
+          ),
+          _inputRow(
+              _settings?.autocastMaxMp,
+              "Max MP",
+              null,
+              "",
+              "Max MP",
+              boxConstraints: const BoxConstraints(minWidth: 100),
+              hint: ""),
+
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10.0),

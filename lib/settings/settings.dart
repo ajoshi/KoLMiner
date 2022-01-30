@@ -19,6 +19,8 @@ const String PREF_SETTINGS_CHAT6 = PREF_SETTINGS_PREFIX + "CHAT6";
 
 const String PREF_SETTINGS_VOLC_OUTFIT_NAME = PREF_SETTINGS_PREFIX + "VOLC_OUTFIT";
 const String PREF_SETTINGS_RO_OUTFIT_NAME = PREF_SETTINGS_PREFIX + "RO_OUTFIT";
+const String PREF_SETTINGS_AUTOHEAL_MIN_HP = PREF_SETTINGS_PREFIX + "AUTOHEAL_MIN_HP";
+const String PREF_SETTINGS_AUTOCAST_MAX_MP = PREF_SETTINGS_PREFIX + "AUTOCAST_MAX_MP";
 
 const String PREF_SETTINGS_SUFFIX_VAL = "_VAL";
 const String PREF_SETTINGS_SUFFIX_NAME = "_NAME";
@@ -34,6 +36,8 @@ void saveNewSettings(Settings? data) async {
   _save(prefs, data.skill);
   _save(prefs, data.volcOutfitName);
   _save(prefs, data.roOutfitName);
+  _save(prefs, data.autohealMinHp);
+  _save(prefs, data.autocastMaxMp);
   data.chatCommands?.forEach((cmd) => _save(prefs, cmd));
 }
 
@@ -55,6 +59,8 @@ Future<Settings> getSettings() async {
   _updateSetting(prefs, settings.skill);
   _updateSetting(prefs, settings.volcOutfitName);
   _updateSetting(prefs, settings.roOutfitName);
+  _updateSetting(prefs, settings.autocastMaxMp);
+  _updateSetting(prefs, settings.autohealMinHp);
   settings.chatCommands?.forEach((cmd) => _updateSetting(prefs, cmd));
   return settings;
 }
@@ -85,6 +91,8 @@ Settings settingsOf() {
       // the following settings don't actually have a value- just a name
       Setting("", "", PREF_SETTINGS_VOLC_OUTFIT_NAME),
       Setting("", "", PREF_SETTINGS_RO_OUTFIT_NAME),
+      Setting("", "", PREF_SETTINGS_AUTOHEAL_MIN_HP),
+      Setting("", "", PREF_SETTINGS_AUTOCAST_MAX_MP),
     false
   );
 }
@@ -112,11 +120,13 @@ class Settings {
   final bool shouldAutoEquip;
   final Setting? volcOutfitName;
   final Setting? roOutfitName;
+  final Setting? autohealMinHp;
+  final Setting? autocastMaxMp;
 
-  Settings(this.food, this.booze, this.skill, this.chatCommands, this.volcOutfitName, this.roOutfitName, this.shouldAutoEquip);
+  Settings(this.food, this.booze, this.skill, this.chatCommands, this.volcOutfitName, this.roOutfitName, this.autohealMinHp, this.autocastMaxMp, this.shouldAutoEquip);
 
   @override
   String toString() {
-    return "$food\n$booze\n$skill\n$volcOutfitName\n$roOutfitName\n$shouldAutoEquip\n$chatCommands";
+    return "$food\n$booze\n$skill\n$volcOutfitName\n$roOutfitName\n$shouldAutoEquip\n$autohealMinHp\n$autocastMaxMp\n$chatCommands";
   }
 }
