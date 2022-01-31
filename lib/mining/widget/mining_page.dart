@@ -164,14 +164,12 @@ class MiningPageState extends DisposableHostState<MiningPage>
           if(request.currentMp > (int.parse(settings!.autocastMaxMp!.name)) && settings?.skill?.data != null) {
             aj_print("MP too high");
             _lazyPersonWidget.key.currentState?.lazyRequest.requestSkill(settings!.skill!.data);
-            _requestBatcher.addRequest();
           }
         }
         if(settings?.autohealMinHp?.name.isNotEmpty == true) {
           if(request.currentHp < (int.parse(settings!.autohealMinHp!.name))) {
             aj_print("HP too low");
             _lazyPersonWidget.key.currentState?.lazyRequest.requestNunHealing();
-            _requestBatcher.addRequest();
           }
         }
       }
