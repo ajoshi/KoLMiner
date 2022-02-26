@@ -250,14 +250,23 @@ class KolNetwork {
 
       if (resp.redirects != null && resp.redirects.isNotEmpty) {
         var redirectUrl = resp.redirects[0].location;
+        aj_print("redirect to $redirectUrl");
         if (redirectUrl != null &&
             redirectUrl.toString().contains(MAINT_POSTFIX)) {
           return NetworkResponse(NetworkResponseCode.ROLLOVER, "");
         }
-        if (redirectUrl != null &&
-            !expectRedirects &&
-            redirectUrl.toString() != "main.php") {
-          return NetworkResponse(NetworkResponseCode.EXPIRED_HASH, "");
+        if (redirectUrl.toString() != "main.php") {
+          aj_print("not main php");
+          if (!expectRedirects) {
+            aj_print("unexpected redirect!");
+            return NetworkResponse(NetworkResponseCode.EXPIRED_HASH, "");
+          } else {
+            aj_print("let's redirect!");
+            return makeRequest(redirectUrl.toString(),
+                expectRedirects: expectRedirects,
+                emptyResponseDefaultValue: emptyResponseDefaultValue,
+                useStreams: useStreams);
+          }
         }
       }
       // login.php?invalid=1

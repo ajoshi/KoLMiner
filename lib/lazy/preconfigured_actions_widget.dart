@@ -12,7 +12,8 @@ abstract class PreconfiguredActionsWidgetHost {
   void onPreConfiguredActionsWidgetRequestsStatusUpdate();
   void onPreConfiguredActionsWidgetError();
   void onPreConfiguredActionsWidgetChatRequest(String chat);
-  Future<String?> onPreConfiguredActionsWidgetChatRequestForResponse(String text);
+  Future<String?> onPreConfiguredActionsWidgetChatRequestForResponse(
+      String text);
 }
 
 /// This widget allows users to eat/sleep/etc using buttons
@@ -71,7 +72,8 @@ class PreconfiguredActionsWidget extends StatelessWidget {
               _WidgetRow('Consume', [
                 _PreconfiguredActionModel(settings.food, _onEatClicked),
                 _PreconfiguredActionModel(settings.booze, _onDrinkClicked),
-                _PreconfiguredActionModel(Setting("Velvet", "", ""), _onVelvClicked)
+                _PreconfiguredActionModel(
+                    Setting("Velvet", "", ""), _onVelvClicked)
               ]),
               context),
         ],
@@ -153,10 +155,14 @@ class PreconfiguredActionsWidget extends StatelessWidget {
   }
 
   _onVelvClicked(String fake) {
-    host.onPreConfiguredActionsWidgetChatRequestForResponse("outfit velvet").then((value) {
+    host
+        .onPreConfiguredActionsWidgetChatRequestForResponse("outfit velvet")
+        .then((value) {
       aj_print("velv equipped");
+      aj_print("$value");
       _onChatClicked("count volcoino");
       lazyRequest.visitDiscoFuture().then((value) {
+        aj_print(value.response);
         aj_print("disco discoed");
         _onChatClicked("count volcoino");
       });

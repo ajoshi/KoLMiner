@@ -76,19 +76,21 @@ class LazyRequest {
   Future<NetworkResponseCode> requestFood(String id) async {
     aj_print("eating");
     return (await network.makeRequestWithQueryParams(
-        "inv_eat.php", "which=1&whichitem=$id"))
+            "inv_eat.php", "which=1&whichitem=$id"))
         .responseCode;
   }
 
   /// Go to the disco... but also return a value
   Future<NetworkResponse> visitDiscoFuture() async {
     aj_print("I'm a disco dancer");
-    await network.makeRequestWithQueryParams(
-        "place.php", "whichplace=airport_hot&action=airport4_zone1");
-    aj_print("disco 1");
-   var result =  network.makeRequestWithQueryParams(
+    var r2 = await network.makeRequestWithQueryParams(
+        "place.php", "whichplace=airport_hot&action=airport4_zone1",
+        expectRedirects: true);
+    aj_print("\ndisco 1");
+    aj_print(r2.response);
+    var result = network.makeRequestWithQueryParams(
         "choice.php", "whichchoice=1090&option=7");
-    aj_print("disco 2");
+    aj_print("\ndisco 2");
     return result;
   }
 

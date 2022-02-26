@@ -76,7 +76,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
   /// Mines the specified number of times. Will stop if an error occurs.
   void mineNtimes(int n) async {
     String? volcOutfit = settings?.volcOutfitName?.name;
-    if(volcOutfit != null && volcOutfit.isNotEmpty) {
+    if (volcOutfit != null && volcOutfit.isNotEmpty) {
       await _chatWidget.key.currentState?.sendChatAndWait("outfit $volcOutfit");
     }
     var startTime = new DateTime.now().millisecondsSinceEpoch;
@@ -87,7 +87,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
         return;
       }
       counter++;
-      if(counter % _REFRESH_STATUS_EVERY_N_TURNS == 0) {
+      if (counter % _REFRESH_STATUS_EVERY_N_TURNS == 0) {
         _refreshPlayerData();
       }
       var response = await miner.mineNextSquare();
@@ -128,7 +128,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
   /// What to do when we hit an error: back out to login page
   void onError(MiningResponse response) {
     String? roOutfit = settings?.roOutfitName?.name;
-    if(roOutfit != null && roOutfit.isNotEmpty) {
+    if (roOutfit != null && roOutfit.isNotEmpty) {
       _chatWidget.key.currentState?.sendChat("outfit $roOutfit");
     }
     // on error: stop mining, pop the backstack to go back to login and show error dialog
@@ -157,17 +157,21 @@ class MiningPageState extends DisposableHostState<MiningPage>
   }
 
   void _refreshPlayerData() {
-    _userInfoWidget.key.currentState?.requestPlayerDataUpdateAndReturnValue().then((request) {
+    _userInfoWidget.key.currentState
+        ?.requestPlayerDataUpdateAndReturnValue()
+        .then((request) {
       // This is a really bad way of hooking into "mp too high/hp too low" checks
       if (request != null) {
-        if(settings?.autocastMaxMp?.name.isNotEmpty == true) {
-          if(request.currentMp > (int.parse(settings!.autocastMaxMp!.name)) && settings?.skill?.data != null) {
+        if (settings?.autocastMaxMp?.name.isNotEmpty == true) {
+          if (request.currentMp > (int.parse(settings!.autocastMaxMp!.name)) &&
+              settings?.skill?.data != null) {
             aj_print("MP too high");
-            _lazyPersonWidget.key.currentState?.lazyRequest.requestSkill(settings!.skill!.data);
+            _lazyPersonWidget.key.currentState?.lazyRequest
+                .requestSkill(settings!.skill!.data);
           }
         }
-        if(settings?.autohealMinHp?.name.isNotEmpty == true) {
-          if(request.currentHp < (int.parse(settings!.autohealMinHp!.name))) {
+        if (settings?.autohealMinHp?.name.isNotEmpty == true) {
+          if (request.currentHp < (int.parse(settings!.autohealMinHp!.name))) {
             aj_print("HP too low");
             _lazyPersonWidget.key.currentState?.lazyRequest.requestNunHealing();
           }
@@ -329,7 +333,8 @@ class MiningPageState extends DisposableHostState<MiningPage>
     _chatWidget.key.currentState?.sendChat(chat);
   }
 
-  Future<String?> onPreConfiguredActionsWidgetChatRequestForResponse(String text) async {
+  Future<String?> onPreConfiguredActionsWidgetChatRequestForResponse(
+      String text) async {
     var chatWidgetState = _chatWidget.key.currentState;
     if (chatWidgetState == null) {
       return Future.value(null);

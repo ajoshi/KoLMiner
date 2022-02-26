@@ -149,11 +149,9 @@ class LazyPersonState extends State<LazyUselessPersonWidget> {
 
   _onCollectCoinClicked() {
     aj_print("_onCollectCoinClicked");
-    _outfitManager
-        .equipOutfitUsingName("velv")
-        .then((_) {
-        aj_print("velv equipped");
-          lazyRequest.visitDisco();
+    _outfitManager.equipOutfitUsingName("velv").then((_) {
+      aj_print("velv equipped");
+      lazyRequest.visitDisco();
     });
   }
 

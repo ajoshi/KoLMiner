@@ -5,8 +5,6 @@ import 'package:kol_miner/network/kol_network.dart';
 import '../utils.dart';
 
 class UserInfoRequest {
-
-
   static const _MILK_EFFECT_HASH = "225aa10e75476b0ad5fa576c89df3901";
   static const _ODE_EFFECT_HASH = "626c8ef76cfc003c6ac2e65e9af5fd7a";
 

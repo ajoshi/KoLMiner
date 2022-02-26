@@ -17,10 +17,13 @@ const String PREF_SETTINGS_CHAT4 = PREF_SETTINGS_PREFIX + "CHAT4";
 const String PREF_SETTINGS_CHAT5 = PREF_SETTINGS_PREFIX + "CHAT5";
 const String PREF_SETTINGS_CHAT6 = PREF_SETTINGS_PREFIX + "CHAT6";
 
-const String PREF_SETTINGS_VOLC_OUTFIT_NAME = PREF_SETTINGS_PREFIX + "VOLC_OUTFIT";
+const String PREF_SETTINGS_VOLC_OUTFIT_NAME =
+    PREF_SETTINGS_PREFIX + "VOLC_OUTFIT";
 const String PREF_SETTINGS_RO_OUTFIT_NAME = PREF_SETTINGS_PREFIX + "RO_OUTFIT";
-const String PREF_SETTINGS_AUTOHEAL_MIN_HP = PREF_SETTINGS_PREFIX + "AUTOHEAL_MIN_HP";
-const String PREF_SETTINGS_AUTOCAST_MAX_MP = PREF_SETTINGS_PREFIX + "AUTOCAST_MAX_MP";
+const String PREF_SETTINGS_AUTOHEAL_MIN_HP =
+    PREF_SETTINGS_PREFIX + "AUTOHEAL_MIN_HP";
+const String PREF_SETTINGS_AUTOCAST_MAX_MP =
+    PREF_SETTINGS_PREFIX + "AUTOCAST_MAX_MP";
 
 const String PREF_SETTINGS_SUFFIX_VAL = "_VAL";
 const String PREF_SETTINGS_SUFFIX_NAME = "_NAME";
@@ -77,24 +80,23 @@ void _updateSetting(SharedPreferences prefs, Setting? setting) {
 
 Settings settingsOf() {
   return Settings(
-    Setting("", "", PREF_SETTINGS_FOOD),
-    Setting("", "", PREF_SETTINGS_BOOZE),
-    Setting("", "", PREF_SETTINGS_SKILL),
-    [
-      Setting("", "", PREF_SETTINGS_CHAT1),
-      Setting("", "", PREF_SETTINGS_CHAT2),
-      Setting("", "", PREF_SETTINGS_CHAT3),
-      Setting("", "", PREF_SETTINGS_CHAT4),
-      Setting("", "", PREF_SETTINGS_CHAT5),
-      Setting("", "", PREF_SETTINGS_CHAT6),
-    ],
+      Setting("", "", PREF_SETTINGS_FOOD),
+      Setting("", "", PREF_SETTINGS_BOOZE),
+      Setting("", "", PREF_SETTINGS_SKILL),
+      [
+        Setting("", "", PREF_SETTINGS_CHAT1),
+        Setting("", "", PREF_SETTINGS_CHAT2),
+        Setting("", "", PREF_SETTINGS_CHAT3),
+        Setting("", "", PREF_SETTINGS_CHAT4),
+        Setting("", "", PREF_SETTINGS_CHAT5),
+        Setting("", "", PREF_SETTINGS_CHAT6),
+      ],
       // the following settings don't actually have a value- just a name
       Setting("", "", PREF_SETTINGS_VOLC_OUTFIT_NAME),
       Setting("", "", PREF_SETTINGS_RO_OUTFIT_NAME),
       Setting("", "", PREF_SETTINGS_AUTOHEAL_MIN_HP),
       Setting("", "", PREF_SETTINGS_AUTOCAST_MAX_MP),
-    false
-  );
+      false);
 }
 
 class Setting {
@@ -123,7 +125,16 @@ class Settings {
   final Setting? autohealMinHp;
   final Setting? autocastMaxMp;
 
-  Settings(this.food, this.booze, this.skill, this.chatCommands, this.volcOutfitName, this.roOutfitName, this.autohealMinHp, this.autocastMaxMp, this.shouldAutoEquip);
+  Settings(
+      this.food,
+      this.booze,
+      this.skill,
+      this.chatCommands,
+      this.volcOutfitName,
+      this.roOutfitName,
+      this.autohealMinHp,
+      this.autocastMaxMp,
+      this.shouldAutoEquip);
 
   @override
   String toString() {

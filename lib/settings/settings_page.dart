@@ -64,8 +64,7 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
       String secondInputHintSuffix,
       String semanticsLabel,
       {BoxConstraints boxConstraints = const BoxConstraints(minWidth: 40),
-      String hint = "Button name"}
-      ) {
+      String hint = "Button name"}) {
     if (setting == null) {
       return Container();
     }
@@ -88,11 +87,11 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           new SettingTextInputField(hint, TextInputType.text, (value) {
             setting.name = value;
           }, nameController, 10),
-          if(secondInputType != null)
+          if (secondInputType != null)
             new SettingTextInputField(
-              label + secondInputHintSuffix, secondInputType, (value) {
-            setting.data = value;
-          }, valueController, 30),
+                label + secondInputHintSuffix, secondInputType, (value) {
+              setting.data = value;
+            }, valueController, 30),
         ]);
   }
 
@@ -133,23 +132,14 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
-          _inputRow(
-              _settings?.roOutfitName,
-              "Rollover outfit",
-              null,
-              "",
+          _inputRow(_settings?.roOutfitName, "Rollover outfit", null, "",
               "Rollover outfit name",
               boxConstraints: const BoxConstraints(minWidth: 100),
               hint: "RO outfit name"),
-          _inputRow(
-              _settings?.volcOutfitName,
-              "Mining outfit",
-              null,
-              "",
+          _inputRow(_settings?.volcOutfitName, "Mining outfit", null, "",
               "Volcano Mining outfit name",
               boxConstraints: const BoxConstraints(minWidth: 100),
               hint: "Mining outfit name"),
-
           MergeSemantics(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -161,13 +151,12 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           _actionIdInputRow(_settings?.food, "Food"),
           _actionIdInputRow(_settings?.booze, "Booze"),
           _actionIdInputRow(_settings?.skill, "Skill"),
-
           MergeSemantics(
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 4.0, top: 12.0, right: 4.0, bottom: 4.0),
               child: new Text(
-                  'Save up to three commonly used chat commands without the slash. (eg. \"outfit roll\") for easier use',
+                  'Save up to six commonly used chat commands without the slash. (eg. \"outfit roll\") for easier use',
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
@@ -183,7 +172,6 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
               _settings?.chatCommands?.elementAt(4), "Cmd 5", "Chat command 5"),
           _chatInputRow(
               _settings?.chatCommands?.elementAt(5), "Cmd 6", "Chat command 6"),
-
           MergeSemantics(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -192,14 +180,9 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
-          _inputRow(
-              _settings?.autohealMinHp,
+          _inputRow(_settings?.autohealMinHp, "Min HP for nuns", null, "",
               "Min HP for nuns",
-              null,
-              "",
-              "Min HP for nuns",
-              boxConstraints: const BoxConstraints(minWidth: 100),
-              hint: ""),
+              boxConstraints: const BoxConstraints(minWidth: 100), hint: ""),
           MergeSemantics(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -208,15 +191,8 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
-          _inputRow(
-              _settings?.autocastMaxMp,
-              "Max MP",
-              null,
-              "",
-              "Max MP",
-              boxConstraints: const BoxConstraints(minWidth: 100),
-              hint: ""),
-
+          _inputRow(_settings?.autocastMaxMp, "Max MP", null, "", "Max MP",
+              boxConstraints: const BoxConstraints(minWidth: 100), hint: ""),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10.0),

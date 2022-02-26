@@ -44,7 +44,8 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
     aj_print("Chat: $text");
     _setSendButtonEnabled(false);
     return _chatCommander
-        .executeChatCommand(text).then((value) => _onChatResponse(value));
+        .executeChatCommand(text)
+        .then((value) => _onChatResponse(value));
   }
 
   void _setChatOutput(String output) {
