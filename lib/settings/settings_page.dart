@@ -10,6 +10,9 @@ import 'setting_text_input_widget.dart';
 
 /// This page shows Settings
 class SettingsPage extends StatefulWidget {
+  /// Characters that a single chat command can have. Allows chaining more easily
+  static const MAX_CHAT_COMMAND_LENGTH = 140;
+
   SettingsPage({this.title = "Settings", Key? key}) : super(key: key);
 
   final String title;
@@ -91,7 +94,7 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
             new SettingTextInputField(
                 label + secondInputHintSuffix, secondInputType, (value) {
               setting.data = value;
-            }, valueController, 30),
+            }, valueController, SettingsPage.MAX_CHAT_COMMAND_LENGTH),
         ]);
   }
 
