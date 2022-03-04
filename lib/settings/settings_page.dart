@@ -217,9 +217,15 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
         loginPage,
       ],
     );
-
     Scaffold scaffold = new Scaffold(
       appBar: new AppBar(
+        actions: <Widget>[
+          IconButton(
+            onPressed: _onSaveClicked,
+            icon: const Icon(Icons.save),
+            tooltip: "Save settings",
+          ),
+        ],
         title: new Text(widget.title),
         foregroundColor: Colors.white,
         backgroundColor: Colors.indigo,
