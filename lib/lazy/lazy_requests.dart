@@ -75,6 +75,8 @@ class LazyRequest {
   /// Eat a food
   Future<NetworkResponseCode> requestFood(String id) async {
     aj_print("eating");
+    // unconditional milk use before every eat :(
+    requestMilkUse();
     return (await network.makeRequestWithQueryParams(
             "inv_eat.php", "which=1&whichitem=$id"))
         .responseCode;
