@@ -9,8 +9,8 @@ class StatusRequestBatcher extends AutoDisposable {
   late StreamSubscription<bool> batchedRequestSubscription;
   VoidCallback onEvent;
 
-  StatusRequestBatcher(this.onEvent) {
-    eventStream = Stream.periodic(Duration(seconds: 2), (int count) {
+  StatusRequestBatcher(this.onEvent, {Duration duration = const Duration(seconds: 1)}) {
+    eventStream = Stream.periodic(duration, (int count) {
       bool temp = hasPendingRequest;
       hasPendingRequest = false;
       return temp;
