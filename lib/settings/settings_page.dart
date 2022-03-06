@@ -131,12 +131,12 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: new Text(
-                  "Enter your volcano mining and rollover outfit names, and the app will equip them automatically",
+                  "Enter the name of your volcano mining outfit and one to equip after mining is done. The app will equip them as needed",
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
-          _inputRow(_settings?.roOutfitName, "Rollover outfit", null, "",
-              "Rollover outfit name",
+          _inputRow(_settings?.roOutfitName, "Post-mining outfit", null, "",
+              "Post-mining outfit name",
               boxConstraints: const BoxConstraints(minWidth: 100),
               hint: "RO outfit name"),
           _inputRow(_settings?.volcOutfitName, "Mining outfit", null, "",
