@@ -40,10 +40,14 @@ class _LoginFormState extends State<LoginForm>
   // List of all the usernames. Used by AutoComplete
   List<String>? usernameSuggestions = null;
 
+  // toggled by user to allow password to be hidden/shown in UI- UX improvement to avoid typos
+  bool _obscurePassword = true;
+
   bool isLoggingIn = false;
 
   // Message to show when login attempt has failed
   String messageToShow = "";
+  String nonErrorMessageToShow = "";
 
   @override
   void dispose() {
@@ -59,6 +63,17 @@ class _LoginFormState extends State<LoginForm>
       var password = passwordController.text;
       var newAccount = KolAccount(_usernameTextViewValue, password);
       aj_print("logging in with " + newAccount.toString());
+      if (newAccount.password.length > 2) {
+        String displayPass = "";
+        if (!_obscurePassword) {
+          displayPass = "[${newAccount.password}]";
+        }
+
+        nonErrorMessageToShow =
+            "Logging in: [${newAccount.username}] $displayPass";
+      } else {
+        nonErrorMessageToShow = "You probably need a password to log in";
+      }
       widget.network
           .login(
             newAccount.username,
@@ -77,6 +92,17 @@ class _LoginFormState extends State<LoginForm>
       );
     } else {
       return new CircularProgressIndicator();
+      /*
+           return  new Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          new Text("Logging in as $")
+          new CircularProgressIndicator(),
+        ],
+      );
+      // return new CircularProgressIndicator();
+    }
+       */
     }
   }
 
@@ -173,6 +199,12 @@ class _LoginFormState extends State<LoginForm>
         .then((accounts) => _onAccountListLoaded(accounts));
   }
 
+  void _toggleShowPassword() {
+    aj_print(
+        "Toggling show password from $_obscurePassword to ${!_obscurePassword}");
+    _obscurePassword = !_obscurePassword;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (accounts == null) {
@@ -183,11 +215,17 @@ class _LoginFormState extends State<LoginForm>
       children: <Widget>[
         AutoCompleteUsernameInput(usernameSuggestions, this),
         new TextField(
-          obscureText: true,
+          obscureText: _obscurePassword,
           decoration: new InputDecoration(
-            hintText: "Password",
-            suffixIcon: new Icon(Icons.lock),
-          ),
+              hintText: "Password",
+              suffix: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _toggleShowPassword();
+                    });
+                  },
+                  icon: Icon(
+                      _obscurePassword ? Icons.remove_red_eye : Icons.lock))),
           enabled: _isEnabled(),
           controller: passwordController,
           onSubmitted: (value) => _onLoginPressed(),
@@ -208,19 +246,37 @@ class _LoginFormState extends State<LoginForm>
             onTap: () => _launchKolInBrowser(),
           ),
         ),
-        messageToShow.isEmpty
-            ? new Container()
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 5.0),
-                child: Text(
-                  messageToShow,
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
+        getDisplayedMessage(),
       ],
     );
+  }
+
+  Widget getDisplayedMessage() {
+    return messageToShow.isEmpty
+        ? getNonErrorMessage()
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 5.0),
+            child: Text(
+              messageToShow,
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          );
+  }
+
+  Widget getNonErrorMessage() {
+    return nonErrorMessageToShow.isEmpty
+        ? new Container()
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 5.0),
+            child: Text(
+              nonErrorMessageToShow,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          );
   }
 
   bool _isEnabled() {
