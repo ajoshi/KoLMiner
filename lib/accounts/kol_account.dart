@@ -48,7 +48,7 @@ class KolAccountManager {
     int userCount = min(usernames.length, passwords.length);
     // join the 2 username+password arrays to make a KolAccount array
     for (int c = 0; c < userCount; c++) {
-      KolAccount account = KolAccount(usernames[c], passwords[c]);
+      KolAccount account = KolAccount(usernames[c].trim(), passwords[c]);
 //      aj_print(account);
       accounts.add(account);
     }
@@ -73,7 +73,7 @@ class KolAccountManager {
     var usernames = <String>[];
     var passwords = <String>[];
     for (var account in accounts) {
-      usernames.add(account.username);
+      usernames.add(account.username.trim());
       passwords.add(account.password);
     }
     await _getSharedPref();
