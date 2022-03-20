@@ -109,6 +109,7 @@ class _LoginFormState extends State<LoginForm>
   /// Called when the login code has hit the network and received a response
   void onLoginResponse(
       NetworkResponseCode responsecode, KolAccount newAccount) {
+    nonErrorMessageToShow = "";
     messageToShow = "";
     switch (responsecode) {
       case NetworkResponseCode.SUCCESS:
