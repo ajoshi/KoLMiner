@@ -45,7 +45,7 @@ class Miner {
   }
 
   /// Mines the next reasonable square. If one isn't found, gets the next mine and tries again
-  Future<MiningResponse> mineNextSquare() async {
+  Future<MiningResponse> mineNextSquare({bool shouldAutosellGold = true}) async {
     if (currentMine == null) {
       // get the layout if we don't have it
       var response = await getMineLayout();
@@ -65,7 +65,7 @@ class Miner {
         if (await getNextMine()) {
           aj_print("got a new mine!");
           // if we did get a new mine, then mine in that one
-          return mineNextSquare();
+          return mineNextSquare(shouldAutosellGold: shouldAutosellGold);
         } else {
           // failed to get new mine. Out of advs? no hot res left?
           return new MiningResponse(
@@ -81,11 +81,11 @@ class Miner {
       return Future.value(MiningResponse(
           NetworkResponseCode.SUCCESS, MiningResponseCode.FAILURE, false));
     }
-    return mineSquare(targetSquare);
+    return mineSquare(targetSquare, shouldAutosellGold: shouldAutosellGold);
   }
 
   /// Mines the given square and returns a failure if it can't
-  Future<MiningResponse> mineSquare(MineableSquare targetSquare) async {
+  Future<MiningResponse> mineSquare(MineableSquare targetSquare, {bool shouldAutosellGold = true}) async {
     //    aj_print("we gonn mine $targetSquare");
     // if the url changes (maybe?) to not have params in it, the app name won't be parsed
     // since params are optional, everything should work fine on our end though
@@ -106,7 +106,9 @@ class Miner {
       parseMineLayout(mineResponse.response, currentlyMinedSquares + 1);
       if (didStrikeGold) {
         // once a gold is found, we want to move on to the next mine
-        autoSellGold();
+        if(shouldAutosellGold) {
+          autoSellGold();
+        }
         currentMine?.squares.clear();
       }
       return new MiningResponse.success(didStrikeGold);

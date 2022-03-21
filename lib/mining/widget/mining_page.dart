@@ -90,7 +90,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
       if (counter % _REFRESH_STATUS_EVERY_N_TURNS == 0) {
         _refreshPlayerData();
       }
-      var response = await miner.mineNextSquare();
+      var response = await miner.mineNextSquare(shouldAutosellGold: settings?.shouldAutosellGold.data ?? true);
       onMineResponse(response);
     }
     var endTime = new DateTime.now().millisecondsSinceEpoch;
