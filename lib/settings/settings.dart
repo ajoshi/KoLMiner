@@ -17,6 +17,9 @@ const String PREF_SETTINGS_CHAT4 = PREF_SETTINGS_PREFIX + "CHAT4";
 const String PREF_SETTINGS_CHAT5 = PREF_SETTINGS_PREFIX + "CHAT5";
 const String PREF_SETTINGS_CHAT6 = PREF_SETTINGS_PREFIX + "CHAT6";
 
+const String PREF_AUTOSELL_GOLD = PREF_SETTINGS_PREFIX + "AUTOSELL_GOLD";
+const String PREF_USE_NEUMORPHISM = PREF_SETTINGS_PREFIX + "USE_NEUMORPHISM";
+
 const String PREF_SETTINGS_VOLC_OUTFIT_NAME =
     PREF_SETTINGS_PREFIX + "VOLC_OUTFIT";
 const String PREF_SETTINGS_RO_OUTFIT_NAME = PREF_SETTINGS_PREFIX + "RO_OUTFIT";
@@ -33,83 +36,59 @@ void saveNewSettings(Settings? data) async {
     return;
   }
   final prefs = await SharedPreferences.getInstance();
+  data.food?.save(prefs);
+  data.booze?.save(prefs);
+  data.skill?.save(prefs);
+  data.volcOutfitName?.save(prefs);
+  data.roOutfitName?.save(prefs);
+  data.autohealMinHp?.save(prefs);
+  data.autocastMaxMp?.save(prefs);
 
-  _save(prefs, data.food);
-  _save(prefs, data.booze);
-  _save(prefs, data.skill);
-  _save(prefs, data.volcOutfitName);
-  _save(prefs, data.roOutfitName);
-  _save(prefs, data.autohealMinHp);
-  _save(prefs, data.autocastMaxMp);
-  data.chatCommands?.forEach((cmd) => _save(prefs, cmd));
-}
+  data.chatCommands?.forEach((cmd) => cmd.save(prefs));
 
-void _save(SharedPreferences prefs, Setting? setting) {
-  if (setting != null) {
-    prefs.setString(
-        setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, setting.data);
-    prefs.setString(
-        setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME, setting.name);
-  }
+  data.shouldAutosellGold.save(prefs);
+  data.shouldUseNeumorphism.save(prefs);
 }
 
 Future<Settings> getSettings() async {
   final prefs = await SharedPreferences.getInstance();
-
   var settings = settingsOf();
-  _updateSetting(prefs, settings.food);
-  _updateSetting(prefs, settings.booze);
-  _updateSetting(prefs, settings.skill);
-  _updateSetting(prefs, settings.volcOutfitName);
-  _updateSetting(prefs, settings.roOutfitName);
-  _updateSetting(prefs, settings.autocastMaxMp);
-  _updateSetting(prefs, settings.autohealMinHp);
-  settings.chatCommands?.forEach((cmd) => _updateSetting(prefs, cmd));
-  return settings;
-}
+  settings.food?.update(prefs);
+  settings.booze?.update(prefs);
+  settings.skill?.update(prefs);
+  settings.volcOutfitName?.update(prefs);
+  settings.roOutfitName?.update(prefs);
+  settings.autocastMaxMp?.update(prefs);
+  settings.autohealMinHp?.update(prefs);
+  settings.chatCommands?.forEach((cmd) => cmd.update(prefs));
 
-void _updateSetting(SharedPreferences prefs, Setting? setting) {
-  if (setting != null) {
-    setting.data =
-        prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? "";
-    setting.name =
-        prefs.getString(setting.sharedprefKey + PREF_SETTINGS_SUFFIX_NAME) ??
-            "";
-  }
+  settings.shouldAutosellGold.update(prefs);
+  settings.shouldUseNeumorphism.update(prefs);
+  return settings;
 }
 
 Settings settingsOf() {
   return Settings(
-      Setting("", "", PREF_SETTINGS_FOOD),
-      Setting("", "", PREF_SETTINGS_BOOZE),
-      Setting("", "", PREF_SETTINGS_SKILL),
-      [
-        Setting("", "", PREF_SETTINGS_CHAT1),
-        Setting("", "", PREF_SETTINGS_CHAT2),
-        Setting("", "", PREF_SETTINGS_CHAT3),
-        Setting("", "", PREF_SETTINGS_CHAT4),
-        Setting("", "", PREF_SETTINGS_CHAT5),
-        Setting("", "", PREF_SETTINGS_CHAT6),
-      ],
-      // the following settings don't actually have a value- just a name
-      Setting("", "", PREF_SETTINGS_VOLC_OUTFIT_NAME),
-      Setting("", "", PREF_SETTINGS_RO_OUTFIT_NAME),
-      Setting("", "", PREF_SETTINGS_AUTOHEAL_MIN_HP),
-      Setting("", "", PREF_SETTINGS_AUTOCAST_MAX_MP),
-      false);
-}
-
-class Setting {
-  String data;
-  String name;
-  final String sharedprefKey;
-
-  @override
-  String toString() {
-    return "$name: $data";
-  }
-
-  Setting(this.name, this.data, this.sharedprefKey);
+    Setting("", "", PREF_SETTINGS_FOOD),
+    Setting("", "", PREF_SETTINGS_BOOZE),
+    Setting("", "", PREF_SETTINGS_SKILL),
+    [
+      Setting("", "", PREF_SETTINGS_CHAT1),
+      Setting("", "", PREF_SETTINGS_CHAT2),
+      Setting("", "", PREF_SETTINGS_CHAT3),
+      Setting("", "", PREF_SETTINGS_CHAT4),
+      Setting("", "", PREF_SETTINGS_CHAT5),
+      Setting("", "", PREF_SETTINGS_CHAT6),
+    ],
+    // the following settings don't actually have a value- just a name
+    Setting("", "", PREF_SETTINGS_VOLC_OUTFIT_NAME),
+    Setting("", "", PREF_SETTINGS_RO_OUTFIT_NAME),
+    Setting("", "", PREF_SETTINGS_AUTOHEAL_MIN_HP),
+    Setting("", "", PREF_SETTINGS_AUTOCAST_MAX_MP),
+    BooleanSetting(false, ""),
+    BooleanSetting(false, PREF_USE_NEUMORPHISM),
+    BooleanSetting(true, PREF_AUTOSELL_GOLD),
+  );
 }
 
 class Settings {
@@ -119,25 +98,102 @@ class Settings {
 
   final List<Setting>? chatCommands;
 
-  final bool shouldAutoEquip;
   final Setting? volcOutfitName;
   final Setting? roOutfitName;
   final Setting? autohealMinHp;
   final Setting? autocastMaxMp;
 
+  final BooleanSetting shouldAutoEquip;
+  final BooleanSetting shouldUseNeumorphism;
+  final BooleanSetting shouldAutosellGold;
+
   Settings(
-      this.food,
-      this.booze,
-      this.skill,
-      this.chatCommands,
-      this.volcOutfitName,
-      this.roOutfitName,
-      this.autohealMinHp,
-      this.autocastMaxMp,
-      this.shouldAutoEquip);
+    this.food,
+    this.booze,
+    this.skill,
+    this.chatCommands,
+    this.volcOutfitName,
+    this.roOutfitName,
+    this.autohealMinHp,
+    this.autocastMaxMp,
+    this.shouldAutoEquip,
+    this.shouldUseNeumorphism,
+    this.shouldAutosellGold,
+  );
 
   @override
   String toString() {
-    return "$food\n$booze\n$skill\n$volcOutfitName\n$roOutfitName\n$shouldAutoEquip\n$autohealMinHp\n$autocastMaxMp\n$chatCommands";
+    return "$food\n$booze\n$skill\n$volcOutfitName\n$roOutfitName\n$autohealMinHp\n$autocastMaxMp\n$chatCommands"
+        "\n$shouldAutoEquip"
+        "\n$shouldAutosellGold"
+        "\n$shouldUseNeumorphism";
   }
+}
+
+abstract class AbstractSetting {
+  void save(SharedPreferences prefs);
+  void update(SharedPreferences prefs);
+}
+
+class BooleanSetting implements AbstractSetting {
+  bool data;
+  final String sharedprefKey;
+
+  @override
+  String toString() {
+    return "$sharedprefKey: $data";
+  }
+
+  BooleanSetting(this.data, this.sharedprefKey);
+
+  @override
+  void save(SharedPreferences prefs) {
+    prefs.setBool(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, data);
+  }
+
+  @override
+  void update(SharedPreferences prefs) {
+    // only update data if ther is a value in shareprefs
+    data = prefs.getBool(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? data;
+  }
+}
+
+class StringSetting implements AbstractSetting {
+  String data;
+  String name;
+  final String sharedprefKey;
+
+  @override
+  String toString() {
+    return "$name: $data";
+  }
+
+  StringSetting(this.name, this.data, this.sharedprefKey);
+
+  @override
+  void save(SharedPreferences prefs) {
+    prefs.setString(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, data);
+    prefs.setString(sharedprefKey + PREF_SETTINGS_SUFFIX_NAME, name);
+  }
+
+  @override
+  void update(SharedPreferences prefs) {
+    data = prefs.getString(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? "";
+    name = prefs.getString(sharedprefKey + PREF_SETTINGS_SUFFIX_NAME) ?? "";
+  }
+}
+
+/// VERY poorly named. Setting can only be a String setting now- something explodes when refactoring
+class Setting extends StringSetting {
+  String data;
+  String name;
+  final String sharedprefKey;
+
+  @override
+  String toString() {
+    return "$name: $data";
+  }
+
+  Setting(this.name, this.data, this.sharedprefKey)
+      : super(name, data, sharedprefKey);
 }

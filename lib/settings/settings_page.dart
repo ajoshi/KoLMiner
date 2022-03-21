@@ -60,6 +60,36 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
         setting, hintText, TextInputType.text, " command", semanticsLabel);
   }
 
+  Widget _checkboxRow(
+    BooleanSetting? setting,
+    String label,
+    String semanticsLabel, {
+    BoxConstraints boxConstraints = const BoxConstraints(minWidth: 40),
+  }) {
+    if (setting == null) {
+      return Container();
+    }
+    return new Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          getCheckbox(
+            context,
+            initialValue: setting.data,
+            onchanged: (value) {
+              setState(() {
+                setting.data = value ?? false;
+              });
+            },
+          ),
+          new Text(label,
+              maxLines: 2,
+              softWrap: true,
+              semanticsLabel: semanticsLabel,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.overline),
+        ]);
+  }
+
   Widget _inputRow(
       Setting? setting,
       String label,
@@ -196,6 +226,10 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           ),
           _inputRow(_settings?.autocastMaxMp, "Max MP", null, "", "Max MP",
               boxConstraints: const BoxConstraints(minWidth: 100), hint: ""),
+          _checkboxRow(
+              _settings?.shouldAutosellGold, "Autosell gold", "Autosell gold"),
+          _checkboxRow(_settings?.shouldUseNeumorphism, "Use fancy new UI",
+              "UI setting. Just keep this off"),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10.0),

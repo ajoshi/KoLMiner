@@ -15,6 +15,24 @@ Widget getPlatformButton(BuildContext context,
   return ElevatedButton(onPressed: onPressed, child: child);
 }
 
+/// Returns a KOL style checkbox
+Widget getCheckbox(BuildContext context,
+    {ValueChanged<bool?>? onchanged, bool? initialValue, Color? color}) {
+  return new Checkbox(
+    value: initialValue,
+    fillColor: MaterialStateProperty.resolveWith((states) {
+      ///  * [MaterialState.selected].
+      ///  * [MaterialState.hovered].
+      ///  * [MaterialState.focused].
+      ///  * [MaterialState.disabled].
+      if (states.contains(MaterialState.selected)) {
+        return Colors.indigo;
+      }
+    }),
+    onChanged: onchanged,
+  );
+}
+
 Widget getSecondaryButton(BuildContext context,
     {required Widget child, VoidCallback? onPressed}) {
   var style = ButtonStyle(
