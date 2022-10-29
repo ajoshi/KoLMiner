@@ -194,10 +194,11 @@ class MiningPageState extends DisposableHostState<MiningPage>
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+  bool useSkeu = true;
+
+  PreferredSizeWidget? getAppBar() {
+    if(!useSkeu) {
+      return new AppBar(
         actions: <Widget>[
           IconButton(
             onPressed: _refreshPlayerData,
@@ -211,8 +212,17 @@ class MiningPageState extends DisposableHostState<MiningPage>
           ),
         ],
         title: new Text(widget.title),
-      ),
+      );
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+    appBar: getAppBar(),
       body: getCenteredListView(),
+      backgroundColor: Color.fromARGB(240,240, 240,240),
 //      floatingActionButton: enableButton? new FloatingActionButton(
 //        onPressed: _onMineClicked,
 //        tooltip: 'Mine',

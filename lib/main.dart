@@ -7,7 +7,7 @@ void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   static const String APP_API_NAME = "ajoshiMiningApp";
-  static const String APP_NAME = "KoL Miner";
+  static const String APP_NAME = "70s Gold Extractor";
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

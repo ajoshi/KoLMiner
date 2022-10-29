@@ -21,6 +21,7 @@ dependencies:
   html: ^0.15.0
   universal_html: ^2.0.8
   provider: ^6.0.1            #tests
+  flutter_neumorphic: ^3.0.3
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to

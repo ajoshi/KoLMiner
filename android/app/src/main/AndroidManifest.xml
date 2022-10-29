@@ -13,7 +13,7 @@
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="KoL Miner"
+        android:label="70s Gold Extractor"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

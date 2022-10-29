@@ -79,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
         title: new Text(widget.title),
       ),
       body: scrollableBody,
+      backgroundColor: Color.fromARGB(230,230, 230,230),
     );
     return scaffold;
   }
