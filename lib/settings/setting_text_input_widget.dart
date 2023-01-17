@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// Edittext that lets users enter savable settings
@@ -50,6 +50,7 @@ class SettingTextInputField extends StatelessWidget {
       ),
     );
   }
+
   /*
               return new TextField(
               maxLength: maxLength,

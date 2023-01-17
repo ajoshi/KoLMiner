@@ -1,8 +1,7 @@
-import 'package:kol_miner/network/kol_network.dart';
-import 'package:test/test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:kol_miner/mining/miner.dart';
+import 'package:kol_miner/network/kol_network.dart';
+import 'package:mockito/annotations.dart';
+import 'package:test/test.dart';
 
 import 'miner_test.mocks.dart';
 

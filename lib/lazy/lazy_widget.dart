@@ -6,6 +6,7 @@ import 'package:kol_miner/constants.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/outfit/outfit_manager.dart';
+
 import '../utils.dart';
 
 /// This widget is for use by lazy people who are a burden to humanity

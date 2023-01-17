@@ -1,7 +1,7 @@
+import 'package:kol_miner/extensions.dart';
+
 import '../constants.dart';
 import '../utils.dart';
-
-import 'package:kol_miner/extensions.dart';
 
 /// An instance of a mine. Contains a list of minable squares
 class Mine {

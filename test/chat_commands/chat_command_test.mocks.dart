@@ -30,9 +30,11 @@ class MockKolNetwork extends _i1.Mock implements _i2.KolNetwork {
   String get appName =>
       (super.noSuchMethod(Invocation.getter(#appName), returnValue: '')
           as String);
+
   @override
   bool isLoggedIn() => (super.noSuchMethod(Invocation.method(#isLoggedIn, []),
       returnValue: false) as bool);
+
   @override
   _i3.Future<_i2.NetworkResponseCode> login(
           String? username, String? password) =>
@@ -40,18 +42,22 @@ class MockKolNetwork extends _i1.Mock implements _i2.KolNetwork {
               returnValue: Future<_i2.NetworkResponseCode>.value(
                   _i2.NetworkResponseCode.SUCCESS))
           as _i3.Future<_i2.NetworkResponseCode>);
+
   @override
   String getPlayerId() =>
       (super.noSuchMethod(Invocation.method(#getPlayerId, []), returnValue: '')
           as String);
+
   @override
   _i3.Future<Map<dynamic, dynamic>?> getPlayerData() =>
       (super.noSuchMethod(Invocation.method(#getPlayerData, []),
               returnValue: Future<Map<dynamic, dynamic>?>.value())
           as _i3.Future<Map<dynamic, dynamic>?>);
+
   @override
   void logout() => super.noSuchMethod(Invocation.method(#logout, []),
       returnValueForMissingStub: null);
+
   @override
   _i3.Future<_i2.NetworkResponse> makeRequestWithQueryParams(
           String? baseUrl, String? params,
@@ -68,6 +74,7 @@ class MockKolNetwork extends _i1.Mock implements _i2.KolNetwork {
               returnValue:
                   Future<_i2.NetworkResponse>.value(_FakeNetworkResponse_0()))
           as _i3.Future<_i2.NetworkResponse>);
+
   @override
   _i3.Future<_i2.NetworkResponse> makeRequestToPath(String? urlWithParams,
           {_i2.HttpMethod? method = _i2.HttpMethod.GET,
@@ -82,6 +89,7 @@ class MockKolNetwork extends _i1.Mock implements _i2.KolNetwork {
               returnValue:
                   Future<_i2.NetworkResponse>.value(_FakeNetworkResponse_0()))
           as _i3.Future<_i2.NetworkResponse>);
+
   @override
   _i3.Future<_i2.NetworkResponse> makeRequest(String? url,
           {_i2.HttpMethod? method = _i2.HttpMethod.GET,
@@ -96,6 +104,7 @@ class MockKolNetwork extends _i1.Mock implements _i2.KolNetwork {
               returnValue:
                   Future<_i2.NetworkResponse>.value(_FakeNetworkResponse_0()))
           as _i3.Future<_i2.NetworkResponse>);
+
   @override
   String toString() => super.toString();
 }

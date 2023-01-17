@@ -12,6 +12,7 @@ class ChatWidget extends StatefulWidget {
   ChatWidget(this.network, {Key? key}) : super(key: key);
 
   final KolNetwork network;
+
   // Lets the parent send in arbitrary chat commands
   final GlobalKey<ChatWidgetState> key = new GlobalKey();
 
@@ -116,7 +117,8 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
             ),
           ),
           enabled: isEnabled,
-          maxLength: 200, // hardcoded to what kol has
+          maxLength: 200,
+          // hardcoded to what kol has
           keyboardType: TextInputType.text,
           onSubmitted: sendChat,
         ),

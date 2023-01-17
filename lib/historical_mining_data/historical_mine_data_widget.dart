@@ -6,6 +6,7 @@ import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 class HistoricalMineWidget extends StatelessWidget {
   final MiningSessionData? data;
   final double textSize;
+
   HistoricalMineWidget(this.data, {this.textSize = 12.0});
 
   String _getSemanitcsLabel() {

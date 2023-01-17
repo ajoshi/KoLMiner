@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
-
-import '../utils.dart';
 
 const String PREF_SETTINGS_PREFIX = "PREF_SETTINGS_";
 
@@ -132,6 +129,7 @@ class Settings {
 
 abstract class AbstractSetting {
   void save(SharedPreferences prefs);
+
   void update(SharedPreferences prefs);
 }
 
@@ -153,7 +151,7 @@ class BooleanSetting implements AbstractSetting {
 
   @override
   void update(SharedPreferences prefs) {
-    // only update data if ther is a value in shareprefs
+    // only update data if there is a value in shareprefs
     data = prefs.getBool(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? data;
   }
 }

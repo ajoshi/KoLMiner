@@ -2,14 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
+import '../constants.dart';
+
 /// Returns an iosy button for ios, else androidy button
 Widget getPlatformButton(BuildContext context,
     {required Widget child, Color? color, VoidCallback? onPressed}) {
-
-  return NeumorphicButton(
-    onPressed: onPressed,
-    child: child,
-  );
+  if (USE_NEUMORPHISM) {
+    return NeumorphicButton(
+      onPressed: onPressed,
+      child: child,
+    );
+  }
 
   if (Theme.of(context).platform == TargetPlatform.iOS) {
     return CupertinoButton(
@@ -61,11 +64,12 @@ Widget getSecondaryButton(BuildContext context,
 
 Widget getKolButton(BuildContext context,
     {required Widget child, VoidCallback? onPressed}) {
-
-  return NeumorphicButton(
-    onPressed: onPressed,
-    child: child,
-  );
+  if (USE_NEUMORPHISM) {
+    return NeumorphicButton(
+      onPressed: onPressed,
+      child: child,
+    );
+  }
 
   var style = ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.white),

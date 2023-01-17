@@ -45,7 +45,8 @@ class Miner {
   }
 
   /// Mines the next reasonable square. If one isn't found, gets the next mine and tries again
-  Future<MiningResponse> mineNextSquare({bool shouldAutosellGold = true}) async {
+  Future<MiningResponse> mineNextSquare(
+      {bool shouldAutosellGold = true}) async {
     if (currentMine == null) {
       // get the layout if we don't have it
       var response = await getMineLayout();
@@ -85,7 +86,8 @@ class Miner {
   }
 
   /// Mines the given square and returns a failure if it can't
-  Future<MiningResponse> mineSquare(MineableSquare targetSquare, {bool shouldAutosellGold = true}) async {
+  Future<MiningResponse> mineSquare(MineableSquare targetSquare,
+      {bool shouldAutosellGold = true}) async {
     //    aj_print("we gonn mine $targetSquare");
     // if the url changes (maybe?) to not have params in it, the app name won't be parsed
     // since params are optional, everything should work fine on our end though
@@ -106,7 +108,7 @@ class Miner {
       parseMineLayout(mineResponse.response, currentlyMinedSquares + 1);
       if (didStrikeGold) {
         // once a gold is found, we want to move on to the next mine
-        if(shouldAutosellGold) {
+        if (shouldAutosellGold) {
           autoSellGold();
         }
         currentMine?.squares.clear();

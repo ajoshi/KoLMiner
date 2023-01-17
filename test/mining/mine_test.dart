@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:kol_miner/mining/mine.dart';
+import 'package:test/test.dart';
 
 // test with  flutter test test/mining/mine_test.dart
 void main() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/player_info/user_info_requests.dart';
-import 'package:intl/intl.dart';
 
 /// Shows basic user info: HP, MP, advs
 class UserInfoWidget extends StatefulWidget {

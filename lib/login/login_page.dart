@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/network/kol_network.dart';
-import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 import 'package:kol_miner/historical_mining_data/historical_mine_data_widget.dart';
+import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 import 'package:kol_miner/login/login_form.dart';
+import 'package:kol_miner/network/kol_network.dart';
+
+import '../constants.dart';
 
 /// This is the first page a user sees. It allows the user to log in and calls
 /// the onLogin callback on success
@@ -79,8 +81,15 @@ class _LoginPageState extends State<LoginPage> {
         title: new Text(widget.title),
       ),
       body: scrollableBody,
-      backgroundColor: Color.fromARGB(230,230, 230,230),
+      backgroundColor: _getBgcolor(),
     );
     return scaffold;
+  }
+
+  Color? _getBgcolor() {
+    if (USE_NEUMORPHISM) {
+      return Color.fromARGB(230, 230, 230, 230);
+    }
+    return null;
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils.dart';
 
@@ -47,8 +47,10 @@ class MiningSessionData {
 
   // gold mined
   final int goldcount;
+
   // advs taken
   final int advCount;
+
   // time taken in ms
   final int timeTaken;
 

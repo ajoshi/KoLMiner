@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:universal_html/html.dart' as html;
 
 import 'package:kol_miner/network/kol_network.dart';
+import 'package:universal_html/html.dart' as html;
 
 /// Wraps the [KolNetwork] class to make and parse arbitrary chat commands.
 /// Will also parse response and make secondary calls as server requests

@@ -20,6 +20,7 @@ class SafeFocusNode extends FocusNode implements AutoDisposable {
 /// Wraps anything that can be disposed of. Probably very unsafe
 class UnsafeAutoDisposableWrapper extends AutoDisposable {
   UnsafeAutoDisposableWrapper(this.wrapped);
+
   final dynamic wrapped;
 
   UnsafeAutoDisposableWrapper register(SafeDisposableHost host) {
@@ -60,6 +61,7 @@ abstract class SafeDisposableHost {
 abstract class DisposableHostState<T extends StatefulWidget> extends State<T>
     implements SafeDisposableHost {
   List<SafeDisposable> _allDisposables = List.empty(growable: true);
+
   @override
   void dispose() {
     unregisterAllDisposables();

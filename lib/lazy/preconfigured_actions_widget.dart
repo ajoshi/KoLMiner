@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
@@ -10,8 +9,11 @@ import '../utils.dart';
 
 abstract class PreconfiguredActionsWidgetHost {
   void onPreConfiguredActionsWidgetRequestsStatusUpdate();
+
   void onPreConfiguredActionsWidgetError();
+
   void onPreConfiguredActionsWidgetChatRequest(String chat);
+
   Future<String?> onPreConfiguredActionsWidgetChatRequestForResponse(
       String text);
 }

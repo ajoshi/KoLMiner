@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/login/login_page.dart';
 import 'package:kol_miner/mining/widget/mining_page.dart';
+import 'package:kol_miner/network/kol_network.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   static const String APP_API_NAME = "ajoshiMiningApp";
   static const String APP_NAME = "70s Gold Extractor";
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class Screen extends StatefulWidget {
   final String title;
 
   const Screen(this.network, this.title, {Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return new ScreenState();

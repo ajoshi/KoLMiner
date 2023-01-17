@@ -165,14 +165,14 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
                   style: Theme.of(context).textTheme.bodyText2),
             ),
           ),
-          _inputRow(_settings?.roOutfitName, "Post-mining outfit", null, "",
-              "Post-mining outfit name",
-              boxConstraints: const BoxConstraints(minWidth: 100),
-              hint: "RO outfit name"),
           _inputRow(_settings?.volcOutfitName, "Mining outfit", null, "",
               "Volcano Mining outfit name",
               boxConstraints: const BoxConstraints(minWidth: 100),
               hint: "Mining outfit name"),
+          _inputRow(_settings?.roOutfitName, "Post-mining outfit", null, "",
+              "Post-mining outfit name",
+              boxConstraints: const BoxConstraints(minWidth: 100),
+              hint: "RO outfit name (rollover outfit?)"),
           MergeSemantics(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -228,8 +228,11 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
               boxConstraints: const BoxConstraints(minWidth: 100), hint: ""),
           _checkboxRow(
               _settings?.shouldAutosellGold, "Autosell gold", "Autosell gold"),
-          _checkboxRow(_settings?.shouldUseNeumorphism, "Use fancy new UI",
-              "UI setting. Just keep this off"),
+
+          /// TODO enable this when neumorphism support is done
+          // _checkboxRow(_settings?.shouldUseNeumorphism, "Use fancy new UI",
+          //     "UI setting. Just keep this off"),
+
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10.0),

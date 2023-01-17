@@ -3,18 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kol_miner/SafeTextEditingController.dart';
 import 'package:kol_miner/chat_commands/chat_widget.dart';
-import 'package:kol_miner/lazy/preconfigured_actions_widget.dart';
-import 'package:kol_miner/network/kol_network.dart';
-import 'package:kol_miner/mining/miner.dart';
 import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 import 'package:kol_miner/lazy/lazy_widget.dart';
+import 'package:kol_miner/lazy/preconfigured_actions_widget.dart';
+import 'package:kol_miner/mining/miner.dart';
 import 'package:kol_miner/mining/widget/mining_input.dart';
 import 'package:kol_miner/mining/widget/mining_output.dart';
+import 'package:kol_miner/network/kol_network.dart';
 import 'package:kol_miner/player_info/user_info_widget.dart';
 import 'package:kol_miner/settings/settings.dart';
 import 'package:kol_miner/settings/settings_page.dart';
 
 import '../../Batching.dart';
+import '../../constants.dart';
 import '../../utils.dart';
 
 /// This is the screen where the mining happens
@@ -90,7 +91,8 @@ class MiningPageState extends DisposableHostState<MiningPage>
       if (counter % _REFRESH_STATUS_EVERY_N_TURNS == 0) {
         _refreshPlayerData();
       }
-      var response = await miner.mineNextSquare(shouldAutosellGold: settings?.shouldAutosellGold.data ?? true);
+      var response = await miner.mineNextSquare(
+          shouldAutosellGold: settings?.shouldAutosellGold.data ?? true);
       onMineResponse(response);
     }
     var endTime = new DateTime.now().millisecondsSinceEpoch;
@@ -194,10 +196,29 @@ class MiningPageState extends DisposableHostState<MiningPage>
     });
   }
 
-  bool useSkeu = true;
-
   PreferredSizeWidget? getAppBar() {
-    if(!useSkeu) {
+    if (USE_NEUMORPHISM) {
+      return getSkeumorphicAppBar();
+    }
+    return new AppBar(
+      actions: <Widget>[
+        IconButton(
+          onPressed: _refreshPlayerData,
+          icon: const Icon(Icons.refresh),
+          tooltip: "Refresh data",
+        ),
+        IconButton(
+          onPressed: _navigateToSettings,
+          icon: const Icon(Icons.settings),
+          tooltip: "Settings",
+        ),
+      ],
+      title: new Text(widget.title),
+    );
+  }
+
+  PreferredSizeWidget? getSkeumorphicAppBar() {
+    if (!USE_NEUMORPHISM) {
       return new AppBar(
         actions: <Widget>[
           IconButton(
@@ -212,7 +233,16 @@ class MiningPageState extends DisposableHostState<MiningPage>
           ),
         ],
         title: new Text(widget.title),
+        elevation: 0.0,
+        foregroundColor: _getBgcolor(),
       );
+    }
+    return null;
+  }
+
+  Color? _getBgcolor() {
+    if (USE_NEUMORPHISM) {
+      return Color.fromARGB(240, 240, 240, 240);
     }
     return null;
   }
@@ -220,9 +250,9 @@ class MiningPageState extends DisposableHostState<MiningPage>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-    appBar: getAppBar(),
+      appBar: getAppBar(),
       body: getCenteredListView(),
-      backgroundColor: Color.fromARGB(240,240, 240,240),
+      backgroundColor: _getBgcolor(),
 //      floatingActionButton: enableButton? new FloatingActionButton(
 //        onPressed: _onMineClicked,
 //        tooltip: 'Mine',
@@ -353,7 +383,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
     }
   }
 
-  // SECTION PreConfiguredActionsWidgetHost end
+// SECTION PreConfiguredActionsWidgetHost end
 }
 
 class MiningPageError {
