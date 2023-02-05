@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:kol_miner/login/login_page.dart';
 import 'package:kol_miner/mining/widget/mining_page.dart';
 import 'package:kol_miner/network/kol_network.dart';
+
+import 'constants.dart';
 
 void main() => runApp(new MyApp());
 
@@ -12,13 +15,37 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: APP_NAME,
-      theme: new ThemeData(
-        primarySwatch: Colors.amber,
-      ),
-      home: new Screen(new KolNetwork(APP_API_NAME), APP_NAME),
-    );
+    if(USE_NEUMORPHISM) {
+      return NeumorphicApp(
+        debugShowCheckedModeBanner: false,
+        title: '70s Gold Extractor',
+        color: Colors.amber,
+        themeMode: ThemeMode.light,
+        theme: NeumorphicThemeData(
+
+          accentColor: Colors.amberAccent,
+          baseColor: Color(0xFFdedede),
+          lightSource: LightSource.topLeft,
+          depth: 3,
+        ),
+        darkTheme: NeumorphicThemeData(
+          baseColor: Color(0xFF3E3E3E),
+          lightSource: LightSource.topLeft,
+          accentColor: Colors.amberAccent,
+          depth: 3,
+        ),
+        home: Screen(new KolNetwork(APP_API_NAME), APP_NAME),
+      );
+    } else {
+      return new MaterialApp(
+        title: APP_NAME,
+        theme: new ThemeData(
+          primarySwatch: Colors.amber,
+        ),
+        home: new Screen(new KolNetwork(APP_API_NAME), APP_NAME),
+      );
+    }
+
   }
 }
 

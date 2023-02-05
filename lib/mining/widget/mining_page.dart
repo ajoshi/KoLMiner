@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:kol_miner/SafeTextEditingController.dart';
 import 'package:kol_miner/chat_commands/chat_widget.dart';
+import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/historical_mining_data/saved_miner_data.dart';
 import 'package:kol_miner/lazy/lazy_widget.dart';
 import 'package:kol_miner/lazy/preconfigured_actions_widget.dart';
@@ -198,7 +200,21 @@ class MiningPageState extends DisposableHostState<MiningPage>
 
   PreferredSizeWidget? getAppBar() {
     if (USE_NEUMORPHISM) {
-      return getSkeumorphicAppBar();
+      return NeumorphicAppBar(
+        actions: <Widget>[
+          IconButton(
+            onPressed: _refreshPlayerData,
+            icon: const Icon(Icons.refresh),
+            tooltip: "Refresh data",
+          ),
+          IconButton(
+            onPressed: _navigateToSettings,
+            icon: const Icon(Icons.settings),
+            tooltip: "Settings",
+          ),
+        ],
+        title: new Text(widget.title),
+      );
     }
     return new AppBar(
       actions: <Widget>[
@@ -217,38 +233,60 @@ class MiningPageState extends DisposableHostState<MiningPage>
     );
   }
 
-  PreferredSizeWidget? getSkeumorphicAppBar() {
-    if (!USE_NEUMORPHISM) {
-      return new AppBar(
-        actions: <Widget>[
-          IconButton(
-            onPressed: _refreshPlayerData,
-            icon: const Icon(Icons.refresh),
-            tooltip: "Refresh data",
+  PreferredSizeWidget? getNeumorphicAppBar() {
+    return new AppBar(
+      actions: <Widget>[
+        neumorphicButton(
+          context,
+          onPressed: _refreshPlayerData,
+          child: const Icon(
+            Icons.refresh,
+            semanticLabel: "Refresh data",
           ),
-          IconButton(
-            onPressed: _navigateToSettings,
-            icon: const Icon(Icons.settings),
-            tooltip: "Settings",
+        ),
+        neumorphicButton(
+          context,
+          onPressed: _navigateToSettings,
+          child: const Icon(
+            Icons.settings,
+            semanticLabel: "Settings",
           ),
-        ],
-        title: new Text(widget.title),
-        elevation: 0.0,
-        foregroundColor: _getBgcolor(),
-      );
-    }
-    return null;
+        ),
+      ],
+      title: new Text(widget.title),
+      elevation: 0.0,
+      backgroundColor: _getBgcolor(),
+    );
   }
 
   Color? _getBgcolor() {
-    if (USE_NEUMORPHISM) {
-      return Color.fromARGB(240, 240, 240, 240);
-    }
+    // if (USE_NEUMORPHISM) {
+    //   return Color.fromARGB(240, 240, 240, 240);
+    // }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    return _getScaffold();
+    // if(USE_NEUMORPHISM) {
+    // return
+    // Neumorphic(
+    //     style: NeumorphicStyle(
+    //     shape: NeumorphicShape.concave,
+    //     boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+    // depth: 8,
+    // lightSource: LightSource.topLeft,
+    // ),
+    //   child : _getScaffold()
+    // );
+    // }
+    // else {
+    //   return _getScaffold();
+    // }
+  }
+
+  Widget _getScaffold() {
     return new Scaffold(
       appBar: getAppBar(),
       body: getCenteredListView(),
@@ -315,10 +353,20 @@ class MiningPageState extends DisposableHostState<MiningPage>
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        _userInfoWidget,
-        new MiningOutput(
-          _goldCounter,
-          _advsUsed,
+        raisedBorder(
+          child:
+          new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _userInfoWidget,
+            new MiningOutput(
+              _goldCounter,
+              _advsUsed,
+            ),
+          ],
+        ),
+          depth: 1.5,
+          extraPadding: 7
         ),
         new MiningInputFields(
           miningInputTextController,

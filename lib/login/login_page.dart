@@ -78,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Scaffold scaffold = new Scaffold(
       appBar: new AppBar(
+        backgroundColor: Colors.amber,
         title: new Text(widget.title),
       ),
       body: scrollableBody,
@@ -88,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Color? _getBgcolor() {
     if (USE_NEUMORPHISM) {
-      return Color.fromARGB(230, 230, 230, 230);
+      return null; //Color.fromARGB(230, 230, 230, 230);
     }
     return null;
   }

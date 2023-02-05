@@ -25,6 +25,15 @@ Widget getPlatformButton(BuildContext context,
   return ElevatedButton(onPressed: onPressed, child: child);
 }
 
+/// Returns an iosy button for ios, else androidy button
+Widget neumorphicButton(BuildContext context,
+    {required Widget child, Color? color, VoidCallback? onPressed}) {
+  return NeumorphicButton(
+    onPressed: onPressed,
+    child: child,
+  );
+}
+
 /// Returns a KOL style checkbox
 Widget getCheckbox(BuildContext context,
     {ValueChanged<bool?>? onchanged, bool? initialValue, Color? color}) {
@@ -64,13 +73,6 @@ Widget getSecondaryButton(BuildContext context,
 
 Widget getKolButton(BuildContext context,
     {required Widget child, VoidCallback? onPressed}) {
-  if (USE_NEUMORPHISM) {
-    return NeumorphicButton(
-      onPressed: onPressed,
-      child: child,
-    );
-  }
-
   var style = ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -83,4 +85,21 @@ Widget getKolButton(BuildContext context,
     child: child,
     style: style,
   );
+}
+
+Widget raisedBorder({required Widget child, double depth = 2, double width = 2, double extraPadding = 0}) {
+  return Neumorphic(
+      style: NeumorphicStyle(
+        // shape: NeumorphicShape.concave,
+        depth: depth,
+      ),
+      child: new Padding(
+          padding: EdgeInsets.all(width),
+          child: Neumorphic(
+            child: Padding(child: child, padding: EdgeInsets.all(extraPadding)),
+            style: NeumorphicStyle(
+              // shape: NeumorphicShape.concave,
+              depth: -1*depth,
+            ),
+          )));
 }

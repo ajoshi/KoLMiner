@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:kol_miner/SafeTextEditingController.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/network/kol_network.dart';
@@ -84,10 +85,7 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
       onTap: () {
         _setChatOutput("");
       },
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-            color: Color.fromARGB(30, 100, 100, 100),
-            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+      child: Neumorphic(
         child: Padding(
           padding: EdgeInsets.all(5.0),
           child: Text(
@@ -108,7 +106,7 @@ class ChatWidgetState extends DisposableHostState<ChatWidget> {
           decoration: new InputDecoration(
             helperText: "Enter chat command here ",
             prefixText: "/",
-            suffix: getKolButton(
+            suffix: getPlatformButton(
               context,
               onPressed: isEnabled ? _onSendChatSubmitted : null,
               child: new Text(

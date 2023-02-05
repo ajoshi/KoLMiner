@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 
 /// Edittext and button that lets the user mine
@@ -36,6 +37,8 @@ class MiningInputFields extends StatelessWidget {
           controller: advsToMineController,
           decoration:
               new InputDecoration(helperText: "How many adventures to mine"),
+          // cursorColor: Colors.amber,
+
           enabled: enable,
           keyboardType: TextInputType.numberWithOptions(),
           onSubmitted: _onKeyboardSubmit,

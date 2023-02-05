@@ -152,7 +152,7 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
       });
     }
 
-    var loginPage = new Padding(
+    var page = new Padding(
       padding: const EdgeInsets.all(5.0),
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -241,6 +241,7 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
                 onPressed: _onSaveClicked,
                 child: new Text(
                   "Save",
+                  style: new TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ),
             ),
@@ -251,10 +252,11 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
 
     ListView scrollableBody = new ListView(
       children: <Widget>[
-        loginPage,
+        page,
       ],
     );
     Scaffold scaffold = new Scaffold(
+      backgroundColor: Colors.white,
       appBar: new AppBar(
         actions: <Widget>[
           IconButton(
