@@ -68,14 +68,16 @@ class PreconfiguredActionsWidget extends StatelessWidget {
                 _PreconfiguredActionModel(settings.skill, _onResolveClicked),
                 _PreconfiguredActionModel(
                     Setting("Visit nuns", "", ""), _onHealClicked),
+                _PreconfiguredActionModel(
+                    Setting("Velvcoino", "", ""), _onVelvClicked)
               ]),
               context),
           getRowOfActions(
               _WidgetRow('Consume', [
+                _PreconfiguredActionModel(
+                    Setting("Tofu", "", ""), _onTofuClicked),
                 _PreconfiguredActionModel(settings.food, _onEatClicked),
                 _PreconfiguredActionModel(settings.booze, _onDrinkClicked),
-                _PreconfiguredActionModel(
-                    Setting("Velvet", "", ""), _onVelvClicked)
               ]),
               context),
         ],
@@ -118,8 +120,8 @@ class PreconfiguredActionsWidget extends StatelessWidget {
     if (model.setting == null || model.setting!.name.isEmpty)
       return Container();
     return Padding(
-        padding: EdgeInsets.all(2.0),
-        child: getKolButton(
+        padding: EdgeInsets.all(5.0),
+        child: getPlatformButton(
           context,
           onPressed: () {
             model.clickAction.call(model.setting!.data);
@@ -154,6 +156,11 @@ class PreconfiguredActionsWidget extends StatelessWidget {
         _requestStatusUpdate();
       }
     });
+  }
+
+  _onTofuClicked(String uselessId) {
+    host
+        .onPreConfiguredActionsWidgetChatRequest("use essential tofu");
   }
 
   _onVelvClicked(String fake) {
