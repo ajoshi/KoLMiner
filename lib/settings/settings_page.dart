@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/dialog/TextDialog.dart';
 import 'package:kol_miner/settings/settings.dart';
@@ -111,6 +112,24 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
         semanticLabel: 'Explain in detail',
       ),
       onTap: () => textDialog(context, label, explanation),
+    );
+  }
+
+  Widget _getMultilineTextInput(TextboxSetting? setting, String hintText) {
+    if(setting == null) {
+      return Container();
+    }
+
+    TextEditingController scriptController = _getEditingControllerForKey(
+        setting.sharedprefKey, setting.getAsString());
+    return Row(  mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+        new SettingTextInputField(
+        hintText, TextInputType.multiline, (value) {
+          print(value);
+          setting.saveData(value);
+        }, scriptController, 500, maxLines: 6, minLines: 2,)
+        ]
     );
   }
 
@@ -284,6 +303,16 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           /// TODO enable this when neumorphism support is done
           // _checkboxRow(_settings?.shouldUseNeumorphism, "Use fancy new UI",
           //     "UI setting. Just keep this off"),
+
+          /*
+w buffy ode
+[10] chug bucket of win
+[5] eat 3 hot hi mein
+use tofu
+use chocolate stolen saucep
+ */
+
+          _getMultilineTextInput(_settings?.autoconsumeList, "App will autoconsume this shit"),
 
           Center(
             child: Padding(

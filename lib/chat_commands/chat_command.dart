@@ -21,7 +21,7 @@ class ChatCommander {
             command.startsWith("w ") || command.startsWith("msg "));
   }
 
-  /// Executes the pass in chat [command].
+  /// Executes the passed in chat [command].
   /// If it [isSecondaryCall], will call the url directly, else use the chat endpoint
   Future<String?> _executeCommand(String command,
       {bool isSecondaryCall = true}) async {

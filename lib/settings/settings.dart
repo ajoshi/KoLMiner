@@ -16,6 +16,7 @@ const String PREF_SETTINGS_CHAT6 = PREF_SETTINGS_PREFIX + "CHAT6";
 
 const String PREF_AUTOSELL_GOLD = PREF_SETTINGS_PREFIX + "AUTOSELL_GOLD";
 const String PREF_USE_NEUMORPHISM = PREF_SETTINGS_PREFIX + "USE_NEUMORPHISM";
+const String PREF_AUTOCONSUME_LIST = PREF_SETTINGS_PREFIX + "AUTOCONSUME";
 
 const String PREF_SETTINGS_VOLC_OUTFIT_NAME =
     PREF_SETTINGS_PREFIX + "VOLC_OUTFIT";
@@ -45,6 +46,7 @@ void saveNewSettings(Settings? data) async {
 
   data.shouldAutosellGold.save(prefs);
   data.shouldUseNeumorphism.save(prefs);
+  data.autoconsumeList.save(prefs);
 }
 
 Future<Settings> getSettings() async {
@@ -61,6 +63,8 @@ Future<Settings> getSettings() async {
 
   settings.shouldAutosellGold.update(prefs);
   settings.shouldUseNeumorphism.update(prefs);
+
+  settings.autoconsumeList.update(prefs);
   return settings;
 }
 
@@ -85,6 +89,7 @@ Settings settingsOf() {
     BooleanSetting(false, ""),
     BooleanSetting(false, PREF_USE_NEUMORPHISM),
     BooleanSetting(true, PREF_AUTOSELL_GOLD),
+    TextboxSetting([], PREF_AUTOCONSUME_LIST),
   );
 }
 
@@ -104,6 +109,8 @@ class Settings {
   final BooleanSetting shouldUseNeumorphism;
   final BooleanSetting shouldAutosellGold;
 
+  final TextboxSetting autoconsumeList;
+
   Settings(
     this.food,
     this.booze,
@@ -116,6 +123,7 @@ class Settings {
     this.shouldAutoEquip,
     this.shouldUseNeumorphism,
     this.shouldAutosellGold,
+    this.autoconsumeList,
   );
 
   @override
@@ -123,7 +131,8 @@ class Settings {
     return "$food\n$booze\n$skill\n$volcOutfitName\n$roOutfitName\n$autohealMinHp\n$autocastMaxMp\n$chatCommands"
         "\n$shouldAutoEquip"
         "\n$shouldAutosellGold"
-        "\n$shouldUseNeumorphism";
+        "\n$shouldUseNeumorphism"
+        "\n$autoconsumeList";
   }
 }
 
@@ -153,6 +162,48 @@ class BooleanSetting implements AbstractSetting {
   void update(SharedPreferences prefs) {
     // only update data if there is a value in shareprefs
     data = prefs.getBool(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? data;
+  }
+}
+
+class TextboxSetting implements AbstractSetting {
+  List<String> data;
+  final String sharedprefKey;
+  String? asSingle;
+
+  @override
+  String toString() {
+    return "$sharedprefKey: $data";
+  }
+
+  TextboxSetting(this.data, this.sharedprefKey);
+
+  String getAsString() {
+    if(asSingle != null) return asSingle!;
+
+    return _computeString();
+  }
+
+  String _computeString() {
+    asSingle = data.join("\n");
+    return asSingle!;
+  }
+
+  @override
+  void save(SharedPreferences prefs) {
+    prefs.setStringList(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, data);
+    print(data.toString());
+  }
+
+  @override
+  void update(SharedPreferences prefs) {
+    // only update data if there is a value in shareprefs
+    data = prefs.getStringList(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? data;
+    print(data.toString());
+  }
+
+  void saveData(String input) {
+    var split = input.split("\n");
+    data = split;
   }
 }
 
