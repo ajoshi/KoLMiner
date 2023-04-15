@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:kol_miner/common_widgets/platformui.dart';
 import 'package:kol_miner/lazy/lazy_requests.dart';
@@ -159,8 +158,7 @@ class PreconfiguredActionsWidget extends StatelessWidget {
   }
 
   _onTofuClicked(String uselessId) {
-    host
-        .onPreConfiguredActionsWidgetChatRequest("use essential tofu");
+    host.onPreConfiguredActionsWidgetChatRequest("use essential tofu");
   }
 
   _onVelvClicked(String fake) {

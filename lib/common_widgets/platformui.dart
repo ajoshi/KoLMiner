@@ -87,7 +87,11 @@ Widget getKolButton(BuildContext context,
   );
 }
 
-Widget raisedBorder({required Widget child, double depth = 2, double width = 2, double extraPadding = 0}) {
+Widget raisedBorder(
+    {required Widget child,
+    double depth = 2,
+    double width = 2,
+    double extraPadding = 0}) {
   return Neumorphic(
       style: NeumorphicStyle(
         // shape: NeumorphicShape.concave,
@@ -99,7 +103,7 @@ Widget raisedBorder({required Widget child, double depth = 2, double width = 2, 
             child: Padding(child: child, padding: EdgeInsets.all(extraPadding)),
             style: NeumorphicStyle(
               // shape: NeumorphicShape.concave,
-              depth: -1*depth,
+              depth: -1 * depth,
             ),
           )));
 }

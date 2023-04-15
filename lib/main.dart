@@ -15,14 +15,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    if(USE_NEUMORPHISM) {
+    if (USE_NEUMORPHISM) {
       return NeumorphicApp(
         debugShowCheckedModeBanner: false,
         title: '70s Gold Extractor',
         color: Colors.amber,
         themeMode: ThemeMode.light,
         theme: NeumorphicThemeData(
-
           accentColor: Colors.amberAccent,
           baseColor: Color(0xFFdedede),
           lightSource: LightSource.topLeft,
@@ -45,7 +44,6 @@ class MyApp extends StatelessWidget {
         home: new Screen(new KolNetwork(APP_API_NAME), APP_NAME),
       );
     }
-
   }
 }
 

@@ -72,6 +72,8 @@ class LazyRequest {
         .responseCode;
   }
 
+  // 3477.76 MPA
+
   /// Eat a food
   Future<NetworkResponseCode> requestFood(String id) async {
     aj_print("eating");
@@ -107,6 +109,20 @@ class LazyRequest {
     aj_print("disco 2");
     aj_print("Disco danced");
   }
+
+//   /// Visit the hermit for free clovers
+//   getClovers() async {
+//     await network.makeRequestWithQueryParams(
+//         "hermit.php", "action=trade&whichitem=10881&quantity=3");
+// /*
+// hermit.php action=trade&whichitem=10881&quantity=3
+//
+// towho=3495347&action=proposeoffer&pwd=8155fd214b2a0b286f71eb83daf06ebd&howmany1=100&whichitem1=8424&offermeat=&memo=
+// makeoffer.php
+// Just GET makeoffer.php and grep for You will give TB text? And find the next relevant
+// makeoffer.php?action=accept? Maybe?
+//  */
+//   }
 
   /// Use a milk of mag
   requestMilkUse() async {

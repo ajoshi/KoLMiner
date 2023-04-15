@@ -354,20 +354,18 @@ class MiningPageState extends DisposableHostState<MiningPage>
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         raisedBorder(
-          child:
-          new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _userInfoWidget,
-            new MiningOutput(
-              _goldCounter,
-              _advsUsed,
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _userInfoWidget,
+                new MiningOutput(
+                  _goldCounter,
+                  _advsUsed,
+                ),
+              ],
             ),
-          ],
-        ),
-          depth: 1.5,
-          extraPadding: 7
-        ),
+            depth: 1.5,
+            extraPadding: 7),
         new MiningInputFields(
           miningInputTextController,
           enableButton,

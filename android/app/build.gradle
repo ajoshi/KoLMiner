@@ -34,8 +34,8 @@ android {
         applicationId "biz.ajoshi.kolminer"
         minSdkVersion 16
         targetSdkVersion 31
-        versionCode 5
-        versionName "2.3.0"
+        versionCode 2400
+        versionName "2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
