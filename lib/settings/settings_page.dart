@@ -304,14 +304,6 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           // _checkboxRow(_settings?.shouldUseNeumorphism, "Use fancy new UI",
           //     "UI setting. Just keep this off"),
 
-          /*
-w buffy ode
-[10] chug bucket of win
-[5] eat 3 hot hi mein
-use tofu
-use chocolate stolen saucep
- */
-
           _getMultilineTextInput(_settings?.autoconsumeList, "App will autoconsume this shit"),
 
           Center(

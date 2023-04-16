@@ -12,7 +12,9 @@ import 'package:kol_miner/mining/miner.dart';
 import 'package:kol_miner/mining/widget/mining_input.dart';
 import 'package:kol_miner/mining/widget/mining_output.dart';
 import 'package:kol_miner/network/kol_network.dart';
+import 'package:kol_miner/player_info/user_info_requests.dart';
 import 'package:kol_miner/player_info/user_info_widget.dart';
+import 'package:kol_miner/postlogin/postlogin_requests.dart';
 import 'package:kol_miner/settings/settings.dart';
 import 'package:kol_miner/settings/settings_page.dart';
 
@@ -32,7 +34,7 @@ class MiningPage extends StatefulWidget {
 }
 
 class MiningPageState extends DisposableHostState<MiningPage>
-    implements PreconfiguredActionsWidgetHost {
+    implements PreconfiguredActionsWidgetHost, ArbitraryRequestsChatHost {
   // waiting until all mining is complete to refresh is ridic
   // This allows us to refresh the status ever n (10) turns for a somewhat responsive ui
   static const _REFRESH_STATUS_EVERY_N_TURNS = 10;
@@ -43,6 +45,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
   late final LazyUselessPersonWidget _lazyPersonWidget;
   late final UserInfoWidget _userInfoWidget;
   late final ChatWidget _chatWidget;
+  late final ArbitraryRequests _arbitraryRequests;
   late final StatusRequestBatcher _requestBatcher;
 
   int _goldCounter = 0;
@@ -73,7 +76,11 @@ class MiningPageState extends DisposableHostState<MiningPage>
       // disable the mining ui
       enableButton = false;
     });
-    mineNtimes(advsToMine);
+
+    // _arbitraryRequests.runRequestsWithATeensyWait(settings?.autoconsumeList.data).then((value) =>
+    //   print("Requests completed: ")
+    // );
+   mineNtimes(advsToMine);
   }
 
   /// Mines the specified number of times. Will stop if an error occurs.
@@ -152,6 +159,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
     _lazyPersonWidget = new LazyUselessPersonWidget(widget.network);
     _userInfoWidget = new UserInfoWidget(widget.network);
     _chatWidget = new ChatWidget(widget.network);
+    _arbitraryRequests = new ArbitraryRequests(widget.network, this);
     _fetchSettings();
     miner = new Miner(widget.network);
   }
@@ -430,6 +438,11 @@ class MiningPageState extends DisposableHostState<MiningPage>
   }
 
 // SECTION PreConfiguredActionsWidgetHost end
+
+  @override
+  UserInfoRequest? getCurrentUserInfo() {
+    return _userInfoWidget.key.currentState?.userInfoRequest;
+  }
 }
 
 class MiningPageError {

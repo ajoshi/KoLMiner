@@ -25,12 +25,12 @@ class UserInfoState extends State<UserInfoWidget> {
   // init to -1 and not 0 because 0 is a valid state
   int _advs = -1;
   int _advsUsed = 0;
-  late final UserInfoRequest _userInfoRequest;
+  late final UserInfoRequest userInfoRequest;
   final meatFormat = new NumberFormat.decimalPattern();
 
   initState() {
     super.initState();
-    _userInfoRequest = UserInfoRequest(widget.network);
+    userInfoRequest = UserInfoRequest(widget.network);
     requestPlayerDataUpdate();
   }
 
@@ -64,33 +64,33 @@ class UserInfoState extends State<UserInfoWidget> {
         label: "Character info.",
         child: new Column(
           children: <Widget>[
-            _buildHpMpBar("HP", Colors.red, _userInfoRequest.currentHp,
-                _userInfoRequest.maxHp),
-            _buildHpMpBar("MP", Colors.blue, _userInfoRequest.currentMp,
-                _userInfoRequest.maxMp),
+            _buildHpMpBar("HP", Colors.red, userInfoRequest.currentHp,
+                userInfoRequest.maxHp),
+            _buildHpMpBar("MP", Colors.blue, userInfoRequest.currentMp,
+                userInfoRequest.maxMp),
             new Text(
-              "Fullness: ${_userInfoRequest.full}",
-              semanticsLabel: "${_userInfoRequest.full} Fullness.",
+              "Fullness: ${userInfoRequest.full}",
+              semanticsLabel: "${userInfoRequest.full} Fullness.",
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
                   color: Color.fromARGB(
-                      255, 0, _getColorInt(128, 20, _userInfoRequest.full), 0)),
+                      255, 0, _getColorInt(128, 20, userInfoRequest.full), 0)),
             ),
             new Text(
-              "Drunkeness: ${_userInfoRequest.drunk}",
-              semanticsLabel: "${_userInfoRequest.drunk} Drunkeness.",
+              "Drunkeness: ${userInfoRequest.drunk}",
+              semanticsLabel: "${userInfoRequest.drunk} Drunkeness.",
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
                   color: Color.fromARGB(255,
-                      _getColorInt(255, 20, _userInfoRequest.drunk), 0, 0)),
+                      _getColorInt(255, 20, userInfoRequest.drunk), 0, 0)),
             ),
             new Text(
-              "Ode: ${_userInfoRequest.odeTurns}",
-              semanticsLabel: "${_userInfoRequest.odeTurns} turns of ode",
+              "Ode: ${userInfoRequest.odeTurns}",
+              semanticsLabel: "${userInfoRequest.odeTurns} turns of ode",
               style: Theme.of(context).textTheme.bodyText2,
             ),
             new Text(
-              "Meat: ${meatFormat.format(_userInfoRequest.meat)}",
+              "Meat: ${meatFormat.format(userInfoRequest.meat)}",
               semanticsLabel:
-                  "${meatFormat.format(_userInfoRequest.meat)} Meat.",
+                  "${meatFormat.format(userInfoRequest.meat)} Meat.",
               style: Theme.of(context).textTheme.bodyText2,
             ),
             new Text(
@@ -136,7 +136,7 @@ class UserInfoState extends State<UserInfoWidget> {
   /// Updates the UI with the new mp
   _updatePlayerData() {
     if (mounted) {
-      setState(() => _advs = _userInfoRequest.advs);
+      setState(() => _advs = userInfoRequest.advs);
     }
   }
 
@@ -152,16 +152,16 @@ class UserInfoState extends State<UserInfoWidget> {
   /// Makes a server request to update player data and updates UI when data comes back
   requestPlayerDataUpdate() {
     if (mounted) {
-      _userInfoRequest.getPlayerData().first.then((_) => _updatePlayerData());
+      userInfoRequest.getPlayerData().first.then((_) => _updatePlayerData());
     }
   }
 
   /// Makes a server request to update player data and updates UI when data comes back
   Future<UserInfoRequest?> requestPlayerDataUpdateAndReturnValue() {
     if (mounted) {
-      return _userInfoRequest.getPlayerData().first.then((_) {
+      return userInfoRequest.getPlayerData().first.then((_) {
         _updatePlayerData();
-        return _userInfoRequest;
+        return userInfoRequest;
       });
     }
     return Future.value(null);
