@@ -37,9 +37,9 @@ const String AUTOCONSUME_DESC =
     "\n\nEnter the list of chat commands (pretty much unbounded except for public chat) and they'll be executed when autoconsuming";
 
 const String DEFAULT_AUTOCONSUME_MENU =
-    "cast ode\nuse milk of mag\nchug elemental caip\nchug 6 perfect mimosa\nuse distension pill\neat veggie ricotta cass";
+    "cast ode\nuse milk of mag\nchug elemental caip\nchug 6 perfect negroni\nuse distension pill\neat 7 veggie ricotta cass\nchug vulgar pitcher";
 
 const String FSD_DESC =
     "Using the power of generative Web 3.0 AI coupled with Knob Fungal Tokens, this app can eat, drink, spleen and mine for you"
     "\n\nFill out the diet/booze/consumption plan you want in the Breakfast box below and Full Self Drilling will be engaged whenever you mine with no turns specified."
-    "\n\nFailure to consume doesn't fail anything, so only enable this if you trust machines";
+    "\n\nFailure to consume doesn't stop anything, so only enable this if you trust machines";

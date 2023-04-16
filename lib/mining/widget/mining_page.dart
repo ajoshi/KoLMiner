@@ -64,9 +64,20 @@ class MiningPageState extends DisposableHostState<MiningPage>
   void _onMineClicked() {
     getMiningData().then((value) => aj_print(value.toString()));
     var advsToMine = int.tryParse(miningInputTextController.text);
+
+    bool isSelfDrilling = false;
     if (advsToMine == null) {
+      if (settings != null) {
+        var currentInfo = getCurrentUserInfo();
+        if (currentInfo != null && settings!.shouldSelfMine.data) {
+          isSelfDrilling = true;
+          advsToMine = currentInfo.advs;
+        } else
+          return;
+      }
       // we couldn't figure out how many advs to mine for, so just stop
-      return;
+      else
+        return;
     }
     FocusScope.of(context).requestFocus(new FocusNode());
     // reset session counters since tapping button resets the session
@@ -77,10 +88,27 @@ class MiningPageState extends DisposableHostState<MiningPage>
       enableButton = false;
     });
 
-    // _arbitraryRequests.runRequestsWithATeensyWait(settings?.autoconsumeList.data).then((value) =>
-    //   print("Requests completed: ")
-    // );
-    mineNtimes(advsToMine);
+    if (isSelfDrilling) {
+      _selfDrill();
+    } else {
+      mineNtimes(advsToMine);
+    }
+  }
+
+  void _selfDrill() {
+    _arbitraryRequests
+        .doStandardStuff()
+        .then((value) => _arbitraryRequests.visitDiscoFuture())
+        .then((value) => _arbitraryRequests
+            .runRequestsWithATeensyWait(settings?.autoconsumeList.data))
+    .then((value) => _refreshPlayerData())
+        .then((value) => _mineAsManyTimesAsPossible(900));
+  }
+
+  void _mineAsManyTimesAsPossible(int atLeast) {
+    var advs = _userInfoWidget.key.currentState?.userInfoRequest.advs;
+    if(advs != null) mineNtimes(advs);
+    else mineNtimes(atLeast);
   }
 
   /// Mines the specified number of times. Will stop if an error occurs.
@@ -88,6 +116,10 @@ class MiningPageState extends DisposableHostState<MiningPage>
     String? volcOutfit = settings?.volcOutfitName?.name;
     if (volcOutfit != null && volcOutfit.isNotEmpty) {
       await _chatWidget.key.currentState?.sendChatAndWait("outfit $volcOutfit");
+    } else {
+      // there is no mining outfit
+      Navigator.pop(context, MiningPageError("You need to set a mining outfit first. Tap the settings icon whe you log in to save your mining outfit name"));
+      return;
     }
     var startTime = new DateTime.now().millisecondsSinceEpoch;
     var counter = 0;
@@ -110,7 +142,10 @@ class MiningPageState extends DisposableHostState<MiningPage>
         _advSpentCounterForSession, endTime - startTime));
     _refreshPlayerData();
 
-    await _chatWidget.key.currentState?.sendChatAndWait("outfit roll");
+    String? roOutfit = settings?.roOutfitName?.name;
+    if (roOutfit != null && roOutfit.isNotEmpty) {
+      await _chatWidget.key.currentState?.sendChatAndWait("outfit $roOutfit");
+    }
     // update ui with good news: we've mined and now we can mine again (maybe)
     setState(() {
       enableButton = true;
@@ -168,7 +203,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
     _requestBatcher.addRequest();
   }
 
-  void _refreshPlayerData() {
+  void _refreshPlayerData({VoidCallback? onRefresh}) {
     _userInfoWidget.key.currentState
         ?.requestPlayerDataUpdateAndReturnValue()
         .then((request) {

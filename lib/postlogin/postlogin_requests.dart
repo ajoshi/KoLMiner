@@ -77,16 +77,36 @@ use chocolate stolen saucep
     if (rvalue == false) {
       return Future.value(false);
     }
-    return Future.delayed(Duration(seconds: 5), () => rvalue);
+    return Future.delayed(Duration(seconds: 10), () => rvalue);
   }
 
-  doStandardStuff() async {
-    visitDisco();
-    runRequests([
-      "w buffy 600 jalapeno",
-      "w buffy 600 elemental",
-      "w buffy 600 astral shell"
-    ], abortIfDrunk: false);
+  Future<bool> doStandardStuff() async {
+    int? currentDrunk = host.getCurrentUserInfo()?.drunk;
+    if (currentDrunk == null || currentDrunk == 0) {
+      host.onPreConfiguredActionsWidgetChatRequest("buy 3 chew && /use 3 chew");
+      // get free hippy meat
+      network.makeRequestWithQueryParams(
+          "shop.php", "whichshop=hippy");
+      // check mario
+      network.makeRequestWithQueryParams(
+          "place.php", "whichplace=arcade&action=arcade_plumber");
+      // genie?
+      network.makeRequestWithQueryParams(
+          "choice.php", "whichchoice=1267&option=1&wish=I%20wish%20I%20had%20more%20wishes").then((value) =>
+          network.makeRequestWithQueryParams(
+              "choice.php", "whichchoice=1267&option=1&wish=I%20wish%20I%20had%20more%20wishes")
+      ).then((value) => network.makeRequestWithQueryParams(
+          "choice.php", "whichchoice=1267&option=1&wish=I%20wish%20I%20had%20more%20wishes"));
+      // buy clovers
+      network.makeRequestWithQueryParams(
+          "hermit.php", "action=trade&whichitem=10881&quantity=2");
+    }
+
+    return visitDiscoFuture().then((value) => runRequests([
+          "w buffy 600 jalapeno",
+          "w buffy 600 elemental",
+          "w buffy 600 astral shell"
+        ], abortIfDrunk: false));
   }
 
   /// skill a skill
