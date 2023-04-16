@@ -79,8 +79,8 @@ class UserInfoState extends State<UserInfoWidget> {
               "Drunkeness: ${userInfoRequest.drunk}",
               semanticsLabel: "${userInfoRequest.drunk} Drunkeness.",
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                  color: Color.fromARGB(255,
-                      _getColorInt(255, 20, userInfoRequest.drunk), 0, 0)),
+                  color: Color.fromARGB(
+                      255, _getColorInt(255, 20, userInfoRequest.drunk), 0, 0)),
             ),
             new Text(
               "Ode: ${userInfoRequest.odeTurns}",

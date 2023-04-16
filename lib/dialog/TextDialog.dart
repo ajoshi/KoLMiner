@@ -27,6 +27,38 @@ Future<void> textDialog(BuildContext context, String title, String message,
   );
 }
 
+Future<void> textDialogWithAction(BuildContext context, String title,
+    String message, String actionText, VoidCallback action,
+    {String? okButtonText}) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.subtitle1,
+            ),
+            child: Text(actionText),
+            onPressed: action,
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.subtitle1,
+            ),
+            child: Text(_getOkButtonText(okButtonText)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 /// yolo
 String _getOkButtonText(String? okButtonText) {
   if (okButtonText != null) {

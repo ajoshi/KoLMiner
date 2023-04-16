@@ -5,9 +5,8 @@ import 'package:flutter/services.dart';
 /// Edittext that lets users enter savable settings
 class SettingTextInputField extends StatelessWidget {
   SettingTextInputField(this.hintText, this.inputType, this.changeListener,
-      this.textEditingController, this.maxLength,{
-        this.minLines: 1, this.maxLines: 1
-      });
+      this.textEditingController, this.maxLength,
+      {this.minLines: 1, this.maxLines: 1});
 
   final String hintText;
   final TextInputType inputType;
@@ -19,9 +18,8 @@ class SettingTextInputField extends StatelessWidget {
   final TextEditingController textEditingController;
 
   Widget _buildInputWidget(String hintText, TextInputType inputType,
-      ValueChanged<String> changeListener, int maxLength, {
-        minLines: 1, maxLines: 1
-  }) {
+      ValueChanged<String> changeListener, int maxLength,
+      {minLines: 1, maxLines: 1}) {
     return Flexible(
       child: Container(
         margin: const EdgeInsets.all(4.0),
@@ -91,8 +89,9 @@ class SettingTextInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var widget =
-        _buildInputWidget(hintText, inputType, changeListener, maxLength, minLines: minLines, maxLines: maxLines);
+    var widget = _buildInputWidget(
+        hintText, inputType, changeListener, maxLength,
+        minLines: minLines, maxLines: maxLines);
     return widget;
   }
 }

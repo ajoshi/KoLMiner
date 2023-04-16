@@ -8,6 +8,7 @@ import 'package:kol_miner/settings/settings.dart';
 import 'package:kol_miner/utils.dart';
 
 import '../SafeTextEditingController.dart';
+import 'WidgetAndController.dart';
 import 'setting_text_input_widget.dart';
 import 'settings_descriptions.dart';
 
@@ -103,7 +104,14 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
         ]);
   }
 
-  Widget infoIcon(String label, String explanation) {
+  Widget infoIcon(String label, String explanation,
+      {GestureTapCallback? gestureTapCallback}) {
+    GestureTapCallback callback;
+    if (gestureTapCallback != null) {
+      callback = gestureTapCallback;
+    } else {
+      callback = () => textDialog(context, label, explanation);
+    }
     return InkWell(
       child: Icon(
         Icons.info_outline,
@@ -111,26 +119,35 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
         size: 19.0,
         semanticLabel: 'Explain in detail',
       ),
-      onTap: () => textDialog(context, label, explanation),
+      onTap: callback,
     );
   }
 
-  Widget _getMultilineTextInput(TextboxSetting? setting, String hintText) {
-    if(setting == null) {
-      return Container();
+  WidgetAndController _getMultilineTextInput(
+      TextboxSetting? setting, String hintText) {
+    if (setting == null) {
+      return WidgetAndController(Container(), null);
     }
 
     TextEditingController scriptController = _getEditingControllerForKey(
         setting.sharedprefKey, setting.getAsString());
-    return Row(  mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-        new SettingTextInputField(
-        hintText, TextInputType.multiline, (value) {
+    Widget w =
+        Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      new SettingTextInputField(
+        hintText,
+        TextInputType.multiline,
+        (value) {
           print(value);
           setting.saveData(value);
-        }, scriptController, 500, maxLines: 6, minLines: 2,)
-        ]
-    );
+        },
+        scriptController,
+        500,
+        maxLines: 6,
+        minLines: 2,
+      )
+    ]);
+
+    return WidgetAndController(w, scriptController);
   }
 
   Widget _inputRow(
@@ -208,6 +225,9 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
       });
     }
 
+    WidgetAndController breakfastMenu = _getMultilineTextInput(
+        _settings?.autoconsumeList, "Enter breakfast chat commands here");
+
     var page = new Padding(
       padding: const EdgeInsets.all(5.0),
       child: new Column(
@@ -244,35 +264,6 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
           _actionIdInputRow(_settings?.skill, "Skill", SKILL_DESCRIPTION),
           MergeSemantics(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 4.0, top: 12.0, right: 4.0, bottom: 4.0),
-              child: new Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.only(end: 9.0),
-                    child: infoIcon("Chat commands", CHAT_CMD_DESC),
-                  ),
-                  new Text(
-                      'Save up to six commonly used chat commands for easier use',
-                      style: Theme.of(context).textTheme.bodyText2),
-                ],
-              ),
-            ),
-          ),
-          _chatInputRow(
-              _settings?.chatCommands?.elementAt(0), "Cmd 1", "Chat command 1"),
-          _chatInputRow(
-              _settings?.chatCommands?.elementAt(1), "Cmd 2", "Chat command 2"),
-          _chatInputRow(
-              _settings?.chatCommands?.elementAt(2), "Cmd 3", "Chat command 3"),
-          _chatInputRow(
-              _settings?.chatCommands?.elementAt(3), "Cmd 4", "Chat command 4"),
-          _chatInputRow(
-              _settings?.chatCommands?.elementAt(4), "Cmd 5", "Chat command 5"),
-          _chatInputRow(
-              _settings?.chatCommands?.elementAt(5), "Cmd 6", "Chat command 6"),
-          MergeSemantics(
-            child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: new Text(
                   "The app will autoheal at the nuns if your HP drops too low. Autoheal is disabled if this is empty.",
@@ -300,11 +291,70 @@ class _SettingsPageState extends DisposableHostState<SettingsPage> {
               _settings?.shouldAutosellGold, "Autosell gold", "Autosell gold",
               explanation: AUTOSELL_GOLD_DESC),
 
+          _checkboxRow(_settings?.shouldSelfMine, "Full Self Drilling",
+              "Full Self Drilling",
+              explanation: FSD_DESC),
+
           /// TODO enable this when neumorphism support is done
           // _checkboxRow(_settings?.shouldUseNeumorphism, "Use fancy new UI",
           //     "UI setting. Just keep this off"),
 
-          _getMultilineTextInput(_settings?.autoconsumeList, "App will autoconsume this shit"),
+          MergeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 4.0, top: 12.0, right: 4.0, bottom: 4.0),
+              child: new Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.only(end: 9.0),
+                    child: infoIcon("", "",
+                        gestureTapCallback: () => textDialogWithAction(
+                                context,
+                                "Breakfast menu",
+                                AUTOCONSUME_DESC,
+                                "See a demo", () {
+                              breakfastMenu.controller?.text =
+                                  DEFAULT_AUTOCONSUME_MENU;
+                              Navigator.of(context).pop();
+                            })),
+                  ),
+                  new Text('Breakfast menu',
+                      style: Theme.of(context).textTheme.bodyText2),
+                ],
+              ),
+            ),
+          ),
+          breakfastMenu.widget,
+
+          MergeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 4.0, top: 12.0, right: 4.0, bottom: 4.0),
+              child: new Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.only(end: 9.0),
+                    child: infoIcon("Chat commands", CHAT_CMD_DESC),
+                  ),
+                  new Text(
+                      'Save up to six commonly used chat commands for easier use',
+                      style: Theme.of(context).textTheme.bodyText2),
+                ],
+              ),
+            ),
+          ),
+          _chatInputRow(
+              _settings?.chatCommands?.elementAt(0), "Cmd 1", "Chat command 1"),
+          _chatInputRow(
+              _settings?.chatCommands?.elementAt(1), "Cmd 2", "Chat command 2"),
+          _chatInputRow(
+              _settings?.chatCommands?.elementAt(2), "Cmd 3", "Chat command 3"),
+          _chatInputRow(
+              _settings?.chatCommands?.elementAt(3), "Cmd 4", "Chat command 4"),
+          _chatInputRow(
+              _settings?.chatCommands?.elementAt(4), "Cmd 5", "Chat command 5"),
+          _chatInputRow(
+              _settings?.chatCommands?.elementAt(5), "Cmd 6", "Chat command 6"),
 
           Center(
             child: Padding(

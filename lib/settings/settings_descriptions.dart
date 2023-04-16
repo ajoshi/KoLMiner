@@ -30,3 +30,16 @@ const String MIN_HP_DESC =
 const String AUTOSELL_GOLD_DESC =
     "Gold autosells for ... whatever it autosells for. You can disable autoselling (Enabled by default) "
     "if you want to collect gold for a collection or to sell to a bot or to grind into sausage. You do you.";
+
+const String AUTOCONSUME_DESC =
+    "Sometimes you're in a rush and just need to burn turns 5 minutes before RO. Typing out eat/drink/whatever "
+    "by hand? Ain't nobody got time for that!"
+    "\n\nEnter the list of chat commands (pretty much unbounded except for public chat) and they'll be executed when autoconsuming";
+
+const String DEFAULT_AUTOCONSUME_MENU =
+    "cast ode\nuse milk of mag\nchug elemental caip\nchug 6 perfect mimosa\nuse distension pill\neat veggie ricotta cass";
+
+const String FSD_DESC =
+    "Using the power of generative Web 3.0 AI coupled with Knob Fungal Tokens, this app can eat, drink, spleen and mine for you"
+    "\n\nFill out the diet/booze/consumption plan you want in the Breakfast box below and Full Self Drilling will be engaged whenever you mine with no turns specified."
+    "\n\nFailure to consume doesn't fail anything, so only enable this if you trust machines";

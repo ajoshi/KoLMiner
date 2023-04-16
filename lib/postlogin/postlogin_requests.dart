@@ -34,7 +34,6 @@ class ArbitraryRequests {
 
    */
 
-
   /*
 w buffy ode
 1 chug elemental caip
@@ -42,7 +41,6 @@ w buffy ode
 use tofu
 use chocolate stolen saucep
  */
-
 
   final KolNetwork network;
   final ArbitraryRequestsChatHost host;
@@ -53,29 +51,30 @@ use chocolate stolen saucep
   ArbitraryRequests(this.network, this.host);
 
   bool runRequests(List<String>? requests, {bool abortIfDrunk: true}) {
-    if(requests == null) {
+    if (requests == null) {
       return false;
     }
-    if(abortIfDrunk) {
+    if (abortIfDrunk) {
       host.onPreConfiguredActionsWidgetChatRequest("w buffy ode");
       int? currentDrunk = host.getCurrentUserInfo()?.drunk;
-      if(currentDrunk == null || currentDrunk > 0) {
+      if (currentDrunk == null || currentDrunk > 0) {
         return false;
       }
       // check current drunkness, return if over 0
       //this will be false when this is explicitly user requested
     }
     // check current drunkenness
-    for(String req in requests) {
+    for (String req in requests) {
       host.onPreConfiguredActionsWidgetChatRequest(req);
     }
 
     return true;
   }
 
-  Future <bool> runRequestsWithATeensyWait(List<String>? requests, {bool abortIfDrunk: true}) {
+  Future<bool> runRequestsWithATeensyWait(List<String>? requests,
+      {bool abortIfDrunk: true}) {
     bool rvalue = runRequests(requests, abortIfDrunk: abortIfDrunk);
-    if(rvalue == false) {
+    if (rvalue == false) {
       return Future.value(false);
     }
     return Future.delayed(Duration(seconds: 5), () => rvalue);
@@ -83,7 +82,11 @@ use chocolate stolen saucep
 
   doStandardStuff() async {
     visitDisco();
-    runRequests(["w buffy 600 jalapeno", "w buffy 600 elemental", "w buffy 600 astral shell"], abortIfDrunk: false);
+    runRequests([
+      "w buffy 600 jalapeno",
+      "w buffy 600 elemental",
+      "w buffy 600 astral shell"
+    ], abortIfDrunk: false);
   }
 
   /// skill a skill

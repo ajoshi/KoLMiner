@@ -80,7 +80,7 @@ class MiningPageState extends DisposableHostState<MiningPage>
     // _arbitraryRequests.runRequestsWithATeensyWait(settings?.autoconsumeList.data).then((value) =>
     //   print("Requests completed: ")
     // );
-   mineNtimes(advsToMine);
+    mineNtimes(advsToMine);
   }
 
   /// Mines the specified number of times. Will stop if an error occurs.
