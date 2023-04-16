@@ -191,14 +191,12 @@ class TextboxSetting implements AbstractSetting {
   @override
   void save(SharedPreferences prefs) {
     prefs.setStringList(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL, data);
-    print(data.toString());
   }
 
   @override
   void update(SharedPreferences prefs) {
     // only update data if there is a value in shareprefs
     data = prefs.getStringList(sharedprefKey + PREF_SETTINGS_SUFFIX_VAL) ?? data;
-    print(data.toString());
   }
 
   void saveData(String input) {
